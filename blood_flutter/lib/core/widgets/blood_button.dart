@@ -1,0 +1,178 @@
+import 'package:flutter/material.dart';
+import '../theme/blood_colors.dart';
+
+enum BloodButtonStyle { primary, secondary, outline, text }
+
+/// Premium animated button with micro-interactions, gradients, and loading states.
+class BloodButton extends StatefulWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final bool isLoading;
+  final BloodButtonStyle style;
+  final IconData? icon;
+  final double? width;
+  final double height;
+  final double borderRadius;
+
+  const BloodButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+    this.style = BloodButtonStyle.primary,
+    this.icon,
+    this.width,
+    this.height = 54,
+    this.borderRadius = 16,
+  });
+
+  @override
+  State<BloodButton> createState() => _BloodButtonState();
+}
+
+class _BloodButtonState extends State<BloodButton>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _scaleController;
+  late final Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+      lowerBound: 0.0,
+      upperBound: 0.04,
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.96).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    super.dispose();
+  }
+
+  void _onTapDown(TapDownDetails details) {
+    if (widget.onPressed != null && !widget.isLoading) {
+      _scaleController.forward();
+    }
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    if (widget.onPressed != null && !widget.isLoading) {
+      _scaleController.reverse();
+    }
+  }
+
+  void _onTapCancel() {
+    if (widget.onPressed != null && !widget.isLoading) {
+      _scaleController.reverse();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isEnabled = widget.onPressed != null && !widget.isLoading;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    BoxDecoration decoration;
+    Color textColor;
+
+    switch (widget.style) {
+      case BloodButtonStyle.primary:
+        decoration = BoxDecoration(
+          gradient: isEnabled ? BloodColors.primaryGradient : null,
+          color: isEnabled ? null : (isDark ? Colors.grey[800] : Colors.grey[300]),
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          boxShadow: isEnabled
+              ? [
+                  BoxShadow(
+                    color: BloodColors.primary.withValues(alpha: 0.35),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ]
+              : null,
+        );
+        textColor = Colors.white;
+        break;
+
+      case BloodButtonStyle.secondary:
+        decoration = BoxDecoration(
+          color: isDark ? BloodColors.surfaceMutedDark : BloodColors.surfaceMutedLight,
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+        );
+        textColor = isDark ? BloodColors.textPrimaryDark : BloodColors.textPrimaryLight;
+        break;
+
+      case BloodButtonStyle.outline:
+        decoration = BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          border: Border.all(
+            color: isEnabled
+                ? BloodColors.primary
+                : (isDark ? Colors.grey[700]! : Colors.grey[300]!),
+            width: 1.5,
+          ),
+        );
+        textColor = isEnabled ? BloodColors.primary : Colors.grey;
+        break;
+
+      case BloodButtonStyle.text:
+        decoration = const BoxDecoration(color: Colors.transparent);
+        textColor = isEnabled ? BloodColors.primary : Colors.grey;
+        break;
+    }
+
+    return GestureDetector(
+      onTapDown: _onTapDown,
+      onTapUp: _onTapUp,
+      onTapCancel: _onTapCancel,
+      onTap: isEnabled ? widget.onPressed : null,
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) => Transform.scale(
+          scale: _scaleAnimation.value,
+          child: Container(
+            width: widget.width ?? double.infinity,
+            height: widget.height,
+            decoration: decoration,
+            alignment: Alignment.center,
+            child: widget.isLoading
+                ? SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      valueColor: AlwaysStoppedAnimation<Color>(textColor),
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (widget.icon != null) ...[
+                        Icon(widget.icon, color: textColor, size: 20),
+                        const SizedBox(width: 8),
+                      ],
+                      Text(
+                        widget.text,
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+}
