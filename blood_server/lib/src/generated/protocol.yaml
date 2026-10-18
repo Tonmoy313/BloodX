@@ -12,6 +12,10 @@ emailIdp:
   - hasAccount:
 jwtRefresh:
   - refreshAccessToken:
+donorProfile:
+  - saveMyProfile:
+donorPrompt:
+  - claimDonorPrompt:
 greeting:
   - hello:
 profile:

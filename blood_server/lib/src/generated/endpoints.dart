@@ -15,12 +15,14 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import '../auth/account_deletion_endpoint.dart' as _i2;
 import '../auth/email_idp_endpoint.dart' as _i3;
 import '../auth/jwt_refresh_endpoint.dart' as _i4;
-import '../greetings/greeting_endpoint.dart' as _i5;
-import '../profile/profile_endpoint.dart' as _i6;
+import '../donor/donor_profile_endpoint.dart' as _i5;
+import '../donor/donor_prompt_endpoint.dart' as _i6;
+import '../greetings/greeting_endpoint.dart' as _i7;
+import '../profile/profile_endpoint.dart' as _i8;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i7;
+    as _i9;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
-    as _i8;
+    as _i10;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -44,13 +46,25 @@ class Endpoints extends _i1.EndpointDispatch {
           'jwtRefresh',
           null,
         ),
-      'greeting': _i5.GreetingEndpoint()
+      'donorProfile': _i5.DonorProfileEndpoint()
+        ..initialize(
+          server,
+          'donorProfile',
+          null,
+        ),
+      'donorPrompt': _i6.DonorPromptEndpoint()
+        ..initialize(
+          server,
+          'donorPrompt',
+          null,
+        ),
+      'greeting': _i7.GreetingEndpoint()
         ..initialize(
           server,
           'greeting',
           null,
         ),
-      'profile': _i6.ProfileEndpoint()
+      'profile': _i8.ProfileEndpoint()
         ..initialize(
           server,
           'profile',
@@ -304,6 +318,77 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['donorProfile'] = _i1.EndpointConnector(
+      name: 'donorProfile',
+      endpoint: endpoints['donorProfile']!,
+      methodConnectors: {
+        'saveMyProfile': _i1.MethodConnector(
+          name: 'saveMyProfile',
+          params: {
+            'bloodGroup': _i1.ParameterDescription(
+              name: 'bloodGroup',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'area': _i1.ParameterDescription(
+              name: 'area',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'address': _i1.ParameterDescription(
+              name: 'address',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'latitude': _i1.ParameterDescription(
+              name: 'latitude',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'longitude': _i1.ParameterDescription(
+              name: 'longitude',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'preferredCenters': _i1.ParameterDescription(
+              name: 'preferredCenters',
+              type: _i1.getType<List<String>>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['donorProfile'] as _i5.DonorProfileEndpoint)
+                  .saveMyProfile(
+                    session,
+                    bloodGroup: params['bloodGroup'],
+                    area: params['area'],
+                    address: params['address'],
+                    latitude: params['latitude'],
+                    longitude: params['longitude'],
+                    preferredCenters: params['preferredCenters'],
+                  ),
+        ),
+      },
+    );
+    connectors['donorPrompt'] = _i1.EndpointConnector(
+      name: 'donorPrompt',
+      endpoint: endpoints['donorPrompt']!,
+      methodConnectors: {
+        'claimDonorPrompt': _i1.MethodConnector(
+          name: 'claimDonorPrompt',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['donorPrompt'] as _i6.DonorPromptEndpoint)
+                  .claimDonorPrompt(session),
+        ),
+      },
+    );
     connectors['greeting'] = _i1.EndpointConnector(
       name: 'greeting',
       endpoint: endpoints['greeting']!,
@@ -321,7 +406,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['greeting'] as _i5.GreetingEndpoint).hello(
+              ) async => (endpoints['greeting'] as _i7.GreetingEndpoint).hello(
                 session,
                 params['name'],
               ),
@@ -339,14 +424,14 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['profile'] as _i6.ProfileEndpoint)
+              ) async => (endpoints['profile'] as _i8.ProfileEndpoint)
                   .getMyProfile(session),
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i7.Endpoints()
+    modules['serverpod_auth_idp'] = _i9.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i8.Endpoints()
+    modules['serverpod_auth_core'] = _i10.Endpoints()
       ..initializeEndpoints(server);
   }
 }

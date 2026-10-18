@@ -24,15 +24,16 @@ import 'config.dart' as _i8;
 import 'consent_record.dart' as _i9;
 import 'consent_type.dart' as _i10;
 import 'device.dart' as _i11;
-import 'feature_flag.dart' as _i12;
-import 'flag_scope.dart' as _i13;
-import 'greetings/greeting.dart' as _i14;
-import 'language.dart' as _i15;
-import 'otp_challenge.dart' as _i16;
-import 'otp_type.dart' as _i17;
-import 'platform.dart' as _i18;
-import 'user.dart' as _i19;
-import 'user_status.dart' as _i20;
+import 'donor_profile.dart' as _i12;
+import 'feature_flag.dart' as _i13;
+import 'flag_scope.dart' as _i14;
+import 'greetings/greeting.dart' as _i15;
+import 'language.dart' as _i16;
+import 'otp_challenge.dart' as _i17;
+import 'otp_type.dart' as _i18;
+import 'platform.dart' as _i19;
+import 'user.dart' as _i20;
+import 'user_status.dart' as _i21;
 export 'admin_role.dart';
 export 'admin_user.dart';
 export 'audit_log.dart';
@@ -40,6 +41,7 @@ export 'config.dart';
 export 'consent_record.dart';
 export 'consent_type.dart';
 export 'device.dart';
+export 'donor_profile.dart';
 export 'feature_flag.dart';
 export 'flag_scope.dart';
 export 'greetings/greeting.dart';
@@ -323,6 +325,19 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.timestampWithoutTimeZone,
           isNullable: true,
           dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'lastDonorPromptAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'donorPromptPending',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+          columnDefault: 'false',
         ),
       ],
       foreignKeys: [],
@@ -762,6 +777,118 @@ class Protocol extends _i1.SerializationManagerServer {
       managed: true,
     ),
     _i2.TableDefinition(
+      name: 'donor_profile',
+      dartName: 'DonorProfile',
+      schema: 'public',
+      module: 'blood',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'donor_profile_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'bloodGroup',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'area',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'address',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'latitude',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'longitude',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'preferredCenters',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+          columnDefault: 'CURRENT_TIMESTAMP',
+        ),
+        _i2.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+          columnDefault: 'CURRENT_TIMESTAMP',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'donor_profile_fk_0',
+          columns: ['userId'],
+          referenceTable: 'app_user',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        ),
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'donor_profile_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'donor_profile_user_id',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
       name: 'feature_flag',
       dartName: 'FeatureFlag',
       schema: 'public',
@@ -1060,32 +1187,35 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i11.Device) {
       return _i11.Device.fromJson(data) as T;
     }
-    if (t == _i12.FeatureFlag) {
-      return _i12.FeatureFlag.fromJson(data) as T;
+    if (t == _i12.DonorProfile) {
+      return _i12.DonorProfile.fromJson(data) as T;
     }
-    if (t == _i13.FlagScope) {
-      return _i13.FlagScope.fromJson(data) as T;
+    if (t == _i13.FeatureFlag) {
+      return _i13.FeatureFlag.fromJson(data) as T;
     }
-    if (t == _i14.Greeting) {
-      return _i14.Greeting.fromJson(data) as T;
+    if (t == _i14.FlagScope) {
+      return _i14.FlagScope.fromJson(data) as T;
     }
-    if (t == _i15.Language) {
-      return _i15.Language.fromJson(data) as T;
+    if (t == _i15.Greeting) {
+      return _i15.Greeting.fromJson(data) as T;
     }
-    if (t == _i16.OtpChallenge) {
-      return _i16.OtpChallenge.fromJson(data) as T;
+    if (t == _i16.Language) {
+      return _i16.Language.fromJson(data) as T;
     }
-    if (t == _i17.OtpType) {
-      return _i17.OtpType.fromJson(data) as T;
+    if (t == _i17.OtpChallenge) {
+      return _i17.OtpChallenge.fromJson(data) as T;
     }
-    if (t == _i18.Platform) {
-      return _i18.Platform.fromJson(data) as T;
+    if (t == _i18.OtpType) {
+      return _i18.OtpType.fromJson(data) as T;
     }
-    if (t == _i19.User) {
-      return _i19.User.fromJson(data) as T;
+    if (t == _i19.Platform) {
+      return _i19.Platform.fromJson(data) as T;
     }
-    if (t == _i20.UserStatus) {
-      return _i20.UserStatus.fromJson(data) as T;
+    if (t == _i20.User) {
+      return _i20.User.fromJson(data) as T;
+    }
+    if (t == _i21.UserStatus) {
+      return _i21.UserStatus.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.AdminRole?>()) {
       return (data != null ? _i5.AdminRole.fromJson(data) : null) as T;
@@ -1108,32 +1238,35 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i11.Device?>()) {
       return (data != null ? _i11.Device.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i12.FeatureFlag?>()) {
-      return (data != null ? _i12.FeatureFlag.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i12.DonorProfile?>()) {
+      return (data != null ? _i12.DonorProfile.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i13.FlagScope?>()) {
-      return (data != null ? _i13.FlagScope.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i13.FeatureFlag?>()) {
+      return (data != null ? _i13.FeatureFlag.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i14.Greeting?>()) {
-      return (data != null ? _i14.Greeting.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i14.FlagScope?>()) {
+      return (data != null ? _i14.FlagScope.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i15.Language?>()) {
-      return (data != null ? _i15.Language.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i15.Greeting?>()) {
+      return (data != null ? _i15.Greeting.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i16.OtpChallenge?>()) {
-      return (data != null ? _i16.OtpChallenge.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i16.Language?>()) {
+      return (data != null ? _i16.Language.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i17.OtpType?>()) {
-      return (data != null ? _i17.OtpType.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i17.OtpChallenge?>()) {
+      return (data != null ? _i17.OtpChallenge.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i18.Platform?>()) {
-      return (data != null ? _i18.Platform.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i18.OtpType?>()) {
+      return (data != null ? _i18.OtpType.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i19.User?>()) {
-      return (data != null ? _i19.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i19.Platform?>()) {
+      return (data != null ? _i19.Platform.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i20.UserStatus?>()) {
-      return (data != null ? _i20.UserStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i20.User?>()) {
+      return (data != null ? _i20.User.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i21.UserStatus?>()) {
+      return (data != null ? _i21.UserStatus.fromJson(data) : null) as T;
     }
     if (t == Map<String, String>) {
       return (data as Map).map(
@@ -1149,6 +1282,12 @@ class Protocol extends _i1.SerializationManagerServer {
                 )
               : null)
           as T;
+    }
+    if (t == List<String>) {
+      return (data as List).map((e) => deserialize<String>(e)).toList() as T;
+    }
+    if (t == List<String>) {
+      return (data as List).map((e) => deserialize<String>(e)).toList() as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -1171,15 +1310,16 @@ class Protocol extends _i1.SerializationManagerServer {
       _i9.ConsentRecord => 'ConsentRecord',
       _i10.ConsentType => 'ConsentType',
       _i11.Device => 'Device',
-      _i12.FeatureFlag => 'FeatureFlag',
-      _i13.FlagScope => 'FlagScope',
-      _i14.Greeting => 'Greeting',
-      _i15.Language => 'Language',
-      _i16.OtpChallenge => 'OtpChallenge',
-      _i17.OtpType => 'OtpType',
-      _i18.Platform => 'Platform',
-      _i19.User => 'User',
-      _i20.UserStatus => 'UserStatus',
+      _i12.DonorProfile => 'DonorProfile',
+      _i13.FeatureFlag => 'FeatureFlag',
+      _i14.FlagScope => 'FlagScope',
+      _i15.Greeting => 'Greeting',
+      _i16.Language => 'Language',
+      _i17.OtpChallenge => 'OtpChallenge',
+      _i18.OtpType => 'OtpType',
+      _i19.Platform => 'Platform',
+      _i20.User => 'User',
+      _i21.UserStatus => 'UserStatus',
       _ => null,
     };
   }
@@ -1208,23 +1348,25 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'ConsentType';
       case _i11.Device():
         return 'Device';
-      case _i12.FeatureFlag():
+      case _i12.DonorProfile():
+        return 'DonorProfile';
+      case _i13.FeatureFlag():
         return 'FeatureFlag';
-      case _i13.FlagScope():
+      case _i14.FlagScope():
         return 'FlagScope';
-      case _i14.Greeting():
+      case _i15.Greeting():
         return 'Greeting';
-      case _i15.Language():
+      case _i16.Language():
         return 'Language';
-      case _i16.OtpChallenge():
+      case _i17.OtpChallenge():
         return 'OtpChallenge';
-      case _i17.OtpType():
+      case _i18.OtpType():
         return 'OtpType';
-      case _i18.Platform():
+      case _i19.Platform():
         return 'Platform';
-      case _i19.User():
+      case _i20.User():
         return 'User';
-      case _i20.UserStatus():
+      case _i21.UserStatus():
         return 'UserStatus';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -1269,32 +1411,35 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'Device') {
       return deserialize<_i11.Device>(data['data']);
     }
+    if (dataClassName == 'DonorProfile') {
+      return deserialize<_i12.DonorProfile>(data['data']);
+    }
     if (dataClassName == 'FeatureFlag') {
-      return deserialize<_i12.FeatureFlag>(data['data']);
+      return deserialize<_i13.FeatureFlag>(data['data']);
     }
     if (dataClassName == 'FlagScope') {
-      return deserialize<_i13.FlagScope>(data['data']);
+      return deserialize<_i14.FlagScope>(data['data']);
     }
     if (dataClassName == 'Greeting') {
-      return deserialize<_i14.Greeting>(data['data']);
+      return deserialize<_i15.Greeting>(data['data']);
     }
     if (dataClassName == 'Language') {
-      return deserialize<_i15.Language>(data['data']);
+      return deserialize<_i16.Language>(data['data']);
     }
     if (dataClassName == 'OtpChallenge') {
-      return deserialize<_i16.OtpChallenge>(data['data']);
+      return deserialize<_i17.OtpChallenge>(data['data']);
     }
     if (dataClassName == 'OtpType') {
-      return deserialize<_i17.OtpType>(data['data']);
+      return deserialize<_i18.OtpType>(data['data']);
     }
     if (dataClassName == 'Platform') {
-      return deserialize<_i18.Platform>(data['data']);
+      return deserialize<_i19.Platform>(data['data']);
     }
     if (dataClassName == 'User') {
-      return deserialize<_i19.User>(data['data']);
+      return deserialize<_i20.User>(data['data']);
     }
     if (dataClassName == 'UserStatus') {
-      return deserialize<_i20.UserStatus>(data['data']);
+      return deserialize<_i21.UserStatus>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -1342,12 +1487,14 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i9.ConsentRecord.t;
       case _i11.Device:
         return _i11.Device.t;
-      case _i12.FeatureFlag:
-        return _i12.FeatureFlag.t;
-      case _i16.OtpChallenge:
-        return _i16.OtpChallenge.t;
-      case _i19.User:
-        return _i19.User.t;
+      case _i12.DonorProfile:
+        return _i12.DonorProfile.t;
+      case _i13.FeatureFlag:
+        return _i13.FeatureFlag.t;
+      case _i17.OtpChallenge:
+        return _i17.OtpChallenge.t;
+      case _i20.User:
+        return _i20.User.t;
     }
     return null;
   }

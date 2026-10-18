@@ -1,0 +1,6 @@
+# location — mutual, time-boxed live location (P6; do not build earlier)
+Entities: LocationShare(pledge_id, asked_by, responder, status asked|accepted|declined|expired|stopped, duration_minutes, starts_at, expires_at, stopped_at) · LocationPoint(share_id, lat, lng, recorded_at; deleted when the request closes).
+Endpoints: requestLiveLocation(pledge_id, duration) · respondLiveLocation(share_id, accept|decline) · watchLocation(stream) · updateLocation · stopSharing.
+Rules: either party may ask on an active pledge; one active ask per pair; responder picks 15/30/60 min or declines; sharer sees a persistent indicator + Stop; ends on arrival, cancel, completion, expiry; visible only to the paired person; points deleted when the request closes; foreground sharing first; background (Android foreground service / iOS Always) only with owner approval (store-review cost). Distance is straight-line; routing ETA later (F-8).
+Screen S21: prompt "<Name> asks for your live location. Share for [15 min] [30 min] [1 hr] / Not now"; map with the other party; indicator + Stop.
+Tests: responder must accept · one ask per pair · auto-stop cases · points unreadable after expiry and deleted after close · permission strings pass both stores.

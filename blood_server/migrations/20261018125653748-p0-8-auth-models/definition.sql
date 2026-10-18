@@ -103,7 +103,7 @@ CREATE TABLE "device" (
 -- Indexes
 CREATE UNIQUE INDEX "device_install_id" ON "device" USING btree ("installId");
 CREATE INDEX "device_user_id" ON "device" USING btree ("userId");
-CREATE UNIQUE INDEX "device_push_token" ON "device" USING btree ("pushToken");
+CREATE UNIQUE INDEX "device_push_token_idx" ON "device" USING btree ("pushToken");
 
 --
 -- Class FeatureFlag as table feature_flag

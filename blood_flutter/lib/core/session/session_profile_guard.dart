@@ -8,6 +8,7 @@ import '../localization/app_language.dart';
 import '../network/serverpod_client.dart';
 import '../router/app_routes.dart';
 import '../../features/auth/controllers/auth_controller.dart';
+import '../../features/auth/presentation/donor_opt_in_dialog.dart';
 import 'app_session_startup.dart';
 import 'auth_session_revocation_outbox.dart';
 import 'session_profile_validator.dart';
@@ -27,6 +28,7 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
     discardSession: _discardExpiredSession,
   );
   bool _accountBlocked = false;
+  bool _donorPromptDue = false;
 
   @override
   void initState() {
@@ -56,6 +58,11 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
       } on PlatformException catch (error) {
         debugPrint('Could not cache the profile: ${error.code}');
       }
+      try {
+        _donorPromptDue = await client.donorPrompt.claimDonorPrompt();
+      } on ServerpodClientException catch (error) {
+        debugPrint('Could not check donor prompt status: ${error.statusCode}');
+      }
     }
     return snapshot;
   }
@@ -67,6 +74,13 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
       setState(() => _accountBlocked = true);
     } else if (result == SessionValidationResult.unavailable) {
       debugPrint('Profile refresh failed; keeping the current session.');
+    } else if (result == SessionValidationResult.authenticated &&
+        _donorPromptDue) {
+      _donorPromptDue = false;
+      final optedIn = await DonorOptInDialog.show(context);
+      if (!mounted || !optedIn) return;
+      AuthController.instance.setDonorOptIn(true);
+      AppRoutes.replaceAll(context, AppRoutes.donorHealthDetails);
     }
   }
 

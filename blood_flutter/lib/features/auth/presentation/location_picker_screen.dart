@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import '../../../core/location/foreground_location_service.dart';
 import '../../../core/localization/blood_strings.dart';
 import '../../../core/theme/blood_colors.dart';
 import '../../../core/widgets/blood_button.dart';
@@ -16,8 +18,13 @@ class LocationPickerScreen extends StatefulWidget {
 
 class _LocationPickerScreenState extends State<LocationPickerScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ForegroundLocationService _locationService =
+      const ForegroundLocationService();
   late String _selectedArea;
   String _selectedCoordinates = '23.7465, 90.3760'; // Dhanmondi default
+  double? _latitude;
+  double? _longitude;
+  bool _hasPreciseLocation = false;
   bool _isLocatingGps = false;
 
   final List<Map<String, String>> _dhakaAreas = [
@@ -54,36 +61,74 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
   }
 
   Future<void> _handleGpsLocation() async {
-    // D1: Trigger location permission dialog
-    final granted = await LocationPermissionDialog.show(context);
-    if (!mounted || !granted) return;
-
     setState(() {
       _isLocatingGps = true;
     });
 
-    await Future.delayed(const Duration(milliseconds: 900));
-    if (!mounted) return;
+    while (mounted) {
+      try {
+        final position = await _locationService.getPrecisePosition();
+        if (!mounted) return;
+        setState(() {
+          _isLocatingGps = false;
+          _latitude = position.latitude;
+          _longitude = position.longitude;
+          _hasPreciseLocation = true;
+          _selectedCoordinates =
+              '${position.latitude.toStringAsFixed(6)}, ${position.longitude.toStringAsFixed(6)}';
+          _selectedArea = _nearestArea(position);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '${BloodStrings.useCurrentLocationGps}: $_selectedArea',
+            ),
+            backgroundColor: const Color(0xFF10B981),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        return;
+      } on ForegroundLocationException catch (error) {
+        if (!mounted) return;
+        setState(() => _isLocatingGps = false);
+        final retry = await LocationPermissionFallbackDialog.show(context);
+        if (!mounted || !retry) return;
+        if (error.failure == ForegroundLocationFailure.denied ||
+            error.failure == ForegroundLocationFailure.serviceDisabled) {
+          setState(() => _isLocatingGps = true);
+          continue;
+        }
+        await _locationService.openRelevantSettings(error.failure);
+        return;
+      }
+    }
+  }
 
-    setState(() {
-      _isLocatingGps = false;
-      _selectedArea = 'Shahbagh (BSMMU / DMCH Area)';
-      _selectedCoordinates = '23.7388, 90.3957';
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('GPS Location detected: $_selectedArea'),
-        backgroundColor: const Color(0xFF10B981),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+  String _nearestArea(Position position) {
+    var closest = _dhakaAreas.first;
+    var shortestDistance = double.infinity;
+    for (final area in _dhakaAreas) {
+      final coordinates = area['coords']!.split(',');
+      final latitude = double.parse(coordinates[0]);
+      final longitude = double.parse(coordinates[1]);
+      final distance = (latitude - position.latitude) *
+              (latitude - position.latitude) +
+          (longitude - position.longitude) * (longitude - position.longitude);
+      if (distance < shortestDistance) {
+        closest = area;
+        shortestDistance = distance;
+      }
+    }
+    return closest['name']!;
   }
 
   void _handleConfirm() {
     Navigator.of(context).pop({
       'area': _selectedArea,
       'coordinates': _selectedCoordinates,
+      'latitude': _latitude?.toString(),
+      'longitude': _longitude?.toString(),
+      'precise': _hasPreciseLocation.toString(),
     });
   }
 

@@ -186,6 +186,11 @@ class AccountDeletionService {
       where: (row) => row.userId.equals(targetId),
       transaction: transaction,
     );
+    await DonorProfile.db.deleteWhere(
+      session,
+      where: (row) => row.userId.equals(targetId),
+      transaction: transaction,
+    );
     await const AuthUsers().delete(
       session,
       authUserId: authUserId,

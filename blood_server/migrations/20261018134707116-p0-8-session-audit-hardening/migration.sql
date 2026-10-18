@@ -138,7 +138,7 @@ FOR EACH STATEMENT EXECUTE FUNCTION "block_audit_log_mutation"();
 -- uniqueness explicitly partial so only registered tokens are indexed.
 --
 DROP INDEX IF EXISTS "device_push_token";
-CREATE UNIQUE INDEX "device_push_token"
+CREATE UNIQUE INDEX "device_push_token_idx"
     ON "device" USING btree ("pushToken")
     WHERE "pushToken" IS NOT NULL;
 --

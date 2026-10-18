@@ -32,6 +32,64 @@ class LocationPermissionDialog extends StatelessWidget {
   }
 }
 
+class LocationPermissionFallbackDialog extends StatelessWidget {
+  const LocationPermissionFallbackDialog({super.key});
+
+  static Future<bool> show(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const LocationPermissionFallbackDialog(),
+    );
+    return result == true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      title: Column(
+        children: [
+          Container(
+            width: 76,
+            height: 76,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colors.primaryContainer,
+            ),
+            child: Icon(
+              Icons.my_location_rounded,
+              size: 38,
+              color: colors.primary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            BloodStrings.locationFallbackHeadline,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+      content: Text(
+        BloodStrings.locationFallbackBody,
+        textAlign: TextAlign.center,
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(BloodStrings.tryAgain),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(BloodStrings.notNow),
+        ),
+      ],
+    );
+  }
+}
+
 /// D2: Notification Access Permission Dialog per spec/auth.md.
 class NotificationPermissionDialog extends StatelessWidget {
   const NotificationPermissionDialog({super.key});

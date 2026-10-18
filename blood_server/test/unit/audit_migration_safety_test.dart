@@ -16,4 +16,18 @@ void main() {
     expect(migration, contains('json_build_object(\'source\', source_tag)'));
     expect(migration, contains('WHERE "pushToken" IS NOT NULL'));
   });
+
+  test('push token index uses the Serverpod-generated database name', () {
+    final migration = File(
+      'migrations/20261018231202000-device-push-token-index/migration.sql',
+    ).readAsStringSync();
+
+    expect(migration, contains('DROP INDEX IF EXISTS "device_push_token";'));
+    expect(migration, contains('DROP INDEX IF EXISTS "device_push_token_idx";'));
+    expect(
+      migration,
+      contains('CREATE UNIQUE INDEX "device_push_token_idx"'),
+    );
+    expect(migration, contains('WHERE "pushToken" IS NOT NULL'));
+  });
 }

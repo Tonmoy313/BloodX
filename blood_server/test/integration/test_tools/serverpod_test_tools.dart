@@ -137,6 +137,10 @@ class TestEndpoints {
 
   late final _JwtRefreshEndpoint jwtRefresh;
 
+  late final _DonorProfileEndpoint donorProfile;
+
+  late final _DonorPromptEndpoint donorPrompt;
+
   late final _GreetingEndpoint greeting;
 
   late final _ProfileEndpoint profile;
@@ -158,6 +162,14 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     jwtRefresh = _JwtRefreshEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    donorProfile = _DonorProfileEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    donorPrompt = _DonorPromptEndpoint(
       endpoints,
       serializationManager,
     );
@@ -558,6 +570,101 @@ class _JwtRefreshEndpoint {
                   _localCallContext.arguments,
                 )
                 as _i3.Future<_i4.AuthSuccess>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _DonorProfileEndpoint {
+  _DonorProfileEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<void> saveMyProfile(
+    _i1.TestSessionBuilder sessionBuilder, {
+    required String bloodGroup,
+    required String area,
+    required String address,
+    required double latitude,
+    required double longitude,
+    required List<String> preferredCenters,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'donorProfile',
+            method: 'saveMyProfile',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'donorProfile',
+          methodName: 'saveMyProfile',
+          parameters: _i1.testObjectToJson({
+            'bloodGroup': bloodGroup,
+            'area': area,
+            'address': address,
+            'latitude': latitude,
+            'longitude': longitude,
+            'preferredCenters': preferredCenters,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _DonorPromptEndpoint {
+  _DonorPromptEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<bool> claimDonorPrompt(
+    _i1.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'donorPrompt',
+            method: 'claimDonorPrompt',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'donorPrompt',
+          methodName: 'claimDonorPrompt',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<bool>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

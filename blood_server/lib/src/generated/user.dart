@@ -29,10 +29,13 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     DateTime? updatedAt,
     this.lastSeenAt,
     this.deletedAt,
+    this.lastDonorPromptAt,
+    bool? donorPromptPending,
   }) : language = language ?? _i2.Language.bn,
        status = status ?? _i3.UserStatus.active,
        createdAt = createdAt ?? DateTime.now(),
-       updatedAt = updatedAt ?? DateTime.now();
+       updatedAt = updatedAt ?? DateTime.now(),
+       donorPromptPending = donorPromptPending ?? false;
 
   factory User({
     int? id,
@@ -47,6 +50,8 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     DateTime? updatedAt,
     DateTime? lastSeenAt,
     DateTime? deletedAt,
+    DateTime? lastDonorPromptAt,
+    bool? donorPromptPending,
   }) = _UserImpl;
 
   factory User.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -79,6 +84,16 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       deletedAt: jsonSerialization['deletedAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['deletedAt']),
+      lastDonorPromptAt: jsonSerialization['lastDonorPromptAt'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(
+              jsonSerialization['lastDonorPromptAt'],
+            ),
+      donorPromptPending: jsonSerialization['donorPromptPending'] == null
+          ? null
+          : _i1.BoolJsonExtension.fromJson(
+              jsonSerialization['donorPromptPending'],
+            ),
     );
   }
 
@@ -111,6 +126,10 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   DateTime? deletedAt;
 
+  DateTime? lastDonorPromptAt;
+
+  bool donorPromptPending;
+
   @override
   _i1.Table<int?> get table => t;
 
@@ -130,6 +149,8 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     DateTime? updatedAt,
     DateTime? lastSeenAt,
     DateTime? deletedAt,
+    DateTime? lastDonorPromptAt,
+    bool? donorPromptPending,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -147,6 +168,9 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       'updatedAt': updatedAt.toJson(),
       if (lastSeenAt != null) 'lastSeenAt': lastSeenAt?.toJson(),
       if (deletedAt != null) 'deletedAt': deletedAt?.toJson(),
+      if (lastDonorPromptAt != null)
+        'lastDonorPromptAt': lastDonorPromptAt?.toJson(),
+      'donorPromptPending': donorPromptPending,
     };
   }
 
@@ -201,6 +225,8 @@ class _UserImpl extends User {
     DateTime? updatedAt,
     DateTime? lastSeenAt,
     DateTime? deletedAt,
+    DateTime? lastDonorPromptAt,
+    bool? donorPromptPending,
   }) : super._(
          id: id,
          phoneE164: phoneE164,
@@ -214,6 +240,8 @@ class _UserImpl extends User {
          updatedAt: updatedAt,
          lastSeenAt: lastSeenAt,
          deletedAt: deletedAt,
+         lastDonorPromptAt: lastDonorPromptAt,
+         donorPromptPending: donorPromptPending,
        );
 
   /// Returns a shallow copy of this [User]
@@ -233,6 +261,8 @@ class _UserImpl extends User {
     DateTime? updatedAt,
     Object? lastSeenAt = _Undefined,
     Object? deletedAt = _Undefined,
+    Object? lastDonorPromptAt = _Undefined,
+    bool? donorPromptPending,
   }) {
     return User(
       id: id is int? ? id : this.id,
@@ -249,6 +279,10 @@ class _UserImpl extends User {
       updatedAt: updatedAt ?? this.updatedAt,
       lastSeenAt: lastSeenAt is DateTime? ? lastSeenAt : this.lastSeenAt,
       deletedAt: deletedAt is DateTime? ? deletedAt : this.deletedAt,
+      lastDonorPromptAt: lastDonorPromptAt is DateTime?
+          ? lastDonorPromptAt
+          : this.lastDonorPromptAt,
+      donorPromptPending: donorPromptPending ?? this.donorPromptPending,
     );
   }
 }
@@ -320,6 +354,17 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
         table.deletedAt,
         value,
       );
+
+  _i1.ColumnValue<DateTime, DateTime> lastDonorPromptAt(DateTime? value) =>
+      _i1.ColumnValue(
+        table.lastDonorPromptAt,
+        value,
+      );
+
+  _i1.ColumnValue<bool, bool> donorPromptPending(bool value) => _i1.ColumnValue(
+    table.donorPromptPending,
+    value,
+  );
 }
 
 class UserTable extends _i1.Table<int?> {
@@ -375,6 +420,15 @@ class UserTable extends _i1.Table<int?> {
       'deletedAt',
       this,
     );
+    lastDonorPromptAt = _i1.ColumnDateTime(
+      'lastDonorPromptAt',
+      this,
+    );
+    donorPromptPending = _i1.ColumnBool(
+      'donorPromptPending',
+      this,
+      hasDefault: true,
+    );
   }
 
   late final UserUpdateTable updateTable;
@@ -401,6 +455,10 @@ class UserTable extends _i1.Table<int?> {
 
   late final _i1.ColumnDateTime deletedAt;
 
+  late final _i1.ColumnDateTime lastDonorPromptAt;
+
+  late final _i1.ColumnBool donorPromptPending;
+
   @override
   List<_i1.Column> get columns => [
     id,
@@ -415,6 +473,8 @@ class UserTable extends _i1.Table<int?> {
     updatedAt,
     lastSeenAt,
     deletedAt,
+    lastDonorPromptAt,
+    donorPromptPending,
   ];
 }
 

@@ -77,6 +77,39 @@ class BloodStrings {
   static String get donorOptInNote => _bn
       ? 'আপনি যেকোনো সময় রক্তদাতা প্রোফাইল চালু বা বন্ধ রাখতে পারবেন।'
       : 'You can update or pause your donor availability anytime.';
+  static String get donorPromptTitle =>
+      _bn ? 'রক্তদাতা হতে চান?' : 'Would you like to become a blood donor?';
+  static String get donorPromptBody => _bn
+      ? 'রক্তদাতা হওয়া সম্পূর্ণ ঐচ্ছিক। আপনি চাইলে পরে সিদ্ধান্ত নিতে পারেন।'
+      : 'It’s optional, and you can decide later.';
+  static String get donorPromptCheckbox => _bn
+      ? 'হ্যাঁ, আমি স্বেচ্ছায় রক্তদাতা হতে চাই'
+      : 'Yes, I want to become a volunteer donor';
+  static String get maybeLater => _bn ? 'পরে সিদ্ধান্ত নেব' : 'Maybe later';
+  static String get continueLabel => _bn ? 'চালিয়ে যান' : 'Continue';
+  static String get locationFallbackHeadline => _bn
+      ? 'আপনার সঠিক অবস্থান প্রয়োজন'
+      : 'We require your precise location';
+  static String get locationFallbackBody => _bn
+      ? 'নিকটস্থ রক্তদাতা ও জরুরি অনুরোধের সঙ্গে আপনাকে সহজে যুক্ত করতে আপনার সঠিক অবস্থান প্রয়োজন। অনুগ্রহ করে ডিভাইসের অবস্থান চালু করুন।'
+      : 'We require your precise location to seamlessly connect you to nearby donors and emergency requests. Please turn on device location.';
+  static String get tryAgain => _bn ? 'আবার চেষ্টা করুন' : 'Try again';
+  static String get locationPermissionDenied => _bn
+      ? 'অবস্থানের অনুমতি না থাকলে বর্তমান অবস্থান সংরক্ষণ করা যাবে না।'
+      : 'Location permission is needed to save your current location.';
+  static String get addressFieldLabel =>
+      _bn ? 'ঠিকানা / এলাকার বিবরণ' : 'Current address or area details';
+  static String get addressFieldHint =>
+      _bn ? 'এলাকা, সড়ক বা পরিচিত স্থান' : 'Area, road, or nearby landmark';
+  static String get donorLocationRequired => _bn
+      ? 'চালিয়ে যেতে সঠিক অবস্থান ও ঠিকানা যোগ করুন।'
+      : 'Add your precise location and address to continue.';
+  static String get donorProfileSaveFailed => _bn
+      ? 'রক্তদাতা প্রোফাইল সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।'
+      : 'Could not save the donor profile. Please try again.';
+  static String get preferredCentersLabel => _bn
+      ? 'পছন্দের হাসপাতাল / ডায়াগনস্টিক সেন্টার'
+      : 'Preferred hospital / diagnostic center';
 
   static String get sendOtpButton =>
       _bn ? 'ওটিপি কোড পাঠান' : 'Send Verification Code';
