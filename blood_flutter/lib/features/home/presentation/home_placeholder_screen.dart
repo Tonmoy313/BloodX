@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../core/localization/app_language.dart';
 import '../../../core/localization/blood_strings.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/blood_colors.dart';
+import '../../../core/theme/theme_controller.dart';
 import '../../../core/widgets/blood_button.dart';
 import '../../../core/widgets/blood_drop_logo.dart';
+import '../../../core/network/serverpod_client.dart';
+import '../../../core/session/auth_session_revocation_outbox.dart';
+import '../../../core/session/session_profile_guard.dart';
 import '../../auth/controllers/auth_controller.dart';
-import '../../onboarding/presentation/onboarding_screen.dart';
 
 /// Authenticated Home Screen placeholder showing successful auth session,
 /// donor mode status (D-015, D-016), and navigation hooks.
 class HomePlaceholderScreen extends StatelessWidget {
   const HomePlaceholderScreen({super.key});
 
-  void _handleSignOut(BuildContext context) {
-    AuthController.instance.signOut();
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const OnboardingScreen()),
-      (route) => false,
-    );
+  Future<void> _handleSignOut(BuildContext context) async {
+    await AuthSessionRevocationOutbox.signOut(client);
+    if (!context.mounted) return;
+    AppRoutes.replaceAll(context, AppRoutes.login);
   }
 
   void _showComingSoonSnackBar(BuildContext context) {
@@ -39,23 +42,21 @@ class HomePlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return ListenableBuilder(
-      listenable: Listenable.merge([
-        AppLanguage.instance,
-        AuthController.instance,
-      ]),
-      builder: (context, _) {
+    return _DoubleBackToExit(
+      child: SessionProfileGuard(
+        child: ListenableBuilder(
+          listenable: Listenable.merge([
+            AppLanguage.instance,
+            AuthController.instance,
+            AppThemeController.instance,
+          ]),
+          builder: (context, _) {
         final authState = AuthController.instance.state;
         final isBn = AppLanguage.instance.isBangla;
-
-        final displayName = authState.displayName?.isNotEmpty == true
-            ? authState.displayName!
-            : (isBn ? 'স্বেচ্ছাসেবী ভাই/বোন' : 'Volunteer User');
-
-        final bloodGroup = authState.bloodGroup ?? 'O+';
-        final area = authState.area ?? 'Dhaka';
+        final themeController = AppThemeController.instance;
 
         return Scaffold(
           appBar: AppBar(
@@ -70,34 +71,61 @@ class HomePlaceholderScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: isDark
-                        ? BloodColors.textPrimaryDark
-                        : BloodColors.textPrimaryLight,
+                    color: cs.onSurface,
                   ),
                 ),
               ],
             ),
             actions: [
+              // Theme Variant Toggle (Classic BloodTheme vs Modern AppTheme)
+              IconButton(
+                tooltip: themeController.isModern
+                    ? BloodStrings.themePresetModern
+                    : BloodStrings.themePresetClassic,
+                icon: Icon(
+                  themeController.isModern
+                      ? Icons.palette_rounded
+                      : Icons.palette_outlined,
+                  size: 20,
+                  color: cs.primary,
+                ),
+                onPressed: () => themeController.togglePreset(),
+              ),
+
+              // Dark / Light Mode Toggle
+              IconButton(
+                tooltip: isDark ? 'Light Mode' : 'Dark Mode',
+                icon: Icon(
+                  isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                  size: 20,
+                  color: cs.onSurface,
+                ),
+                onPressed: () => themeController.toggleThemeMode(),
+              ),
+
+              // Language Switcher Toggle
               TextButton.icon(
                 onPressed: () => AppLanguage.instance.toggleLanguage(),
-                icon: const Icon(
+                icon: Icon(
                   Icons.language_rounded,
                   size: 16,
-                  color: BloodColors.primary,
+                  color: cs.primary,
                 ),
                 label: Text(
                   BloodStrings.languageToggleText,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: BloodColors.primary,
+                    color: cs.primary,
                   ),
                 ),
               ),
+
+              // Sign Out
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.logout_rounded,
-                  color: BloodColors.error,
+                  color: cs.error,
                 ),
                 tooltip: BloodStrings.signOut,
                 onPressed: () => _handleSignOut(context),
@@ -116,11 +144,15 @@ class HomePlaceholderScreen extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      gradient: BloodColors.primaryGradient,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [cs.primary, cs.primaryContainer],
+                      ),
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: BloodColors.primary.withValues(alpha: 0.35),
+                          color: cs.primary.withValues(alpha: 0.35),
                           blurRadius: 18,
                           offset: const Offset(0, 8),
                         ),
@@ -150,31 +182,11 @@ class HomePlaceholderScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                bloodGroup,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w900,
-                                  color: BloodColors.primary,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          isBn
-                              ? 'স্বাগতম, $displayName'
-                              : 'Welcome, $displayName',
+                          isBn ? 'স্বাগতম' : 'Welcome',
                           style: const TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
@@ -182,41 +194,15 @@ class HomePlaceholderScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 6),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.phone_rounded,
-                              size: 14,
+                        if (authState.maskedPhone.isNotEmpty)
+                          Text(
+                            authState.maskedPhone,
+                            style: const TextStyle(
+                              fontSize: 13,
                               color: Colors.white70,
+                              fontWeight: FontWeight.w500,
                             ),
-                            const SizedBox(width: 6),
-                            Text(
-                              authState.maskedPhone.isNotEmpty
-                                  ? authState.maskedPhone
-                                  : '+880 17••• •••89',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            const Icon(
-                              Icons.location_on_rounded,
-                              size: 14,
-                              color: Colors.white70,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              area,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
                       ],
                     ),
                   ),
@@ -226,16 +212,12 @@ class HomePlaceholderScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
-                      color: isDark
-                          ? BloodColors.surfaceMutedDark
-                          : BloodColors.surfaceLight,
+                      color: cs.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: authState.donorOptIn
-                            ? const Color(0xFF10B981)
-                            : (isDark
-                                  ? Colors.grey[850]!
-                                  : const Color(0xFFE5E7EB)),
+                            ? cs.primary
+                            : cs.outlineVariant,
                         width: 1.5,
                       ),
                     ),
@@ -249,8 +231,8 @@ class HomePlaceholderScreen extends StatelessWidget {
                                   ? Icons.volunteer_activism_rounded
                                   : Icons.nightlight_round,
                               color: authState.donorOptIn
-                                  ? const Color(0xFF10B981)
-                                  : Colors.grey,
+                                  ? cs.primary
+                                  : cs.onSurfaceVariant,
                               size: 22,
                             ),
                             const SizedBox(width: 10),
@@ -266,15 +248,13 @@ class HomePlaceholderScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
-                                  color: isDark
-                                      ? BloodColors.textPrimaryDark
-                                      : BloodColors.textPrimaryLight,
+                                  color: cs.onSurface,
                                 ),
                               ),
                             ),
                             Switch(
                               value: authState.donorOptIn,
-                              activeThumbColor: const Color(0xFF10B981),
+                              activeThumbColor: cs.primary,
                               onChanged: (val) {
                                 AuthController.instance.setDonorOptIn(val);
                               },
@@ -292,9 +272,7 @@ class HomePlaceholderScreen extends StatelessWidget {
                                     : 'You can opt-in as a volunteer donor anytime. Blood donation is 100% voluntary.'),
                           style: TextStyle(
                             fontSize: 13,
-                            color: isDark
-                                ? BloodColors.textSecondaryDark
-                                : BloodColors.textSecondaryLight,
+                            color: cs.onSurfaceVariant,
                             height: 1.4,
                           ),
                         ),
@@ -309,9 +287,7 @@ class HomePlaceholderScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: isDark
-                          ? BloodColors.textPrimaryDark
-                          : BloodColors.textPrimaryLight,
+                      color: cs.onSurface,
                     ),
                   ),
                   const SizedBox(height: 14),
@@ -322,12 +298,10 @@ class HomePlaceholderScreen extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
-                        color: isDark
-                            ? BloodColors.surfaceMutedDark
-                            : BloodColors.surfaceLight,
+                        color: cs.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: BloodColors.primary.withValues(alpha: 0.25),
+                          color: cs.primary.withValues(alpha: 0.25),
                         ),
                       ),
                       child: Row(
@@ -336,14 +310,14 @@ class HomePlaceholderScreen extends StatelessWidget {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: BloodColors.primary.withValues(
+                              color: cs.primary.withValues(
                                 alpha: 0.12,
                               ),
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.bloodtype_rounded,
-                              color: BloodColors.primary,
+                              color: cs.primary,
                               size: 28,
                             ),
                           ),
@@ -359,9 +333,7 @@ class HomePlaceholderScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    color: isDark
-                                        ? BloodColors.textPrimaryDark
-                                        : BloodColors.textPrimaryLight,
+                                    color: cs.onSurface,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -371,18 +343,16 @@ class HomePlaceholderScreen extends StatelessWidget {
                                       : 'Enter patient info, bags needed & hospital',
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: isDark
-                                        ? BloodColors.textSecondaryDark
-                                        : BloodColors.textSecondaryLight,
+                                    color: cs.onSurfaceVariant,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const Icon(
+                          Icon(
                             Icons.arrow_forward_ios_rounded,
                             size: 16,
-                            color: BloodColors.primary,
+                            color: cs.primary,
                           ),
                         ],
                       ),
@@ -396,14 +366,10 @@ class HomePlaceholderScreen extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
-                        color: isDark
-                            ? BloodColors.surfaceMutedDark
-                            : BloodColors.surfaceLight,
+                        color: cs.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: isDark
-                              ? Colors.grey[850]!
-                              : const Color(0xFFE5E7EB),
+                          color: cs.outlineVariant,
                         ),
                       ),
                       child: Row(
@@ -412,14 +378,12 @@ class HomePlaceholderScreen extends StatelessWidget {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: const Color(
-                                0xFF3B82F6,
-                              ).withValues(alpha: 0.12),
+                              color: cs.secondary.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.format_list_bulleted_rounded,
-                              color: Color(0xFF3B82F6),
+                              color: cs.secondary,
                               size: 26,
                             ),
                           ),
@@ -435,9 +399,7 @@ class HomePlaceholderScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    color: isDark
-                                        ? BloodColors.textPrimaryDark
-                                        : BloodColors.textPrimaryLight,
+                                    color: cs.onSurface,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -447,18 +409,16 @@ class HomePlaceholderScreen extends StatelessWidget {
                                       : 'View urgent requests matching your group',
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: isDark
-                                        ? BloodColors.textSecondaryDark
-                                        : BloodColors.textSecondaryLight,
+                                    color: cs.onSurfaceVariant,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const Icon(
+                          Icon(
                             Icons.arrow_forward_ios_rounded,
                             size: 16,
-                            color: Colors.grey,
+                            color: cs.onSurfaceVariant,
                           ),
                         ],
                       ),
@@ -480,6 +440,55 @@ class HomePlaceholderScreen extends StatelessWidget {
           ),
         );
       },
+        ),
+      ),
+    );
+  }
+}
+
+class _DoubleBackToExit extends StatefulWidget {
+  const _DoubleBackToExit({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_DoubleBackToExit> createState() => _DoubleBackToExitState();
+}
+
+class _DoubleBackToExitState extends State<_DoubleBackToExit> {
+  DateTime? _lastBackPress;
+
+  void _onBackInvoked(bool didPop) {
+    if (didPop) return;
+
+    final now = DateTime.now();
+    final lastBackPress = _lastBackPress;
+    if (lastBackPress != null &&
+        now.difference(lastBackPress) <= const Duration(seconds: 2)) {
+      SystemNavigator.pop();
+      return;
+    }
+
+    _lastBackPress = now;
+    final isBangla = AppLanguage.instance.isBangla;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            isBangla ? 'বের হতে আবার ব্যাক চাপুন' : 'Press back again to exit',
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) => _onBackInvoked(didPop),
+      child: widget.child,
     );
   }
 }

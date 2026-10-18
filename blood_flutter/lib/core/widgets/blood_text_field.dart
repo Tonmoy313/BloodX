@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../theme/blood_colors.dart';
 
 /// Customized Text Input Field with clean focus borders and status indications.
 class BloodTextField extends StatelessWidget {
@@ -19,6 +18,7 @@ class BloodTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final bool autofocus;
+  final TextCapitalization textCapitalization;
 
   const BloodTextField({
     super.key,
@@ -37,11 +37,12 @@ class BloodTextField extends StatelessWidget {
     this.onTap,
     this.focusNode,
     this.autofocus = false,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +54,7 @@ class BloodTextField extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: isDark ? BloodColors.textPrimaryDark : BloodColors.textPrimaryLight,
+              color: cs.onSurface,
             ),
           ),
           const SizedBox(height: 8),
@@ -69,10 +70,11 @@ class BloodTextField extends StatelessWidget {
           onTap: onTap,
           focusNode: focusNode,
           autofocus: autofocus,
+          textCapitalization: textCapitalization,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: isDark ? BloodColors.textPrimaryDark : BloodColors.textPrimaryLight,
+            color: cs.onSurface,
           ),
           decoration: InputDecoration(
             hintText: hintText,

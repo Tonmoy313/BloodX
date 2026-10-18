@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/blood_colors.dart';
 
 enum BloodButtonStyle { primary, secondary, outline, text }
 
@@ -13,6 +12,7 @@ class BloodButton extends StatefulWidget {
   final double? width;
   final double height;
   final double borderRadius;
+  final Color? backgroundColor;
 
   const BloodButton({
     super.key,
@@ -24,6 +24,7 @@ class BloodButton extends StatefulWidget {
     this.width,
     this.height = 54,
     this.borderRadius = 16,
+    this.backgroundColor,
   });
 
   @override
@@ -76,36 +77,54 @@ class _BloodButtonState extends State<BloodButton>
   @override
   Widget build(BuildContext context) {
     final bool isEnabled = widget.onPressed != null && !widget.isLoading;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
 
     BoxDecoration decoration;
     Color textColor;
 
     switch (widget.style) {
       case BloodButtonStyle.primary:
+        final btnColor = widget.backgroundColor ?? cs.primary;
         decoration = BoxDecoration(
-          gradient: isEnabled ? BloodColors.primaryGradient : null,
-          color: isEnabled ? null : (isDark ? Colors.grey[800] : Colors.grey[300]),
+          gradient: isEnabled && widget.backgroundColor == null
+              ? LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    cs.primary,
+                    isDark
+                        ? cs.primaryContainer
+                        : cs.primary.withValues(alpha: 0.85),
+                  ],
+                )
+              : null,
+          color: isEnabled ? btnColor : cs.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(widget.borderRadius),
           boxShadow: isEnabled
               ? [
                   BoxShadow(
-                    color: BloodColors.primary.withValues(alpha: 0.35),
+                    color: btnColor.withValues(alpha: 0.35),
                     blurRadius: 14,
                     offset: const Offset(0, 5),
                   ),
                 ]
               : null,
         );
-        textColor = Colors.white;
+        textColor = isEnabled
+            ? cs.onPrimary
+            : cs.onSurfaceVariant.withValues(alpha: 0.6);
         break;
 
       case BloodButtonStyle.secondary:
         decoration = BoxDecoration(
-          color: isDark ? BloodColors.surfaceMutedDark : BloodColors.surfaceMutedLight,
+          color: isDark
+              ? cs.surfaceContainerHighest
+              : cs.surfaceContainerHighest.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         );
-        textColor = isDark ? BloodColors.textPrimaryDark : BloodColors.textPrimaryLight;
+        textColor = cs.onSurface;
         break;
 
       case BloodButtonStyle.outline:
@@ -113,18 +132,16 @@ class _BloodButtonState extends State<BloodButton>
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(widget.borderRadius),
           border: Border.all(
-            color: isEnabled
-                ? BloodColors.primary
-                : (isDark ? Colors.grey[700]! : Colors.grey[300]!),
+            color: isEnabled ? cs.primary : cs.outlineVariant,
             width: 1.5,
           ),
         );
-        textColor = isEnabled ? BloodColors.primary : Colors.grey;
+        textColor = isEnabled ? cs.primary : cs.onSurfaceVariant;
         break;
 
       case BloodButtonStyle.text:
         decoration = const BoxDecoration(color: Colors.transparent);
-        textColor = isEnabled ? BloodColors.primary : Colors.grey;
+        textColor = isEnabled ? cs.primary : cs.onSurfaceVariant;
         break;
     }
 

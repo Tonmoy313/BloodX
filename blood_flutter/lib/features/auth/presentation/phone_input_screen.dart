@@ -1,3 +1,4 @@
+import 'package:blood_flutter/core/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/localization/app_language.dart';
@@ -7,14 +8,15 @@ import '../../../core/widgets/blood_button.dart';
 import '../../../core/widgets/blood_drop_logo.dart';
 import '../../../core/widgets/blood_text_field.dart';
 import '../controllers/auth_controller.dart';
-import 'forgot_password_sheet.dart';
-import 'otp_verification_screen.dart';
+import 'terms_privacy_dialog.dart';
 
 /// S02 Phone Input Screen per spec/auth.md.
 /// Features Bangladesh E.164 phone validation, unchecked donor opt-in box (D-015),
 /// and fast OTP trigger.
 class PhoneInputScreen extends StatefulWidget {
-  const PhoneInputScreen({super.key});
+  final bool isForgotPin;
+
+  const PhoneInputScreen({super.key, this.isForgotPin = false});
 
   @override
   State<PhoneInputScreen> createState() => _PhoneInputScreenState();
@@ -24,7 +26,8 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final FocusNode _phoneFocus = FocusNode();
   String? _errorMessage;
-  bool _donorOptIn = false; // D-015: Default UNCHECKED
+  final bool _donorOptIn = false; // D-015: Default UNCHECKED
+  bool _termsAgreed = false; // Terms checkbox state
 
   @override
   void initState() {
@@ -41,6 +44,123 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
     _phoneController.dispose();
     _phoneFocus.dispose();
     super.dispose();
+  }
+
+  Future<bool?> _showTermsAgreementDialog() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: isDark
+            ? BloodColors.surfaceDark
+            : BloodColors.surfaceLight,
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: BloodColors.primary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(
+                Icons.security_rounded,
+                color: BloodColors.primary,
+                size: 22,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                BloodStrings.termsDialogTitle,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: isDark
+                      ? BloodColors.textPrimaryDark
+                      : BloodColors.textPrimaryLight,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              BloodStrings.termsConfirmPrompt,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: isDark
+                    ? BloodColors.textSecondaryDark
+                    : BloodColors.textSecondaryLight,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 12),
+            GestureDetector(
+              onTap: () async {
+                Navigator.of(ctx).pop();
+                await _showTermsPrivacyDialog();
+              },
+              child: Text(
+                '${BloodStrings.termsOfService} ${BloodStrings.and} ${BloodStrings.privacyPolicy}',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: BloodColors.primary,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ],
+        ),
+        actionsPadding: const EdgeInsets.only(right: 16, bottom: 16, left: 16),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(
+              BloodStrings.cancel,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: isDark
+                    ? BloodColors.textMutedDark
+                    : BloodColors.textMutedLight,
+              ),
+            ),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: FilledButton.styleFrom(
+              backgroundColor: BloodColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: Text(
+              BloodStrings.agree,
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showTermsPrivacyDialog() async {
+    final agreed = await TermsPrivacyDialog.show(context);
+    if (agreed != true || !mounted) return;
+
+    setState(() {
+      _termsAgreed = true;
+    });
   }
 
   Future<void> _handleSendOtp() async {
@@ -60,40 +180,47 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
       return;
     }
 
+    // If terms checkbox is not checked, show dialogue prompt
+    if (!widget.isForgotPin && !_termsAgreed) {
+      final agreed = await _showTermsAgreementDialog();
+      if (agreed == true) {
+        if (!mounted) return;
+        setState(() {
+          _termsAgreed = true;
+        });
+      } else {
+        return;
+      }
+    }
+
     setState(() {
       _errorMessage = null;
     });
 
     // Save donor opt-in preference to controller
-    AuthController.instance.setDonorOptIn(_donorOptIn);
+    if (!widget.isForgotPin) {
+      AuthController.instance.setDonorOptIn(_donorOptIn);
+    }
 
-    final success = await AuthController.instance.requestOtp(text);
+    final success = await AuthController.instance.requestOtp(
+      text,
+      isForgotPin: widget.isForgotPin,
+    );
     if (!mounted) return;
 
     if (success) {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const OtpVerificationScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            const curve = Curves.easeInOutCubic;
-            final tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            return SlideTransition(
-              position: animation.drive(tween),
-              child: child,
-            );
-          },
-        ),
-      );
+      AppRoutes.pushNamed(context, AppRoutes.otpVerification);
     } else {
       setState(() {
-        _errorMessage = AuthController.instance.state.errorMessage ??
+        _errorMessage =
+            AuthController.instance.state.errorMessage ??
             BloodStrings.phoneErrorInvalid;
       });
     }
+  }
+
+  void _navigateToLogin() {
+    AppRoutes.replaceAll(context, AppRoutes.login);
   }
 
   @override
@@ -101,16 +228,24 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return ListenableBuilder(
-      listenable: Listenable.merge([AppLanguage.instance, AuthController.instance]),
+      listenable: Listenable.merge([
+        AppLanguage.instance,
+        AuthController.instance,
+      ]),
       builder: (context, _) {
         final authState = AuthController.instance.state;
 
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            leading: widget.isForgotPin
+                ? IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 20,
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                : null,
             actions: [
               // Language Switcher Toggle
               TextButton.icon(
@@ -134,11 +269,11 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
           ),
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 4),
 
                   // Header icon & branding
                   Center(
@@ -158,33 +293,42 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
 
-                  // Title & Subtitle
-                  Text(
-                    BloodStrings.phoneScreenTitle,
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w800,
-                      color: isDark
-                          ? BloodColors.textPrimaryDark
-                          : BloodColors.textPrimaryLight,
-                      letterSpacing: -0.3,
+                  //header + sub header
+                  Center(
+                    child: Text(
+                      BloodStrings.phoneScreenTitle,
+                      textAlign: TextAlign.center, // 👈 add
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: isDark
+                            ? BloodColors.textPrimaryDark
+                            : BloodColors.textPrimaryLight,
+                        letterSpacing: -0.3,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    BloodStrings.phoneScreenSubtitle,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: isDark
-                          ? BloodColors.textSecondaryDark
-                          : BloodColors.textSecondaryLight,
-                      height: 1.4,
+
+                  // Subtitle — centered
+                  Center(
+                    // 👈 wrap
+                    child: Text(
+                      BloodStrings.phoneScreenSubtitle,
+                      textAlign: TextAlign.center, // 👈 add
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: isDark
+                            ? BloodColors.textSecondaryDark
+                            : BloodColors.textSecondaryLight,
+                        height: 1.4,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 20),
 
                   // Phone Input Field with Bangladesh badge
                   BloodTextField(
@@ -255,82 +399,6 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // D-015: Donor Mode Opt-In Checkbox (UNCHECKED by default)
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: isDark
-                          ? BloodColors.surfaceMutedDark
-                          : BloodColors.surfaceMutedLight,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: _donorOptIn
-                            ? BloodColors.primary.withValues(alpha: 0.5)
-                            : (isDark ? Colors.grey[800]! : const Color(0xFFE5E7EB)),
-                        width: 1.2,
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Checkbox(
-                            value: _donorOptIn,
-                            activeColor: BloodColors.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            onChanged: (val) {
-                              setState(() {
-                                _donorOptIn = val ?? false;
-                              });
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _donorOptIn = !_donorOptIn;
-                              });
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  BloodStrings.donorOptInCheckbox,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: isDark
-                                        ? BloodColors.textPrimaryDark
-                                        : BloodColors.textPrimaryLight,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  BloodStrings.donorOptInNote,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: isDark
-                                        ? BloodColors.textMutedDark
-                                        : BloodColors.textMutedLight,
-                                    height: 1.35,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-
                   // Send OTP Button
                   BloodButton(
                     text: BloodStrings.sendOtpButton,
@@ -338,36 +406,170 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                     isLoading: authState.isLoading,
                     onPressed: _handleSendOtp,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
 
-                  // Help & Passwordless note / Forgot Password
-                  Center(
-                    child: TextButton(
-                      onPressed: () => ForgotPasswordSheet.show(context),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.help_outline_rounded,
-                            size: 16,
-                            color: BloodColors.textSecondaryLight,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            BloodStrings.loginHelp,
+                  // Already have an account? Log In
+                  if (!widget.isForgotPin) ...[
+                    //OR divider
+                    Row(
+                      children: [
+                        const Expanded(child: Divider()),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            'OR',
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: isDark
                                   ? BloodColors.textSecondaryDark
                                   : BloodColors.textSecondaryLight,
-                              decoration: TextDecoration.underline,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                        const Expanded(child: Divider()),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Secondary: Already have account? Login
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: _navigateToLogin,
+                        icon: const Icon(Icons.login_rounded, size: 18),
+                        label: Text(
+                          BloodStrings.loginButton,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Terms & Privacy Agreement Checkbox
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? BloodColors.surfaceMutedDark.withValues(
+                                alpha: 0.5,
+                              )
+                            : BloodColors.surfaceMutedLight.withValues(
+                                alpha: 0.5,
+                              ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: _termsAgreed
+                              ? BloodColors.primary.withValues(alpha: 0.5)
+                              : (isDark
+                                    ? Colors.grey[800]!
+                                    : const Color(0xFFE5E7EB)),
+                          width: 1.2,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: Checkbox(
+                              value: _termsAgreed,
+                              activeColor: BloodColors.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              onChanged: (val) {
+                                setState(() {
+                                  _termsAgreed = val ?? false;
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _termsAgreed = !_termsAgreed;
+                                });
+                              },
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Text(
+                                    BloodStrings.termsPrefix,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isDark
+                                          ? BloodColors.textSecondaryDark
+                                          : BloodColors.textSecondaryLight,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: _showTermsPrivacyDialog,
+                                    child: Text(
+                                      BloodStrings.termsOfService,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        color: BloodColors.primary,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    BloodStrings.and,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isDark
+                                          ? BloodColors.textSecondaryDark
+                                          : BloodColors.textSecondaryLight,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: _showTermsPrivacyDialog,
+                                    child: Text(
+                                      BloodStrings.privacyPolicy,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        color: BloodColors.primary,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    BloodStrings.agreed,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isDark
+                                          ? BloodColors.textSecondaryDark
+                                          : BloodColors.textSecondaryLight,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                  ],
                 ],
               ),
             ),

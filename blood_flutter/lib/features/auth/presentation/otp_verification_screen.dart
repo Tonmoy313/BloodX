@@ -5,9 +5,7 @@ import '../../../core/localization/blood_strings.dart';
 import '../../../core/theme/blood_colors.dart';
 import '../../../core/widgets/blood_button.dart';
 import '../controllers/auth_controller.dart';
-import 'forgot_password_sheet.dart';
-import 'register_profile_screen.dart';
-import '../../home/presentation/home_placeholder_screen.dart';
+import '../../../core/router/app_routes.dart';
 
 /// OTP Verification Screen per spec/auth.md.
 /// 6-digit code entry, masked phone, resend countdown, passwordless security card.
@@ -19,8 +17,10 @@ class OtpVerificationScreen extends StatefulWidget {
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-  final List<TextEditingController> _pinControllers =
-      List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _pinControllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
   String? _errorMessage;
 
@@ -46,8 +46,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     super.dispose();
   }
 
-  String get _enteredCode =>
-      _pinControllers.map((c) => c.text.trim()).join();
+  String get _enteredCode => _pinControllers.map((c) => c.text.trim()).join();
 
   void _onDigitChanged(int index, String value) {
     if (_errorMessage != null) {
@@ -95,21 +94,26 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     if (!mounted) return;
 
     if (success) {
-      final isNewUser = AuthController.instance.state.isNewUser;
-      if (isNewUser) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const RegisterProfileScreen()),
-          (route) => false,
+      final authState = AuthController.instance.state;
+      if (authState.isForgotPin) {
+        AppRoutes.replaceAll(
+          context,
+          AppRoutes.pinSetup,
+          arguments: const {'isForgotPin': true},
+        );
+      } else if (authState.isNewUser) {
+        AppRoutes.replaceAll(
+          context,
+          AppRoutes.pinSetup,
+          arguments: {'donorOptIn': authState.donorOptIn},
         );
       } else {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const HomePlaceholderScreen()),
-          (route) => false,
-        );
+        AppRoutes.replaceAll(context, AppRoutes.home);
       }
     } else {
       setState(() {
-        _errorMessage = AuthController.instance.state.errorMessage ??
+        _errorMessage =
+            AuthController.instance.state.errorMessage ??
             BloodStrings.invalidOtpError;
       });
     }
@@ -134,7 +138,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return ListenableBuilder(
-      listenable: Listenable.merge([AppLanguage.instance, AuthController.instance]),
+      listenable: Listenable.merge([
+        AppLanguage.instance,
+        AuthController.instance,
+      ]),
       builder: (context, _) {
         final authState = AuthController.instance.state;
 
@@ -229,10 +236,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       return SizedBox(
                         width: 48,
                         height: 56,
-                        child: RawKeyboardListener(
+                        child: KeyboardListener(
                           focusNode: FocusNode(),
-                          onKey: (event) {
-                            if (event is RawKeyDownEvent &&
+                          onKeyEvent: (event) {
+                            if (event is KeyDownEvent &&
                                 event.logicalKey ==
                                     LogicalKeyboardKey.backspace &&
                                 _pinControllers[index].text.isEmpty &&
@@ -354,7 +361,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           : const Color(0xFFF9FAFB),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: isDark ? Colors.grey[850]! : const Color(0xFFE5E7EB),
+                        color: isDark
+                            ? Colors.grey[850]!
+                            : const Color(0xFFE5E7EB),
                         width: 1,
                       ),
                     ),
@@ -399,24 +408,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // Help & Account Recovery Link (Forgot Password)
-                  Center(
-                    child: TextButton(
-                      onPressed: () => ForgotPasswordSheet.show(context),
-                      child: Text(
-                        BloodStrings.loginHelp,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? BloodColors.textSecondaryDark
-                              : BloodColors.textSecondaryLight,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

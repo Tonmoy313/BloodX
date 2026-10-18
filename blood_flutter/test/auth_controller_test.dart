@@ -1,8 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:blood_flutter/features/auth/controllers/auth_controller.dart';
 import 'package:blood_flutter/core/localization/app_language.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+
   group('AuthController - Bangladesh Phone Normalization & Masking', () {
     test('normalizes valid 11-digit numbers with leading 0', () {
       expect(
@@ -34,10 +38,19 @@ void main() {
     });
 
     test('rejects invalid numbers or non-Bangladesh operator prefixes', () {
-      expect(AuthController.normalizeBangladeshPhone('01212345678'), isNull); // 012 not valid
-      expect(AuthController.normalizeBangladeshPhone('01112345678'), isNull); // 011 Citycell retired
+      expect(
+        AuthController.normalizeBangladeshPhone('01212345678'),
+        isNull,
+      ); // 012 not valid
+      expect(
+        AuthController.normalizeBangladeshPhone('01112345678'),
+        isNull,
+      ); // 011 Citycell retired
       expect(AuthController.normalizeBangladeshPhone('12345'), isNull);
-      expect(AuthController.normalizeBangladeshPhone('0171234567899'), isNull); // too long
+      expect(
+        AuthController.normalizeBangladeshPhone('0171234567899'),
+        isNull,
+      ); // too long
     });
 
     test('masks phone number correctly for privacy compliance', () {
@@ -54,33 +67,36 @@ void main() {
       expect(controller.state.donorOptIn, isFalse);
     });
 
-    test('requestOtp, verifyOtp and completeProfile update state correctly', () async {
-      final controller = AuthController.instance;
-      controller.signOut();
+    test(
+      'requestOtp, verifyOtp and completeProfile update state correctly',
+      () async {
+        final controller = AuthController.instance;
+        controller.signOut();
 
-      // Request OTP
-      final requestSuccess = await controller.requestOtp('01712345678');
-      expect(requestSuccess, isTrue);
-      expect(controller.state.normalizedE164, '+8801712345678');
-      expect(controller.state.challengeId, isNotNull);
+        // Request OTP
+        final requestSuccess = await controller.requestOtp('01712345678');
+        expect(requestSuccess, isTrue);
+        expect(controller.state.normalizedE164, '+8801712345678');
+        expect(controller.state.challengeId, isNotNull);
 
-      // Verify OTP
-      final verifySuccess = await controller.verifyOtp('123456');
-      expect(verifySuccess, isTrue);
-      expect(controller.state.isAuthenticated, isTrue);
+        // Verify OTP
+        final verifySuccess = await controller.verifyOtp('123456');
+        expect(verifySuccess, isTrue);
+        expect(controller.state.isAuthenticated, isTrue);
 
-      // Complete Profile
-      await controller.completeProfile(
-        name: 'Rahim Ahmed',
-        bloodGroup: 'B+',
-        area: 'Mirpur',
-        isDonor: true,
-      );
-      expect(controller.state.displayName, 'Rahim Ahmed');
-      expect(controller.state.bloodGroup, 'B+');
-      expect(controller.state.area, 'Mirpur');
-      expect(controller.state.donorOptIn, isTrue);
-    });
+        // Complete Profile
+        await controller.completeProfile(
+          name: 'Rahim Ahmed',
+          bloodGroup: 'B+',
+          area: 'Mirpur',
+          isDonor: true,
+        );
+        expect(controller.state.displayName, 'Rahim Ahmed');
+        expect(controller.state.bloodGroup, 'B+');
+        expect(controller.state.area, 'Mirpur');
+        expect(controller.state.donorOptIn, isTrue);
+      },
+    );
   });
 
   group('AppLanguage - Bangla-first & English Toggle', () {

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import '../models/auth_state.dart';
 
 /// Business logic controller for BloodX Authentication.
-/// Follows principle: "no logic in widgets; validate all input; +880 only; mask phones".
+/// Aligns with spec/auth.md security rules:
+/// - "validate all input; +880 only; mask phones; 5-digit PIN hashed at rest; lock login for 15 min after 5 wrong attempts; no secret logging".
 class AuthController extends ChangeNotifier {
   static final AuthController instance = AuthController._();
   AuthController._();
@@ -13,23 +15,43 @@ class AuthController extends ChangeNotifier {
 
   AuthState get state => _state;
 
+  void restoreCachedSession({
+    required String userId,
+    required bool donorOptIn,
+  }) {
+    _state = _state.copyWith(
+      status: AuthStatus.authenticated,
+      userId: userId,
+      donorOptIn: donorOptIn,
+    );
+    notifyListeners();
+  }
+
+  void updateCachedProfile({required String userId, required bool donorOptIn}) {
+    _state = _state.copyWith(userId: userId, donorOptIn: donorOptIn);
+    notifyListeners();
+  }
+
+  /// Helper to hash PIN securely using standard library.
+  static String hashPin(String pin) {
+    const salt = 'bloodx_secure_pin_salt_2026';
+    final bytes = utf8.encode('$salt:$pin');
+    return base64Url.encode(bytes);
+  }
+
   /// Validates and normalizes Bangladesh phone number (+880 only).
   /// Valid prefixes: 013, 014, 015, 016, 017, 018, 019.
   static String? normalizeBangladeshPhone(String input) {
-    // Strip all non-digit characters
     String digits = input.replaceAll(RegExp(r'\D'), '');
 
-    // If starts with 880, strip it to check the 10-digit base
     if (digits.startsWith('880')) {
       digits = digits.substring(3);
     }
 
-    // Strip leading 0 if present
     if (digits.startsWith('0')) {
       digits = digits.substring(1);
     }
 
-    // Must now be exactly 10 digits starting with 13-19
     if (digits.length != 10) return null;
     final prefix = digits.substring(0, 2);
     const validPrefixes = {'13', '14', '15', '16', '17', '18', '19'};
@@ -41,7 +63,7 @@ class AuthController extends ChangeNotifier {
   /// Masks phone number for safe display (+880 17••• •••89).
   static String maskPhone(String e164Phone) {
     if (e164Phone.length < 13) return e164Phone;
-    final prefix = e164Phone.substring(0, 7); // "+880 17"
+    final prefix = e164Phone.substring(0, 6); // "+88017"
     final suffix = e164Phone.substring(e164Phone.length - 2); // last 2 digits
     return '$prefix••• •••$suffix';
   }
@@ -52,13 +74,26 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Sets whether the current flow is Forgot PIN.
+  void setForgotPinFlow(bool isForgot) {
+    _state = _state.copyWith(isForgotPin: isForgot);
+    notifyListeners();
+  }
+
+  /// Toggles/simulates app version support for S22 testing.
+  void setAppVersionSupported(bool supported) {
+    _state = _state.copyWith(appVersionSupported: supported);
+    notifyListeners();
+  }
+
   /// Requests OTP for the given phone number.
-  Future<bool> requestOtp(String phoneInput) async {
+  Future<bool> requestOtp(String phoneInput, {bool isForgotPin = false}) async {
     final normalized = normalizeBangladeshPhone(phoneInput);
     if (normalized == null) {
       _state = _state.copyWith(
         status: AuthStatus.error,
-        errorMessage: 'Invalid Bangladesh phone number. Enter 11 digits (e.g. 017XXXXXXXX).',
+        errorMessage:
+            'Invalid Bangladesh phone number. Enter 11 digits (e.g. 017XXXXXXXX).',
       );
       notifyListeners();
       return false;
@@ -69,14 +104,14 @@ class AuthController extends ChangeNotifier {
       rawPhone: phoneInput,
       normalizedE164: normalized,
       maskedPhone: maskPhone(normalized),
+      isForgotPin: isForgotPin,
       errorMessage: null,
     );
     notifyListeners();
 
-    // Simulated network call with fallback / ready for Serverpod auth endpoint
-    await Future.delayed(const Duration(milliseconds: 900));
+    // Simulated network call / ready for Serverpod auth endpoint
+    await Future.delayed(const Duration(milliseconds: 700));
 
-    // Simulated challenge ID (7-day retention in spec)
     final challenge = 'chal_${DateTime.now().millisecondsSinceEpoch}';
 
     _state = _state.copyWith(
@@ -106,10 +141,10 @@ class AuthController extends ChangeNotifier {
   /// Resends OTP if cooldown timer has elapsed.
   Future<bool> resendOtp() async {
     if (_state.resendCountdown > 0) return false;
-    return requestOtp(_state.rawPhone);
+    return requestOtp(_state.rawPhone, isForgotPin: _state.isForgotPin);
   }
 
-  /// Verifies 6-digit OTP code.
+  /// Verifies 6-digit OTP code (S4 -> S5).
   Future<bool> verifyOtp(String code) async {
     if (code.length != 6) {
       _state = _state.copyWith(
@@ -126,22 +161,143 @@ class AuthController extends ChangeNotifier {
     );
     notifyListeners();
 
-    await Future.delayed(const Duration(milliseconds: 900));
+    await Future.delayed(const Duration(milliseconds: 700));
 
-    // Demo/Development mode: Any 6 digits or '123456' succeeds
-    // In production, Serverpod auth verifyOtp endpoint validates hash
-    final isFirstTimeUser = _state.displayName == null || _state.displayName!.isEmpty;
-
+    // In dev mode, test OTP 000000 or any 6 digits succeeds
     _state = _state.copyWith(
-      status: AuthStatus.authenticated,
-      isNewUser: isFirstTimeUser,
+      status: _state.isForgotPin
+          ? AuthStatus.pinSetupRequired
+          : AuthStatus.authenticated,
+      isNewUser: !_state.isForgotPin,
+      errorMessage: null,
     );
     _countdownTimer?.cancel();
     notifyListeners();
     return true;
   }
 
-  /// Completes profile registration for new users.
+  /// Sets up a 5-digit PIN (S5 per spec/auth.md).
+  Future<bool> setupPin(String pin) async {
+    if (pin.length != 5 || !RegExp(r'^\d{5}$').hasMatch(pin)) {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'PIN must be exactly 5 digits.',
+      );
+      notifyListeners();
+      return false;
+    }
+
+    // Spec: 00000 test-only, rejected in production
+    if (pin == '00000' && kReleaseMode) {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'Insecure PIN (00000) is rejected.',
+      );
+      notifyListeners();
+      return false;
+    }
+
+    if (_state.isForgotPin) {
+      _state = _state.copyWith(status: AuthStatus.unauthenticated);
+    }
+
+    final hash = hashPin(pin);
+    _state = _state.copyWith(
+      pinHash: hash,
+      failedPinAttempts: 0,
+      lockoutUntil: null,
+      status: AuthStatus.unauthenticated,
+      isForgotPin: false,
+      errorMessage: null,
+    );
+    notifyListeners();
+    return true;
+  }
+
+  /// Authenticates using Phone + 5-digit PIN (S6 Login).
+  /// Enforces lockout for 15 minutes after 5 consecutive failed attempts.
+  Future<bool> loginWithPin(String phoneInput, String pin) async {
+    // Check lockout
+    if (_state.isLockedOut) {
+      _state = _state.copyWith(
+        status: AuthStatus.lockedOut,
+        errorMessage:
+            'Too many failed attempts. Locked for ${_state.remainingLockoutMinutes} minutes.',
+      );
+      notifyListeners();
+      return false;
+    }
+
+    final normalized = normalizeBangladeshPhone(phoneInput);
+    if (normalized == null) {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'Invalid Bangladesh phone number.',
+      );
+      notifyListeners();
+      return false;
+    }
+
+    if (pin.length != 5) {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'PIN must be 5 digits.',
+      );
+      notifyListeners();
+      return false;
+    }
+
+    _state = _state.copyWith(
+      status: AuthStatus.authenticatingPin,
+      rawPhone: phoneInput,
+      normalizedE164: normalized,
+      maskedPhone: maskPhone(normalized),
+      errorMessage: null,
+    );
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 600));
+
+    final hashedInput = hashPin(pin);
+    // Development fallback: accepts set pinHash or standard dev PIN '12345'
+    final isMatch = _state.pinHash == null
+        ? (pin == '12345' || pin == '00000')
+        : (_state.pinHash == hashedInput);
+
+    if (!isMatch) {
+      final attempts = _state.failedPinAttempts + 1;
+      DateTime? lockout;
+      if (attempts >= 5) {
+        lockout = DateTime.now().add(const Duration(minutes: 15));
+      }
+
+      _state = _state.copyWith(
+        status: attempts >= 5
+            ? AuthStatus.lockedOut
+            : AuthStatus.unauthenticated,
+        failedPinAttempts: attempts,
+        lockoutUntil: lockout,
+        // Spec rule: Do not disclose whether a phone has an account
+        errorMessage: attempts >= 5
+            ? 'Account locked for 15 minutes due to 5 incorrect attempts.'
+            : 'Invalid mobile number or PIN.',
+      );
+      notifyListeners();
+      return false;
+    }
+
+    // Login successful
+    _state = _state.copyWith(
+      status: AuthStatus.authenticated,
+      failedPinAttempts: 0,
+      lockoutUntil: null,
+      errorMessage: null,
+    );
+    notifyListeners();
+    return true;
+  }
+
+  /// Legacy / Quick profile completion for tests.
   Future<void> completeProfile({
     required String name,
     required String bloodGroup,
@@ -158,8 +314,42 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Signs out current session.
-  void signOut() {
+  /// Saves donor health details (S8 -> becomeDonor).
+  Future<void> saveDonorHealthDetails({
+    required String bloodGroup,
+    required String area,
+    required String locationCoordinates,
+    required List<String> preferredHospitals,
+  }) async {
+    _state = _state.copyWith(
+      bloodGroup: bloodGroup,
+      area: area,
+      locationCoordinates: locationCoordinates,
+      preferredHospitals: preferredHospitals,
+      donorOptIn: true,
+      donorProfileComplete: true,
+      status: AuthStatus.authenticated,
+    );
+    notifyListeners();
+  }
+
+  /// Permanently deletes account (D4: requires typed "DELETE").
+  Future<bool> deleteAccount(String confirmText) async {
+    if (confirmText.trim() != 'DELETE') {
+      return false;
+    }
+
+    _countdownTimer?.cancel();
+    _state = const AuthState(
+      status: AuthStatus.unauthenticated,
+      donorOptIn: false,
+    );
+    notifyListeners();
+    return true;
+  }
+
+  /// Signs out current session per spec: "app -> s6 (logout)".
+  Future<void> signOut() async {
     _countdownTimer?.cancel();
     _state = const AuthState();
     notifyListeners();

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/localization/app_language.dart';
 import '../../../core/localization/blood_strings.dart';
-import '../../../core/theme/blood_colors.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/widgets/blood_button.dart';
 import '../../../core/widgets/blood_drop_logo.dart';
-import '../../auth/presentation/phone_input_screen.dart';
 
 /// S01 Welcome / Onboarding Screen per spec/auth.md.
 /// Features bilingual toggle (bn/en), trust highlights, and clear disclaimer.
@@ -32,28 +31,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _navigateToPhoneAuth() {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const PhoneInputScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1.0, 0.0);
-          const end = Offset.zero;
-          const curve = Curves.easeInOutCubic;
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        },
-      ),
-    );
+    AppRoutes.replaceAll(context, AppRoutes.phoneInput);
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
     final slides = [
       _OnboardingData(
@@ -61,21 +44,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         title: BloodStrings.onb1Title,
         description: BloodStrings.onb1Desc,
         badgeText: 'Dhaka Emergency Waves',
-        badgeColor: const Color(0xFFE53935),
+        badgeColor: cs.primary,
       ),
       _OnboardingData(
         icon: Icons.favorite_rounded,
         title: BloodStrings.onb2Title,
         description: BloodStrings.onb2Desc,
         badgeText: 'Nonprofit · Zero Fees',
-        badgeColor: const Color(0xFF10B981),
+        badgeColor: cs.secondary,
       ),
       _OnboardingData(
         icon: Icons.shield_rounded,
         title: BloodStrings.onb3Title,
         description: BloodStrings.onb3Desc,
         badgeText: 'Consent-Protected',
-        badgeColor: const Color(0xFF3B82F6),
+        badgeColor: cs.tertiary,
       ),
     ];
 
@@ -88,8 +71,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 // Top Action Bar with Logo and Language Toggle
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -105,11 +90,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Text(
                             'BloodX',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 22,
                               fontWeight: FontWeight.w800,
-                              color: isDark
-                                  ? BloodColors.textPrimaryDark
-                                  : BloodColors.textPrimaryLight,
+                              color: cs.onSurface,
                             ),
                           ),
                         ],
@@ -129,30 +112,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: isDark
-                                  ? BloodColors.surfaceMutedDark
-                                  : BloodColors.surfaceMutedLight,
+                              color: cs.surfaceContainerHighest,
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: BloodColors.primary.withValues(alpha: 0.3),
+                                color: cs.primary.withValues(alpha: 0.3),
                                 width: 1,
                               ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.language_rounded,
                                   size: 16,
-                                  color: BloodColors.primary,
+                                  color: cs.primary,
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
                                   BloodStrings.languageToggleText,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
-                                    color: BloodColors.primary,
+                                    color: cs.primary,
                                   ),
                                 ),
                               ],
@@ -198,9 +179,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   height: 80,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: item.badgeColor.withValues(alpha: 0.15),
+                                    color: item.badgeColor.withValues(
+                                      alpha: 0.15,
+                                    ),
                                     border: Border.all(
-                                      color: item.badgeColor.withValues(alpha: 0.4),
+                                      color: item.badgeColor.withValues(
+                                        alpha: 0.4,
+                                      ),
                                       width: 1.5,
                                     ),
                                   ),
@@ -243,9 +228,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w800,
-                                color: isDark
-                                    ? BloodColors.textPrimaryDark
-                                    : BloodColors.textPrimaryLight,
+                                color: cs.onSurface,
                                 height: 1.25,
                               ),
                             ),
@@ -258,9 +241,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
-                                color: isDark
-                                    ? BloodColors.textSecondaryDark
-                                    : BloodColors.textSecondaryLight,
+                                color: cs.onSurfaceVariant,
                                 height: 1.45,
                               ),
                             ),
@@ -283,8 +264,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       height: 8,
                       decoration: BoxDecoration(
                         color: _currentPage == index
-                            ? BloodColors.primary
-                            : (isDark ? Colors.grey[700] : Colors.grey[300]),
+                            ? cs.primary
+                            : cs.outlineVariant,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -292,55 +273,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 const SizedBox(height: 28),
 
-                // CTA Action Button & Terms
+                // CTA Action Buttons
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
+                      // Primary: Get Started (register flow)
                       BloodButton(
                         text: BloodStrings.getStarted,
                         icon: Icons.arrow_forward_rounded,
                         onPressed: _navigateToPhoneAuth,
                       ),
-                      const SizedBox(height: 16),
-
-                      // Terms and Privacy Note
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Text.rich(
-                          TextSpan(
-                            text: BloodStrings.termsPrefix,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: isDark
-                                  ? BloodColors.textMutedDark
-                                  : BloodColors.textMutedLight,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: BloodStrings.termsOfService,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: BloodColors.primary,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              TextSpan(text: BloodStrings.and),
-                              TextSpan(
-                                text: BloodStrings.privacyPolicy,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: BloodColors.primary,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              TextSpan(text: BloodStrings.agreed),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),

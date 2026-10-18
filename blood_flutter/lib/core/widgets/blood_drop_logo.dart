@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/blood_colors.dart';
 
 /// Animated Blood Drop Emblem with heartbeat pulse animation.
 class BloodDropLogo extends StatefulWidget {
@@ -83,6 +82,8 @@ class _BloodDropLogoState extends State<BloodDropLogo>
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -96,7 +97,7 @@ class _BloodDropLogoState extends State<BloodDropLogo>
               boxShadow: widget.showGlow
                   ? [
                       BoxShadow(
-                        color: BloodColors.primary.withValues(
+                        color: cs.primary.withValues(
                           alpha: _glowAnimation.value,
                         ),
                         blurRadius: widget.size * 0.45,
@@ -107,7 +108,10 @@ class _BloodDropLogoState extends State<BloodDropLogo>
             ),
             child: CustomPaint(
               size: Size(widget.size, widget.size * 1.15),
-              painter: _BloodDropPainter(),
+              painter: _BloodDropPainter(
+                primaryColor: cs.primary,
+                deepColor: cs.primaryContainer,
+              ),
             ),
           ),
         );
@@ -117,6 +121,14 @@ class _BloodDropLogoState extends State<BloodDropLogo>
 }
 
 class _BloodDropPainter extends CustomPainter {
+  final Color primaryColor;
+  final Color deepColor;
+
+  _BloodDropPainter({
+    required this.primaryColor,
+    required this.deepColor,
+  });
+
   @override
   void paint(Canvas canvas, Size size) {
     final width = size.width;
@@ -159,10 +171,13 @@ class _BloodDropPainter extends CustomPainter {
     final gradient = LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: const [
+      colors: [
         Color(0xFFFF5252),
         Color(0xFFD32F2F),
         Color(0xFF8E0000),
+        // primaryColor.withValues(alpha: 0.9),
+        // primaryColor,
+        // deepColor,
       ],
       stops: const [0.0, 0.55, 1.0],
     );
