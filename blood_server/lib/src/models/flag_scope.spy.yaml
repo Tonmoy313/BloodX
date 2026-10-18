@@ -1,0 +1,7 @@
+enum: FlagScope
+serialized: byName
+default: all
+values:
+  - all
+  - android
+  - ios

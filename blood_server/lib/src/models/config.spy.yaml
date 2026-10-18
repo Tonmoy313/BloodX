@@ -1,0 +1,16 @@
+class: Config
+serverOnly: true
+table: app_config
+fields:
+  # The key is uniquely indexed; Serverpod manages the table's bigint id.
+  key: String
+  value: Map<String, String>
+  enabled: bool, defaultModel=true, defaultPersist=true
+  updatedBy: User?, relation(onDelete=Restrict)
+  updatedAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  app_config_key:
+    fields: key
+    unique: true
+  app_config_updated_by:
+    fields: updatedById

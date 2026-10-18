@@ -1,0 +1,6 @@
+enum: AdminRole
+serialized: byName
+values:
+  - ops
+  - medicalReviewer
+  - superAdmin

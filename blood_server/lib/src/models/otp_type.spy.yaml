@@ -1,0 +1,6 @@
+enum: OtpType
+serialized: byName
+values:
+  - newAccount
+  - forgetPin
+  - deviceTransfer

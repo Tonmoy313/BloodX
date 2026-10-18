@@ -1,0 +1,25 @@
+class: User
+serverOnly: true
+table: app_user
+fields:
+  # Nullable so account deletion can clear this unique identifier.
+  phoneE164: String?
+  phoneHmac: String?
+  displayName: String
+  # Links the app account to Serverpod authentication without exposing it in DTOs.
+  authUserId: UuidValue?
+  language: Language, defaultModel=bn, defaultPersist=bn
+  status: UserStatus, defaultModel=active, defaultPersist=active
+  suspendedReason: String?
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+  updatedAt: DateTime, defaultModel=now, defaultPersist=now
+  lastSeenAt: DateTime?
+  deletedAt: DateTime?
+indexes:
+  app_user_phone_e164:
+    fields: phoneE164
+    unique: true
+  app_user_status:
+    fields: status
+  app_user_auth_user_id:
+    fields: authUserId

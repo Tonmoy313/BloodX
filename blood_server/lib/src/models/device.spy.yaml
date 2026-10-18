@@ -1,0 +1,24 @@
+class: Device
+serverOnly: true
+table: device
+fields:
+  installId: UuidValue
+  user: User?, relation(onDelete=Cascade)
+  platform: Platform
+  pushToken: String?
+  pushTokenUpdatedAt: DateTime?
+  appVersion: String
+  osVersion: String
+  appCheckOkAt: DateTime?
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+  lastSeenAt: DateTime
+  revokedAt: DateTime?
+indexes:
+  device_install_id:
+    fields: installId
+    unique: true
+  device_user_id:
+    fields: userId
+  device_push_token:
+    fields: pushToken
+    unique: true

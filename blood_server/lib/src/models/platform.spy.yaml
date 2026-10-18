@@ -1,0 +1,5 @@
+enum: Platform
+serialized: byName
+values:
+  - android
+  - ios
