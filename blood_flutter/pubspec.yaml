@@ -40,7 +40,7 @@ dependencies:
   serverpod_auth_core_client: 3.4.13
   serverpod_auth_core_flutter: 3.4.13
   serverpod_client: 3.4.13
-  permission_handler: ^13.0.2
+  permission_handler: ^12.0.1
   geolocator: ^14.0.1
 
 dev_dependencies:
