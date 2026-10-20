@@ -66,8 +66,7 @@ class ForegroundLocationService {
         await Geolocator.openLocationSettings(),
       ForegroundLocationFailure.denied => false,
     };
-    if (!opened &&
-        failure != ForegroundLocationFailure.denied) {
+    if (!opened && failure != ForegroundLocationFailure.denied) {
       throw StateError('Could not open the required location settings.');
     }
   }

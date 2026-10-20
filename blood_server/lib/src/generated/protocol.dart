@@ -32,8 +32,9 @@ import 'language.dart' as _i16;
 import 'otp_challenge.dart' as _i17;
 import 'otp_type.dart' as _i18;
 import 'platform.dart' as _i19;
-import 'user.dart' as _i20;
-import 'user_status.dart' as _i21;
+import 'sex.dart' as _i20;
+import 'user.dart' as _i21;
+import 'user_status.dart' as _i22;
 export 'admin_role.dart';
 export 'admin_user.dart';
 export 'audit_log.dart';
@@ -49,6 +50,7 @@ export 'language.dart';
 export 'otp_challenge.dart';
 export 'otp_type.dart';
 export 'platform.dart';
+export 'sex.dart';
 export 'user.dart';
 export 'user_status.dart';
 
@@ -273,6 +275,24 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.text,
           isNullable: false,
           dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'sex',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'protocol:Sex?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'dateOfBirth',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'profileImagePath',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
         ),
         _i2.ColumnDefinition(
           name: 'authUserId',
@@ -1211,11 +1231,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i19.Platform) {
       return _i19.Platform.fromJson(data) as T;
     }
-    if (t == _i20.User) {
-      return _i20.User.fromJson(data) as T;
+    if (t == _i20.Sex) {
+      return _i20.Sex.fromJson(data) as T;
     }
-    if (t == _i21.UserStatus) {
-      return _i21.UserStatus.fromJson(data) as T;
+    if (t == _i21.User) {
+      return _i21.User.fromJson(data) as T;
+    }
+    if (t == _i22.UserStatus) {
+      return _i22.UserStatus.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.AdminRole?>()) {
       return (data != null ? _i5.AdminRole.fromJson(data) : null) as T;
@@ -1262,11 +1285,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i19.Platform?>()) {
       return (data != null ? _i19.Platform.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i20.User?>()) {
-      return (data != null ? _i20.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i20.Sex?>()) {
+      return (data != null ? _i20.Sex.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i21.UserStatus?>()) {
-      return (data != null ? _i21.UserStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i21.User?>()) {
+      return (data != null ? _i21.User.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i22.UserStatus?>()) {
+      return (data != null ? _i22.UserStatus.fromJson(data) : null) as T;
     }
     if (t == Map<String, String>) {
       return (data as Map).map(
@@ -1318,8 +1344,9 @@ class Protocol extends _i1.SerializationManagerServer {
       _i17.OtpChallenge => 'OtpChallenge',
       _i18.OtpType => 'OtpType',
       _i19.Platform => 'Platform',
-      _i20.User => 'User',
-      _i21.UserStatus => 'UserStatus',
+      _i20.Sex => 'Sex',
+      _i21.User => 'User',
+      _i22.UserStatus => 'UserStatus',
       _ => null,
     };
   }
@@ -1364,9 +1391,11 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'OtpType';
       case _i19.Platform():
         return 'Platform';
-      case _i20.User():
+      case _i20.Sex():
+        return 'Sex';
+      case _i21.User():
         return 'User';
-      case _i21.UserStatus():
+      case _i22.UserStatus():
         return 'UserStatus';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -1435,11 +1464,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'Platform') {
       return deserialize<_i19.Platform>(data['data']);
     }
+    if (dataClassName == 'Sex') {
+      return deserialize<_i20.Sex>(data['data']);
+    }
     if (dataClassName == 'User') {
-      return deserialize<_i20.User>(data['data']);
+      return deserialize<_i21.User>(data['data']);
     }
     if (dataClassName == 'UserStatus') {
-      return deserialize<_i21.UserStatus>(data['data']);
+      return deserialize<_i22.UserStatus>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -1493,8 +1525,8 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i13.FeatureFlag.t;
       case _i17.OtpChallenge:
         return _i17.OtpChallenge.t;
-      case _i20.User:
-        return _i20.User.t;
+      case _i21.User:
+        return _i21.User.t;
     }
     return null;
   }

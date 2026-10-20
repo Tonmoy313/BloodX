@@ -1,5 +1,5 @@
 import 'package:blood_flutter/core/localization/blood_strings.dart';
-import 'package:blood_flutter/features/auth/presentation/donor_opt_in_dialog.dart';
+import 'package:blood_flutter/features/donor/presentation/donor_opt_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -25,8 +25,10 @@ void main() {
 
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
-    expect(tester.widget<CheckboxListTile>(find.byType(CheckboxListTile)).value,
-        isFalse);
+    expect(
+      tester.widget<CheckboxListTile>(find.byType(CheckboxListTile)).value,
+      isFalse,
+    );
 
     await tester.tap(find.byType(CheckboxListTile));
     await tester.pumpAndSettle();

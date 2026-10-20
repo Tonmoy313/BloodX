@@ -5,9 +5,10 @@ import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/auth/presentation/phone_input_screen.dart';
 import '../../features/auth/presentation/otp_verification_screen.dart';
 import '../../features/auth/presentation/pin_setup_screen.dart';
+import '../../features/auth/presentation/profile_setup_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
-import '../../features/auth/presentation/donor_health_details_screen.dart';
-import '../../features/auth/presentation/location_picker_screen.dart';
+import '../../features/donor/presentation/donor_health_details_screen.dart';
+import '../../features/donor/presentation/location_picker_screen.dart';
 import '../../features/splash/presentation/update_required_screen.dart';
 import '../../features/home/presentation/home_placeholder_screen.dart';
 
@@ -21,6 +22,7 @@ class AppRoutes {
   static const String phoneInput = '/phone-input';
   static const String otpVerification = '/otp-verification';
   static const String pinSetup = '/pin-setup';
+  static const String profileSetup = '/profile-setup';
   static const String donorHealthDetails = '/donor-health-details';
   static const String locationPicker = '/location-picker';
   static const String updateRequired = '/update-required';
@@ -34,7 +36,6 @@ class AppRoutes {
       final arguments = _arguments(context);
       return LoginPinScreen(
         initialPhone: arguments['initialPhone'] as String?,
-        donorOptInPending: arguments['donorOptInPending'] == true,
       );
     },
     phoneInput: (context) => PhoneInputScreen(
@@ -45,9 +46,9 @@ class AppRoutes {
       final arguments = _arguments(context);
       return PinSetupScreen(
         isForgotPin: arguments['isForgotPin'] == true,
-        donorOptIn: arguments['donorOptIn'] == true,
       );
     },
+    profileSetup: (_) => const ProfileSetupScreen(),
     donorHealthDetails: (_) => const DonorHealthDetailsScreen(),
     locationPicker: (context) => LocationPickerScreen(
       initialArea: _arguments(context)['initialArea'] as String?,
@@ -103,12 +104,11 @@ class AppRoutes {
     BuildContext context,
     String routeName, {
     Object? arguments,
-  }) =>
-      Navigator.of(context).pushNamedAndRemoveUntil<T>(
-        routeName,
-        (route) => false,
-        arguments: arguments,
-      );
+  }) => Navigator.of(context).pushNamedAndRemoveUntil<T>(
+    routeName,
+    (route) => false,
+    arguments: arguments,
+  );
 
   static Map<String, Object?> _arguments(BuildContext context) {
     final arguments = ModalRoute.of(context)?.settings.arguments;

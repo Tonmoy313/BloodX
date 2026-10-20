@@ -14,6 +14,7 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'language.dart' as _i2;
 import 'user_status.dart' as _i3;
+import 'sex.dart' as _i4;
 
 abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   User._({
@@ -21,6 +22,9 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     this.phoneE164,
     this.phoneHmac,
     required this.displayName,
+    this.sex,
+    this.dateOfBirth,
+    this.profileImagePath,
     this.authUserId,
     _i2.Language? language,
     _i3.UserStatus? status,
@@ -42,6 +46,9 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? phoneE164,
     String? phoneHmac,
     required String displayName,
+    _i4.Sex? sex,
+    DateTime? dateOfBirth,
+    String? profileImagePath,
     _i1.UuidValue? authUserId,
     _i2.Language? language,
     _i3.UserStatus? status,
@@ -60,6 +67,15 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       phoneE164: jsonSerialization['phoneE164'] as String?,
       phoneHmac: jsonSerialization['phoneHmac'] as String?,
       displayName: jsonSerialization['displayName'] as String,
+      sex: jsonSerialization['sex'] == null
+          ? null
+          : _i4.Sex.fromJson((jsonSerialization['sex'] as String)),
+      dateOfBirth: jsonSerialization['dateOfBirth'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(
+              jsonSerialization['dateOfBirth'],
+            ),
+      profileImagePath: jsonSerialization['profileImagePath'] as String?,
       authUserId: jsonSerialization['authUserId'] == null
           ? null
           : _i1.UuidValueJsonExtension.fromJson(
@@ -110,6 +126,12 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   String displayName;
 
+  _i4.Sex? sex;
+
+  DateTime? dateOfBirth;
+
+  String? profileImagePath;
+
   _i1.UuidValue? authUserId;
 
   _i2.Language language;
@@ -141,6 +163,9 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? phoneE164,
     String? phoneHmac,
     String? displayName,
+    _i4.Sex? sex,
+    DateTime? dateOfBirth,
+    String? profileImagePath,
     _i1.UuidValue? authUserId,
     _i2.Language? language,
     _i3.UserStatus? status,
@@ -160,6 +185,9 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       if (phoneE164 != null) 'phoneE164': phoneE164,
       if (phoneHmac != null) 'phoneHmac': phoneHmac,
       'displayName': displayName,
+      if (sex != null) 'sex': sex?.toJson(),
+      if (dateOfBirth != null) 'dateOfBirth': dateOfBirth?.toJson(),
+      if (profileImagePath != null) 'profileImagePath': profileImagePath,
       if (authUserId != null) 'authUserId': authUserId?.toJson(),
       'language': language.toJson(),
       'status': status.toJson(),
@@ -217,6 +245,9 @@ class _UserImpl extends User {
     String? phoneE164,
     String? phoneHmac,
     required String displayName,
+    _i4.Sex? sex,
+    DateTime? dateOfBirth,
+    String? profileImagePath,
     _i1.UuidValue? authUserId,
     _i2.Language? language,
     _i3.UserStatus? status,
@@ -232,6 +263,9 @@ class _UserImpl extends User {
          phoneE164: phoneE164,
          phoneHmac: phoneHmac,
          displayName: displayName,
+         sex: sex,
+         dateOfBirth: dateOfBirth,
+         profileImagePath: profileImagePath,
          authUserId: authUserId,
          language: language,
          status: status,
@@ -253,6 +287,9 @@ class _UserImpl extends User {
     Object? phoneE164 = _Undefined,
     Object? phoneHmac = _Undefined,
     String? displayName,
+    Object? sex = _Undefined,
+    Object? dateOfBirth = _Undefined,
+    Object? profileImagePath = _Undefined,
     Object? authUserId = _Undefined,
     _i2.Language? language,
     _i3.UserStatus? status,
@@ -269,6 +306,11 @@ class _UserImpl extends User {
       phoneE164: phoneE164 is String? ? phoneE164 : this.phoneE164,
       phoneHmac: phoneHmac is String? ? phoneHmac : this.phoneHmac,
       displayName: displayName ?? this.displayName,
+      sex: sex is _i4.Sex? ? sex : this.sex,
+      dateOfBirth: dateOfBirth is DateTime? ? dateOfBirth : this.dateOfBirth,
+      profileImagePath: profileImagePath is String?
+          ? profileImagePath
+          : this.profileImagePath,
       authUserId: authUserId is _i1.UuidValue? ? authUserId : this.authUserId,
       language: language ?? this.language,
       status: status ?? this.status,
@@ -304,6 +346,23 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
     table.displayName,
     value,
   );
+
+  _i1.ColumnValue<_i4.Sex, _i4.Sex> sex(_i4.Sex? value) => _i1.ColumnValue(
+    table.sex,
+    value,
+  );
+
+  _i1.ColumnValue<DateTime, DateTime> dateOfBirth(DateTime? value) =>
+      _i1.ColumnValue(
+        table.dateOfBirth,
+        value,
+      );
+
+  _i1.ColumnValue<String, String> profileImagePath(String? value) =>
+      _i1.ColumnValue(
+        table.profileImagePath,
+        value,
+      );
 
   _i1.ColumnValue<_i1.UuidValue, _i1.UuidValue> authUserId(
     _i1.UuidValue? value,
@@ -382,6 +441,19 @@ class UserTable extends _i1.Table<int?> {
       'displayName',
       this,
     );
+    sex = _i1.ColumnEnum(
+      'sex',
+      this,
+      _i1.EnumSerialization.byName,
+    );
+    dateOfBirth = _i1.ColumnDateTime(
+      'dateOfBirth',
+      this,
+    );
+    profileImagePath = _i1.ColumnString(
+      'profileImagePath',
+      this,
+    );
     authUserId = _i1.ColumnUuid(
       'authUserId',
       this,
@@ -439,6 +511,12 @@ class UserTable extends _i1.Table<int?> {
 
   late final _i1.ColumnString displayName;
 
+  late final _i1.ColumnEnum<_i4.Sex> sex;
+
+  late final _i1.ColumnDateTime dateOfBirth;
+
+  late final _i1.ColumnString profileImagePath;
+
   late final _i1.ColumnUuid authUserId;
 
   late final _i1.ColumnEnum<_i2.Language> language;
@@ -465,6 +543,9 @@ class UserTable extends _i1.Table<int?> {
     phoneE164,
     phoneHmac,
     displayName,
+    sex,
+    dateOfBirth,
+    profileImagePath,
     authUserId,
     language,
     status,

@@ -4,7 +4,7 @@
 Phone-based authentication, one account per phone, one active device per account. Keep implementation minimal;
 
 ## Data model
-- `User`: `id`, `phone` (unique, E.164), `name`, `pin_hash`, `language` (`bn|en`), `role` (`not_donor|donor`), `status` (`active|suspended|deleted`), `bound_device_id`, `created_at`, `last_seen_at`, `deleted_at`.
+- `User` (`app_user`): `id`, `phoneE164`, `phoneHmac`, `displayName`, `sex?`, `dateOfBirth?`, `profileImagePath?`, `authUserId?`, `language`, `status`, `suspendedReason?`, `createdAt`, `updatedAt`, `lastSeenAt?`, `deletedAt?`, `lastDonorPromptAt?`, `donorPromptPending`.
 - `OtpChallenge`: `id`, `phone`, `code_hash`, `device_id`, `expires_at`, `attempts`, `created_at`, `consumed_at`, `type` (new_account|forget_pin|device_transfer).
 - `AuthSession`: `id`, `user_id`, `device_id`, `refresh_token_hash`, `expires_at`, `revoked_at`, `created_at`, `last_seen_at`.
 - `DeviceToken` (push notifications only): `user_id`, `platform`, `token` (unique), `last_seen_at`. Do not use push tokens as authentication or device identity.
@@ -59,15 +59,19 @@ Store PINs and refresh tokens as secure hashes; never store plaintext secrets.
   - Exactly 5 numeric digits; hashed at rest.
   - Step 1: "Create 5-digit PIN"; Step 2: "Confirm your 5-digit PIN" (`verify_pin`).
   - Validation: rejects non-matching entries; `00000` test-only.
-  - On success: saves PIN hash and navigates to **S6** (Phone + PIN Login).
+  - On new-account success: navigates to **S5a** (Profile Setup); forgot-PIN success returns to **S6**.
+- **S5a: Profile Setup (`ProfileSetupScreen`)**
+  - Collects full name, required sex (`male|female`) and date of birth, plus an optional photo from camera or gallery.
+  - Keeps the profile as an in-memory draft until the P0-8 authenticated phone/PIN flow can persist it and upload the image.
+  - Continues to **S6** (Phone + PIN Login).
 - **S6: Phone + PIN Login (`LoginPinScreen`)**
   - Phone input (+880 prefix) + 5-digit PIN entry.
   - Only allowed from the currently bound device; lock account login for 15 minutes after 5 consecutive failed attempts.
   - "Forgot PIN?" link triggers reset flow: `S6 -> S3 (without checkbox) -> S4 -> S5 (new pin) -> S6 -> App`.
   - "Don't have an account? Sign Up" link navigates to **S3**.
   - On successful login:
-    - If donor opt-in was checked in S3 (or profile is incomplete): navigates to **S8** (Donor Health Details) <-> **S9** -> App.
-    - If donor unchecked / returning user with complete profile: navigates directly to **App** (Home).
+    - Navigates to **App** (Home); the due donor opt-in prompt is displayed from Home, not Login.
+    - Choosing donor opt-in opens **S8** (Donor Health Details) <-> **S9** -> App.
 - **S7: Terms & Privacy Policy Dialog (`TermsPrivacyDialog`)**
   - Small, scrollable dialog displaying nonprofit status (D-001), volunteer terms (D-016), privacy and data consent policies.
 - **S8: Donor Health Details (`DonorHealthDetailsScreen`)**
@@ -106,7 +110,7 @@ Store PINs and refresh tokens as secure hashes; never store plaintext secrets.
 ## Required tests
 - Bangladesh phone validation/normalization; App Check; OTP rate limits, resend delay, expiry, attempt limit, single use, and test OTP disabled in production.
 - New-account creation and unique phone constraint; PIN hashing, lockout, and reset rules.
-- Donor opt-in checked opens donor health form after authentication; unchecked skips it and follows normal login flow. Donor details persist, incomplete profiles are not matchable, and returning donors are not repeatedly prompted.
+- Donor opt-in prompt appears from Home when due; choosing it opens the donor health form after authentication. Donor details persist, incomplete profiles are not matchable, and returning donors are not repeatedly prompted.
 - Same-device login; new-device OTP transfer; old-session/refresh-token revocation; wrong-device session rejection; concurrent transfer safety.
 - Suspended/deleted account access denied; deletion revokes sessions/tokens and anonymizes references.
 - Old app version receives `UPDATE_REQUIRED`; no secrets or full phone numbers in logs.

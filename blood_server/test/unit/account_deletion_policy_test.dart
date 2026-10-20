@@ -40,6 +40,9 @@ void main() {
       expect(deleted.phoneE164, isNull);
       expect(deleted.phoneHmac, isNull);
       expect(deleted.displayName, 'Deleted user');
+      expect(deleted.sex, isNull);
+      expect(deleted.dateOfBirth, isNull);
+      expect(deleted.profileImagePath, isNull);
       expect(deleted.authUserId, isNull);
       expect(deleted.status, UserStatus.deleted);
       expect(deleted.suspendedReason, isNull);

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:blood_client/blood_client.dart';
 import '../models/auth_state.dart';
 
 /// Business logic controller for BloodX Authentication.
@@ -12,23 +13,36 @@ class AuthController extends ChangeNotifier {
 
   AuthState _state = const AuthState();
   Timer? _countdownTimer;
+  String? _pinHash;
+  int _failedPinAttempts = 0;
+  DateTime? _lockoutUntil;
 
   AuthState get state => _state;
+  bool get isLockedOut => _isLockedOut;
+  int get remainingLockoutMinutes {
+    final lockoutUntil = _lockoutUntil;
+    if (lockoutUntil == null) return 0;
+    final diff = lockoutUntil.difference(DateTime.now()).inMinutes;
+    return diff < 0 ? 0 : diff + 1;
+  }
 
   void restoreCachedSession({
-    required String userId,
+    required String authUserId,
     required bool donorOptIn,
   }) {
     _state = _state.copyWith(
       status: AuthStatus.authenticated,
-      userId: userId,
+      authUserId: authUserId,
       donorOptIn: donorOptIn,
     );
     notifyListeners();
   }
 
-  void updateCachedProfile({required String userId, required bool donorOptIn}) {
-    _state = _state.copyWith(userId: userId, donorOptIn: donorOptIn);
+  void updateCachedProfile({
+    required String authUserId,
+    required bool donorOptIn,
+  }) {
+    _state = _state.copyWith(authUserId: authUserId, donorOptIn: donorOptIn);
     notifyListeners();
   }
 
@@ -102,7 +116,7 @@ class AuthController extends ChangeNotifier {
     _state = _state.copyWith(
       status: AuthStatus.sendingOtp,
       rawPhone: phoneInput,
-      normalizedE164: normalized,
+      phoneE164: normalized,
       maskedPhone: maskPhone(normalized),
       isForgotPin: isForgotPin,
       errorMessage: null,
@@ -116,7 +130,7 @@ class AuthController extends ChangeNotifier {
 
     _state = _state.copyWith(
       status: AuthStatus.otpSent,
-      challengeId: challenge,
+      otpChallengeId: challenge,
       resendCountdown: 60,
     );
     _startCountdownTimer();
@@ -201,11 +215,10 @@ class AuthController extends ChangeNotifier {
       _state = _state.copyWith(status: AuthStatus.unauthenticated);
     }
 
-    final hash = hashPin(pin);
+    _pinHash = hashPin(pin);
+    _failedPinAttempts = 0;
+    _lockoutUntil = null;
     _state = _state.copyWith(
-      pinHash: hash,
-      failedPinAttempts: 0,
-      lockoutUntil: null,
       status: AuthStatus.unauthenticated,
       isForgotPin: false,
       errorMessage: null,
@@ -218,11 +231,11 @@ class AuthController extends ChangeNotifier {
   /// Enforces lockout for 15 minutes after 5 consecutive failed attempts.
   Future<bool> loginWithPin(String phoneInput, String pin) async {
     // Check lockout
-    if (_state.isLockedOut) {
+    if (_isLockedOut) {
       _state = _state.copyWith(
         status: AuthStatus.lockedOut,
         errorMessage:
-            'Too many failed attempts. Locked for ${_state.remainingLockoutMinutes} minutes.',
+            'Too many failed attempts. Locked for $remainingLockoutMinutes minutes.',
       );
       notifyListeners();
       return false;
@@ -250,7 +263,7 @@ class AuthController extends ChangeNotifier {
     _state = _state.copyWith(
       status: AuthStatus.authenticatingPin,
       rawPhone: phoneInput,
-      normalizedE164: normalized,
+      phoneE164: normalized,
       maskedPhone: maskPhone(normalized),
       errorMessage: null,
     );
@@ -259,26 +272,23 @@ class AuthController extends ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 600));
 
     final hashedInput = hashPin(pin);
-    // Development fallback: accepts set pinHash or standard dev PIN '12345'
-    final isMatch = _state.pinHash == null
+    // Development fallback: accepts the configured PIN or standard dev PIN.
+    final isMatch = _pinHash == null
         ? (pin == '12345' || pin == '00000')
-        : (_state.pinHash == hashedInput);
+        : (_pinHash == hashedInput);
 
     if (!isMatch) {
-      final attempts = _state.failedPinAttempts + 1;
-      DateTime? lockout;
-      if (attempts >= 5) {
-        lockout = DateTime.now().add(const Duration(minutes: 15));
+      _failedPinAttempts++;
+      if (_failedPinAttempts >= 5) {
+        _lockoutUntil = DateTime.now().add(const Duration(minutes: 15));
       }
 
       _state = _state.copyWith(
-        status: attempts >= 5
+        status: _failedPinAttempts >= 5
             ? AuthStatus.lockedOut
             : AuthStatus.unauthenticated,
-        failedPinAttempts: attempts,
-        lockoutUntil: lockout,
         // Spec rule: Do not disclose whether a phone has an account
-        errorMessage: attempts >= 5
+        errorMessage: _failedPinAttempts >= 5
             ? 'Account locked for 15 minutes due to 5 incorrect attempts.'
             : 'Invalid mobile number or PIN.',
       );
@@ -287,30 +297,49 @@ class AuthController extends ChangeNotifier {
     }
 
     // Login successful
+    _failedPinAttempts = 0;
+    _lockoutUntil = null;
     _state = _state.copyWith(
       status: AuthStatus.authenticated,
-      failedPinAttempts: 0,
-      lockoutUntil: null,
       errorMessage: null,
     );
     notifyListeners();
     return true;
   }
 
-  /// Legacy / Quick profile completion for tests.
-  Future<void> completeProfile({
+  bool saveOnboardingProfile({
     required String name,
-    required String bloodGroup,
-    required String area,
-    required bool isDonor,
-  }) async {
-    _state = _state.copyWith(
-      displayName: name.trim(),
-      bloodGroup: bloodGroup,
-      area: area,
-      donorOptIn: isDonor,
-      isNewUser: false,
+    required Sex sex,
+    required DateTime dateOfBirth,
+    String? imagePath,
+  }) {
+    final normalizedName = name.trim();
+    final birthDate = DateTime.utc(
+      dateOfBirth.year,
+      dateOfBirth.month,
+      dateOfBirth.day,
     );
+    final today = DateTime.now().toUtc();
+    final todayDate = DateTime.utc(today.year, today.month, today.day);
+    if (normalizedName.isEmpty ||
+        normalizedName.length > 100 ||
+        birthDate.isAfter(todayDate)) {
+      return false;
+    }
+
+    _state = _state.copyWith(
+      displayName: normalizedName,
+      sex: sex,
+      dateOfBirth: birthDate,
+      pendingProfileImagePath: imagePath,
+      errorMessage: null,
+    );
+    notifyListeners();
+    return true;
+  }
+
+  void markDonorPromptHandled() {
+    _state = _state.copyWith(isNewUser: false);
     notifyListeners();
   }
 
@@ -318,14 +347,18 @@ class AuthController extends ChangeNotifier {
   Future<void> saveDonorHealthDetails({
     required String bloodGroup,
     required String area,
-    required String locationCoordinates,
-    required List<String> preferredHospitals,
+    required String address,
+    required double latitude,
+    required double longitude,
+    required List<String> preferredCenters,
   }) async {
     _state = _state.copyWith(
       bloodGroup: bloodGroup,
       area: area,
-      locationCoordinates: locationCoordinates,
-      preferredHospitals: preferredHospitals,
+      address: address,
+      latitude: latitude,
+      longitude: longitude,
+      preferredCenters: preferredCenters,
       donorOptIn: true,
       donorProfileComplete: true,
       status: AuthStatus.authenticated,
@@ -340,6 +373,7 @@ class AuthController extends ChangeNotifier {
     }
 
     _countdownTimer?.cancel();
+    _clearPinState();
     _state = const AuthState(
       status: AuthStatus.unauthenticated,
       donorOptIn: false,
@@ -351,8 +385,18 @@ class AuthController extends ChangeNotifier {
   /// Signs out current session per spec: "app -> s6 (logout)".
   Future<void> signOut() async {
     _countdownTimer?.cancel();
+    _clearPinState();
     _state = const AuthState();
     notifyListeners();
+  }
+
+  bool get _isLockedOut =>
+      _lockoutUntil != null && DateTime.now().isBefore(_lockoutUntil!);
+
+  void _clearPinState() {
+    _pinHash = null;
+    _failedPinAttempts = 0;
+    _lockoutUntil = null;
   }
 
   @override

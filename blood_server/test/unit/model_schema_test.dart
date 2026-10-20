@@ -49,4 +49,18 @@ void main() {
 
     expect(phone.isNullable, isTrue);
   });
+
+  test('stores optional onboarding profile fields on app_user', () {
+    final userColumns = tables['app_user']!.columns;
+    for (final field in ['sex', 'dateOfBirth', 'profileImagePath']) {
+      final column = userColumns.singleWhere(
+        (candidate) => candidate.name == field,
+      );
+      expect(
+        column.isNullable,
+        isTrue,
+        reason: '$field supports existing users',
+      );
+    }
+  });
 }

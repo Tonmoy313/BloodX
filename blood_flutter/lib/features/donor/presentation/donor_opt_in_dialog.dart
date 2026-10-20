@@ -38,19 +38,22 @@ class _DonorOptInDialogState extends State<DonorOptInDialog> {
           const SizedBox(height: 12),
           CheckboxListTile(
             contentPadding: EdgeInsets.zero,
+            title: Text(BloodStrings.donorOptInCheckbox),
             value: _optedIn,
-            onChanged: (value) => setState(() => _optedIn = value ?? false),
-            title: Text(BloodStrings.donorPromptCheckbox),
-            controlAffinity: ListTileControlAffinity.leading,
+            onChanged: (value) {
+              setState(() {
+                _optedIn = value ?? false;
+              });
+            },
           ),
         ],
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text(BloodStrings.maybeLater),
+          child: Text(BloodStrings.notNow),
         ),
-        FilledButton(
+        ElevatedButton(
           onPressed: () => Navigator.of(context).pop(_optedIn),
           child: Text(BloodStrings.continueLabel),
         ),

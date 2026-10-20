@@ -19,11 +19,12 @@ import 'greetings/greeting.dart' as _i5;
 import 'language.dart' as _i6;
 import 'otp_type.dart' as _i7;
 import 'platform.dart' as _i8;
-import 'user_status.dart' as _i9;
+import 'sex.dart' as _i9;
+import 'user_status.dart' as _i10;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i10;
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _i11;
+import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
+    as _i12;
 export 'admin_role.dart';
 export 'consent_type.dart';
 export 'flag_scope.dart';
@@ -31,6 +32,7 @@ export 'greetings/greeting.dart';
 export 'language.dart';
 export 'otp_type.dart';
 export 'platform.dart';
+export 'sex.dart';
 export 'user_status.dart';
 export 'client.dart';
 
@@ -89,8 +91,11 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i8.Platform) {
       return _i8.Platform.fromJson(data) as T;
     }
-    if (t == _i9.UserStatus) {
-      return _i9.UserStatus.fromJson(data) as T;
+    if (t == _i9.Sex) {
+      return _i9.Sex.fromJson(data) as T;
+    }
+    if (t == _i10.UserStatus) {
+      return _i10.UserStatus.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.AdminRole?>()) {
       return (data != null ? _i2.AdminRole.fromJson(data) : null) as T;
@@ -113,17 +118,20 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i8.Platform?>()) {
       return (data != null ? _i8.Platform.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i9.UserStatus?>()) {
-      return (data != null ? _i9.UserStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i9.Sex?>()) {
+      return (data != null ? _i9.Sex.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i10.UserStatus?>()) {
+      return (data != null ? _i10.UserStatus.fromJson(data) : null) as T;
     }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList() as T;
     }
     try {
-      return _i10.Protocol().deserialize<T>(data, t);
+      return _i11.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
-      return _i11.Protocol().deserialize<T>(data, t);
+      return _i12.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -137,7 +145,8 @@ class Protocol extends _i1.SerializationManager {
       _i6.Language => 'Language',
       _i7.OtpType => 'OtpType',
       _i8.Platform => 'Platform',
-      _i9.UserStatus => 'UserStatus',
+      _i9.Sex => 'Sex',
+      _i10.UserStatus => 'UserStatus',
       _ => null,
     };
   }
@@ -166,14 +175,16 @@ class Protocol extends _i1.SerializationManager {
         return 'OtpType';
       case _i8.Platform():
         return 'Platform';
-      case _i9.UserStatus():
+      case _i9.Sex():
+        return 'Sex';
+      case _i10.UserStatus():
         return 'UserStatus';
     }
-    className = _i10.Protocol().getClassNameForObject(data);
+    className = _i11.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_idp.$className';
     }
-    className = _i11.Protocol().getClassNameForObject(data);
+    className = _i12.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_core.$className';
     }
@@ -207,16 +218,19 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'Platform') {
       return deserialize<_i8.Platform>(data['data']);
     }
+    if (dataClassName == 'Sex') {
+      return deserialize<_i9.Sex>(data['data']);
+    }
     if (dataClassName == 'UserStatus') {
-      return deserialize<_i9.UserStatus>(data['data']);
+      return deserialize<_i10.UserStatus>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);
-      return _i10.Protocol().deserializeByClassName(data);
+      return _i11.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth_core.')) {
       data['className'] = dataClassName.substring(20);
-      return _i11.Protocol().deserializeByClassName(data);
+      return _i12.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -231,10 +245,10 @@ class Protocol extends _i1.SerializationManager {
       return null;
     }
     try {
-      return _i10.Protocol().mapRecordToJson(record);
+      return _i11.Protocol().mapRecordToJson(record);
     } catch (_) {}
     try {
-      return _i11.Protocol().mapRecordToJson(record);
+      return _i12.Protocol().mapRecordToJson(record);
     } catch (_) {}
     throw Exception('Unsupported record type ${record.runtimeType}');
   }

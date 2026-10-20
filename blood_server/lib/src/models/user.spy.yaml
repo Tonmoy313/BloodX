@@ -6,6 +6,9 @@ fields:
   phoneE164: String?
   phoneHmac: String?
   displayName: String
+  sex: Sex?
+  dateOfBirth: DateTime?
+  profileImagePath: String?
   # Links the app account to Serverpod authentication without exposing it in DTOs.
   authUserId: UuidValue?
   language: Language, defaultModel=bn, defaultPersist=bn

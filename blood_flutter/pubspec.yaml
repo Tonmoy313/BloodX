@@ -42,6 +42,7 @@ dependencies:
   serverpod_client: 3.4.13
   permission_handler: ^12.0.1
   geolocator: ^14.0.1
+  image_picker: ^1.2.4
 
 dev_dependencies:
   flutter_lints: '>=3.0.0 <7.0.0'
@@ -71,6 +72,21 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
     - assets/config.json
+
+  # Bangla-first typography (P-002). Noto Sans Bengali carries the Bengali
+  # glyphs; it has no Latin coverage, so it is registered as a fallback for
+  # the platform Latin face rather than as the primary family.
+  fonts:
+    - family: NotoSansBengali
+      fonts:
+        - asset: assets/fonts/NotoSansBengali-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NotoSansBengali-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/NotoSansBengali-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/NotoSansBengali-Bold.ttf
+          weight: 700
 dependency_overrides:
   flutter_secure_storage: ^10.0.0
 

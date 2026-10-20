@@ -1,3 +1,4 @@
+import 'package:blood_client/blood_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:blood_flutter/features/auth/controllers/auth_controller.dart';
 import 'package:blood_flutter/core/localization/app_language.dart';
@@ -76,27 +77,48 @@ void main() {
         // Request OTP
         final requestSuccess = await controller.requestOtp('01712345678');
         expect(requestSuccess, isTrue);
-        expect(controller.state.normalizedE164, '+8801712345678');
-        expect(controller.state.challengeId, isNotNull);
+        expect(controller.state.phoneE164, '+8801712345678');
+        expect(controller.state.otpChallengeId, isNotNull);
 
         // Verify OTP
         final verifySuccess = await controller.verifyOtp('123456');
         expect(verifySuccess, isTrue);
         expect(controller.state.isAuthenticated, isTrue);
 
-        // Complete Profile
-        await controller.completeProfile(
+        // Complete the user profile draft.
+        final saved = controller.saveOnboardingProfile(
           name: 'Rahim Ahmed',
-          bloodGroup: 'B+',
-          area: 'Mirpur',
-          isDonor: true,
+          sex: Sex.male,
+          dateOfBirth: DateTime.utc(1990, 5, 10),
+          imagePath: 'profile-photo.jpg',
         );
+        expect(saved, isTrue);
         expect(controller.state.displayName, 'Rahim Ahmed');
-        expect(controller.state.bloodGroup, 'B+');
-        expect(controller.state.area, 'Mirpur');
-        expect(controller.state.donorOptIn, isTrue);
+        expect(controller.state.sex, Sex.male);
+        expect(controller.state.dateOfBirth, DateTime.utc(1990, 5, 10));
+        expect(controller.state.pendingProfileImagePath, 'profile-photo.jpg');
       },
     );
+
+    test('rejects invalid onboarding profile data', () {
+      final controller = AuthController.instance;
+      expect(
+        controller.saveOnboardingProfile(
+          name: ' ',
+          sex: Sex.female,
+          dateOfBirth: DateTime.utc(1990, 1, 1),
+        ),
+        isFalse,
+      );
+      expect(
+        controller.saveOnboardingProfile(
+          name: 'Valid Name',
+          sex: Sex.female,
+          dateOfBirth: DateTime.now().add(const Duration(days: 1)),
+        ),
+        isFalse,
+      );
+    });
   });
 
   group('AppLanguage - Bangla-first & English Toggle', () {

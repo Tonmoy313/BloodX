@@ -32,6 +32,7 @@ Requester posts a request (group, bags, hospital, needed-by) → eligible volunt
 - D-028 Donor re-engagement is an optional, neutral in-app prompt with a server-enforced 30-day cooldown; no push, guilt, or repeated nagging.
 - D-029 Donor onboarding requests precise foreground location only; no background location access.
 - D-030 Donor blood group, current location/address, and preferred centers are stored for donor registration and nearby matching only.
+- D-031 Two shippable theme presets: "classic" (warm crimson over neutral surfaces) and "modern" (crimson over midnight navy and warm off-white). The modern preset is the default; the choice and the light/dark mode persist locally. Both presets share one component-theme base so they cannot drift structurally.
 - D-001 Dhaka pilot; nonprofit-style; blood requests always free.
 - D-002 Stack: Flutter, Serverpod, Neon, R2, Cloud Run, SMS provider (owner named Twilio; see P-001).
 - D-003 Android + iOS.
@@ -90,14 +91,20 @@ Implementation status: P0-8 phone/PIN authentication, durable phone-auth session
 | Q-008 | Branding and Bangla copy | Placeholder styling |
 | Q-009 | Standby pledge for 1-bag critical requests | Not in v1 |
 | Q-010 | Does the website expose an API or database for donor claim | Unknown |
+| Q-011 | Is a profile image required during onboarding? | Optional; full name, sex, and date of birth are required |
+| Q-012 | Can onboarding profile data be uploaded before the P0-8 auth session exists? | Keep it in AuthState as a draft; defer server/R2 persistence until authenticated |
+| Q-013 | Which Bangla typeface ships in the app? | Noto Sans Bengali as a `fontFamilyFallback` (it has no Latin glyphs, so it cannot be the primary family) |
+| Q-014 | Are the classic and modern theme presets shippable UI? | Yes — both are user-selectable and the choice persists in `SharedPreferences` |
 ## Deps (one line each: name · why · task)
 flutter_secure_storage · securely persist the signed-in app session · P0-7
 package_info_plus · compare the installed app version with server policy · P0-9
 shared_preferences · non-sensitive profile cache and first-install marker · P0-7
 http · fetch public client config before secure session restoration · P0-9
 serverpod · generated PostgreSQL-compatible application entities and protocol · P0-8
-permission_handler · request foreground location permission · P0 donor flow
+permission_handler · request foreground location permission; Android 12.x compatible with current Kotlin Gradle plugin · P0 donor flow
 geolocator · check location service state and obtain current foreground location · P0 donor flow
+image_picker · select an optional profile image from camera or gallery · P0-7
+Noto Sans Bengali (bundled OFL asset, not a pub package) · Bangla glyph coverage for the Bangla-first UI · P0-7
 
 ## Staging verification gate
 Do not connect to or modify staging until the fake-data staging branch is confirmed. After confirmation, verify the deployed partial unique index on `device_push_token` and rehearse migration and rollback with fake data.

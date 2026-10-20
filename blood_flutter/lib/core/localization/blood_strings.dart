@@ -70,6 +70,40 @@ class BloodStrings {
       ? 'সঠিক বাংলাদেশী মোবাইল নম্বর দিন (১১ সংখ্যা)'
       : 'Enter a valid 11-digit Bangladeshi mobile number';
 
+  // Auth - Profile setup
+  static String get profileSetupTitle =>
+      _bn ? 'আপনার প্রোফাইল তৈরি করুন' : 'Create your profile';
+  static String get profileSetupSubtitle => _bn
+      ? 'আপনার প্রোফাইলের জন্য কয়েকটি তথ্য যোগ করুন'
+      : 'Add a few details to set up your profile';
+  static String get profilePhotoLabel =>
+      _bn ? 'প্রোফাইল ছবি (ঐচ্ছিক)' : 'Profile photo (optional)';
+  static String get takePhoto => _bn ? 'ক্যামেরা দিয়ে তুলুন' : 'Take a photo';
+  static String get choosePhoto =>
+      _bn ? 'গ্যালারি থেকে বেছে নিন' : 'Choose from gallery';
+  static String get fullNameLabel => _bn ? 'পুরো নাম' : 'Full name';
+  static String get fullNameHint =>
+      _bn ? 'আপনার পুরো নাম লিখুন' : 'Enter your full name';
+  static String get sexLabel => _bn ? 'লিঙ্গ' : 'Sex';
+  static String get maleLabel => _bn ? 'পুরুষ' : 'Male';
+  static String get femaleLabel => _bn ? 'নারী' : 'Female';
+  static String get dateOfBirthLabel => _bn ? 'জন্মতারিখ' : 'Date of birth';
+  static String get chooseDateOfBirth =>
+      _bn ? 'জন্মতারিখ নির্বাচন করুন' : 'Choose your date of birth';
+  static String get profileNameRequired =>
+      _bn ? 'আপনার পুরো নাম লিখুন।' : 'Enter your full name.';
+  static String get profileSexRequired =>
+      _bn ? 'লিঙ্গ নির্বাচন করুন।' : 'Select your sex.';
+  static String get profileDateOfBirthRequired =>
+      _bn ? 'জন্মতারিখ নির্বাচন করুন।' : 'Select your date of birth.';
+  static String get profileDetailsInvalid => _bn
+      ? 'তথ্যগুলো যাচাই করে আবার চেষ্টা করুন।'
+      : 'Check the profile details and try again.';
+  static String get profileImageSelectionFailed => _bn
+      ? 'ছবি নির্বাচন করা যায়নি। আবার চেষ্টা করুন।'
+      : 'Could not select the image. Please try again.';
+  static String get continueToLogin => _bn ? 'লগইনে যান' : 'Continue to login';
+
   // D-015: Donor mode is opt-in (unchecked box by default)
   static String get donorOptInCheckbox => _bn
       ? 'আমিও রক্তদাতা হিসেবে সাহায্য করতে চাই (ঐচ্ছিক)'
@@ -87,9 +121,8 @@ class BloodStrings {
       : 'Yes, I want to become a volunteer donor';
   static String get maybeLater => _bn ? 'পরে সিদ্ধান্ত নেব' : 'Maybe later';
   static String get continueLabel => _bn ? 'চালিয়ে যান' : 'Continue';
-  static String get locationFallbackHeadline => _bn
-      ? 'আপনার সঠিক অবস্থান প্রয়োজন'
-      : 'We require your precise location';
+  static String get locationFallbackHeadline =>
+      _bn ? 'আপনার সঠিক অবস্থান প্রয়োজন' : 'We require your precise location';
   static String get locationFallbackBody => _bn
       ? 'নিকটস্থ রক্তদাতা ও জরুরি অনুরোধের সঙ্গে আপনাকে সহজে যুক্ত করতে আপনার সঠিক অবস্থান প্রয়োজন। অনুগ্রহ করে ডিভাইসের অবস্থান চালু করুন।'
       : 'We require your precise location to seamlessly connect you to nearby donors and emergency requests. Please turn on device location.';
@@ -265,10 +298,12 @@ class BloodStrings {
       : 'Final donor medical eligibility and screening are always determined by qualified hospital blood bank personnel.';
   static String get understandAndAgree =>
       _bn ? 'আমি পড়েছি এবং একমত' : 'I Understand & Agree';
-  static String get termsCheckboxText =>
-      _bn ? 'আমি শর্তাবলী ও গোপনীয়তা নীতি পড়েছি এবং সম্মত' : 'I have read and agree to the Terms of Use & Privacy Policy';
-  static String get termsConfirmPrompt =>
-      _bn ? 'আমি নিশ্চিত করছি যে আমি শর্তাবলী এবং গোপনীয়তা নীতি পড়েছি এবং এতে সম্মত।' : 'I confirm that I have read and agree to the terms and privacy policy';
+  static String get termsCheckboxText => _bn
+      ? 'আমি শর্তাবলী ও গোপনীয়তা নীতি পড়েছি এবং সম্মত'
+      : 'I have read and agree to the Terms of Use & Privacy Policy';
+  static String get termsConfirmPrompt => _bn
+      ? 'আমি নিশ্চিত করছি যে আমি শর্তাবলী এবং গোপনীয়তা নীতি পড়েছি এবং এতে সম্মত।'
+      : 'I confirm that I have read and agree to the terms and privacy policy';
   static String get agree => _bn ? 'সম্মত' : 'Agree';
 
   // S8 Donor Health Details
