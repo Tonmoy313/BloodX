@@ -22,6 +22,11 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     this.phoneHmac,
     required this.displayName,
     this.authUserId,
+    this.boundInstallId,
+    this.pinHash,
+    this.pinSetAt,
+    int? pinFailedAttempts,
+    this.pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     this.suspendedReason,
@@ -31,7 +36,8 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     this.deletedAt,
     this.lastDonorPromptAt,
     bool? donorPromptPending,
-  }) : language = language ?? _i2.Language.bn,
+  }) : pinFailedAttempts = pinFailedAttempts ?? 0,
+       language = language ?? _i2.Language.bn,
        status = status ?? _i3.UserStatus.active,
        createdAt = createdAt ?? DateTime.now(),
        updatedAt = updatedAt ?? DateTime.now(),
@@ -43,6 +49,11 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? phoneHmac,
     required String displayName,
     _i1.UuidValue? authUserId,
+    _i1.UuidValue? boundInstallId,
+    String? pinHash,
+    DateTime? pinSetAt,
+    int? pinFailedAttempts,
+    DateTime? pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     String? suspendedReason,
@@ -64,6 +75,21 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
           ? null
           : _i1.UuidValueJsonExtension.fromJson(
               jsonSerialization['authUserId'],
+            ),
+      boundInstallId: jsonSerialization['boundInstallId'] == null
+          ? null
+          : _i1.UuidValueJsonExtension.fromJson(
+              jsonSerialization['boundInstallId'],
+            ),
+      pinHash: jsonSerialization['pinHash'] as String?,
+      pinSetAt: jsonSerialization['pinSetAt'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['pinSetAt']),
+      pinFailedAttempts: jsonSerialization['pinFailedAttempts'] as int?,
+      pinLockedUntil: jsonSerialization['pinLockedUntil'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(
+              jsonSerialization['pinLockedUntil'],
             ),
       language: jsonSerialization['language'] == null
           ? null
@@ -112,6 +138,16 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   _i1.UuidValue? authUserId;
 
+  _i1.UuidValue? boundInstallId;
+
+  String? pinHash;
+
+  DateTime? pinSetAt;
+
+  int pinFailedAttempts;
+
+  DateTime? pinLockedUntil;
+
   _i2.Language language;
 
   _i3.UserStatus status;
@@ -142,6 +178,11 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? phoneHmac,
     String? displayName,
     _i1.UuidValue? authUserId,
+    _i1.UuidValue? boundInstallId,
+    String? pinHash,
+    DateTime? pinSetAt,
+    int? pinFailedAttempts,
+    DateTime? pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     String? suspendedReason,
@@ -161,6 +202,11 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       if (phoneHmac != null) 'phoneHmac': phoneHmac,
       'displayName': displayName,
       if (authUserId != null) 'authUserId': authUserId?.toJson(),
+      if (boundInstallId != null) 'boundInstallId': boundInstallId?.toJson(),
+      if (pinHash != null) 'pinHash': pinHash,
+      if (pinSetAt != null) 'pinSetAt': pinSetAt?.toJson(),
+      'pinFailedAttempts': pinFailedAttempts,
+      if (pinLockedUntil != null) 'pinLockedUntil': pinLockedUntil?.toJson(),
       'language': language.toJson(),
       'status': status.toJson(),
       if (suspendedReason != null) 'suspendedReason': suspendedReason,
@@ -218,6 +264,11 @@ class _UserImpl extends User {
     String? phoneHmac,
     required String displayName,
     _i1.UuidValue? authUserId,
+    _i1.UuidValue? boundInstallId,
+    String? pinHash,
+    DateTime? pinSetAt,
+    int? pinFailedAttempts,
+    DateTime? pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     String? suspendedReason,
@@ -233,6 +284,11 @@ class _UserImpl extends User {
          phoneHmac: phoneHmac,
          displayName: displayName,
          authUserId: authUserId,
+         boundInstallId: boundInstallId,
+         pinHash: pinHash,
+         pinSetAt: pinSetAt,
+         pinFailedAttempts: pinFailedAttempts,
+         pinLockedUntil: pinLockedUntil,
          language: language,
          status: status,
          suspendedReason: suspendedReason,
@@ -254,6 +310,11 @@ class _UserImpl extends User {
     Object? phoneHmac = _Undefined,
     String? displayName,
     Object? authUserId = _Undefined,
+    Object? boundInstallId = _Undefined,
+    Object? pinHash = _Undefined,
+    Object? pinSetAt = _Undefined,
+    int? pinFailedAttempts,
+    Object? pinLockedUntil = _Undefined,
     _i2.Language? language,
     _i3.UserStatus? status,
     Object? suspendedReason = _Undefined,
@@ -270,6 +331,15 @@ class _UserImpl extends User {
       phoneHmac: phoneHmac is String? ? phoneHmac : this.phoneHmac,
       displayName: displayName ?? this.displayName,
       authUserId: authUserId is _i1.UuidValue? ? authUserId : this.authUserId,
+      boundInstallId: boundInstallId is _i1.UuidValue?
+          ? boundInstallId
+          : this.boundInstallId,
+      pinHash: pinHash is String? ? pinHash : this.pinHash,
+      pinSetAt: pinSetAt is DateTime? ? pinSetAt : this.pinSetAt,
+      pinFailedAttempts: pinFailedAttempts ?? this.pinFailedAttempts,
+      pinLockedUntil: pinLockedUntil is DateTime?
+          ? pinLockedUntil
+          : this.pinLockedUntil,
       language: language ?? this.language,
       status: status ?? this.status,
       suspendedReason: suspendedReason is String?
@@ -311,6 +381,35 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
     table.authUserId,
     value,
   );
+
+  _i1.ColumnValue<_i1.UuidValue, _i1.UuidValue> boundInstallId(
+    _i1.UuidValue? value,
+  ) => _i1.ColumnValue(
+    table.boundInstallId,
+    value,
+  );
+
+  _i1.ColumnValue<String, String> pinHash(String? value) => _i1.ColumnValue(
+    table.pinHash,
+    value,
+  );
+
+  _i1.ColumnValue<DateTime, DateTime> pinSetAt(DateTime? value) =>
+      _i1.ColumnValue(
+        table.pinSetAt,
+        value,
+      );
+
+  _i1.ColumnValue<int, int> pinFailedAttempts(int value) => _i1.ColumnValue(
+    table.pinFailedAttempts,
+    value,
+  );
+
+  _i1.ColumnValue<DateTime, DateTime> pinLockedUntil(DateTime? value) =>
+      _i1.ColumnValue(
+        table.pinLockedUntil,
+        value,
+      );
 
   _i1.ColumnValue<_i2.Language, _i2.Language> language(_i2.Language value) =>
       _i1.ColumnValue(
@@ -386,6 +485,27 @@ class UserTable extends _i1.Table<int?> {
       'authUserId',
       this,
     );
+    boundInstallId = _i1.ColumnUuid(
+      'boundInstallId',
+      this,
+    );
+    pinHash = _i1.ColumnString(
+      'pinHash',
+      this,
+    );
+    pinSetAt = _i1.ColumnDateTime(
+      'pinSetAt',
+      this,
+    );
+    pinFailedAttempts = _i1.ColumnInt(
+      'pinFailedAttempts',
+      this,
+      hasDefault: true,
+    );
+    pinLockedUntil = _i1.ColumnDateTime(
+      'pinLockedUntil',
+      this,
+    );
     language = _i1.ColumnEnum(
       'language',
       this,
@@ -441,6 +561,16 @@ class UserTable extends _i1.Table<int?> {
 
   late final _i1.ColumnUuid authUserId;
 
+  late final _i1.ColumnUuid boundInstallId;
+
+  late final _i1.ColumnString pinHash;
+
+  late final _i1.ColumnDateTime pinSetAt;
+
+  late final _i1.ColumnInt pinFailedAttempts;
+
+  late final _i1.ColumnDateTime pinLockedUntil;
+
   late final _i1.ColumnEnum<_i2.Language> language;
 
   late final _i1.ColumnEnum<_i3.UserStatus> status;
@@ -466,6 +596,11 @@ class UserTable extends _i1.Table<int?> {
     phoneHmac,
     displayName,
     authUserId,
+    boundInstallId,
+    pinHash,
+    pinSetAt,
+    pinFailedAttempts,
+    pinLockedUntil,
     language,
     status,
     suspendedReason,

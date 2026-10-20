@@ -1,34 +1,34 @@
 # bloodX Auth — Implementation Spec
 
 ## Scope
-Phone-based authentication, one account per phone, one active device per account. Keep implementation minimal;
+Phone-based authentication, one account per phone, and one active install ID per account. OTP verification can transfer the binding; IP is an abuse-rate-limit signal, not an authentication factor.
 
 ## Data model
-- `User`: `id`, `phone` (unique, E.164), `name`, `pin_hash`, `language` (`bn|en`), `role` (`not_donor|donor`), `status` (`active|suspended|deleted`), `bound_device_id`, `created_at`, `last_seen_at`, `deleted_at`.
-- `OtpChallenge`: `id`, `phone`, `code_hash`, `device_id`, `expires_at`, `attempts`, `created_at`, `consumed_at`, `type` (new_account|forget_pin|device_transfer).
-- `AuthSession`: `id`, `user_id`, `device_id`, `refresh_token_hash`, `expires_at`, `revoked_at`, `created_at`, `last_seen_at`.
+- `User` (`app_user`): `id`, `phoneE164`, `phoneHmac`, `displayName`, `authUserId?`, `boundInstallId?`, `pinHash?`, `pinSetAt?`, `pinFailedAttempts`, `pinLockedUntil?`, `language`, `status`, `createdAt`, `updatedAt`, `lastSeenAt?`, `deletedAt?`.
+- `OtpChallenge` (`otp_challenge`): `id`, `phoneE164`, `codeHash`, `installId`, keyed `ip` hash, `type` (`newAccount|forgetPin|deviceTransfer`), `attempts`, `consumedAt?`, `createdAt`, `expiresAt`.
 - `DeviceToken` (push notifications only): `user_id`, `platform`, `token` (unique), `last_seen_at`. Do not use push tokens as authentication or device identity.
 
-Store PINs and refresh tokens as secure hashes; never store plaintext secrets.
+Store PINs as Argon2id hashes; never store plaintext secrets. Serverpod JWT sessions are persisted using the Flutter auth-session manager and secure storage.
 
 ## Endpoints
-- `requestOtp(phone, deviceId)` — public; returns challenge and resend delay.
-- `verifyOtp(challengeId, code, deviceId)` — public; validates OTP, creates account if new, or transfers an existing account to the verified new device; returns session and `isNewUser`.
-- `login(phone, pin, deviceId)` — login only from the currently bound device. A different device must complete OTP verification first.
-- `refreshSession(refreshToken, deviceId)` — rotate refresh token; reject revoked, expired, or device-mismatched sessions.
-- `logout()` — revoke current session.
-- `resetPin(phone, otp, newPin, deviceId)` — OTP-verified reset; reject suspended/deleted accounts.
+- `authIdp.startLogin(phone, installId, isForgotPin)` — public; stores a challenge and returns its integer ID.
+- `authIdp.finishLogin(challengeId, code, installId)` — public; verifies the code and originating install ID, creates/links an account when allowed, and returns `AuthSuccess`. OTP verification on a new install transfers the binding and revokes the account's existing tokens.
+- `auth.setPin(pin)` — authenticated; stores the Argon2id PIN hash.
+- `auth.loginWithPin(phone, pin, installId)` — public; verifies PIN and bound install ID, then returns `AuthSuccess`.
+- `logout()` — revoke the current Serverpod auth session through the auth-session manager.
 - `deleteAccount(confirm)` — require the user to type `DELETE`; delete/anonymize account data as specified below.
 - `registerDeviceToken(token, platform)` / `unregisterDeviceToken(token)` — push notifications only.
 - `becomeDonor(healthDetails)` — set role to `donor` and save the donor health/profile details after the user completes the donor form. A donor is not eligible/matchable until required details are complete and validated.
 
 ## Security rules
-- Bangladesh phone input: exactly 10 numeric digits; backend adds +880, stores E.164, rejects invalid numbers.
-- Require Firebase App Check before OTP requests. Rate-limit by phone, device, and IP; keep limits in code/deployment settings, not a database config entity.
-- OTP: 6 digits, hash at rest, 5-minute expiry, one use, max 5 attempts, enforced resend delay. Bind every challenge to phone, category, and device. Reject category/purpose mismatch. 000000 only in local/test builds; production uses a real SMS provider.
-- PIN: exactly 5 numeric digits; hash at rest. 00000 test-only, rejected in production. Lock login for 15 minutes after 5 wrong PINs. Do not disclose whether a phone has an account.
-- Device policy: one bound device per user. First successful OTP verification binds it. OTP verified as device_transfer on a new device atomically changes bound_device_id and revokes all old sessions/refresh tokens before issuing the new session. PIN alone cannot transfer a device.
-- Use short-lived access tokens + rotating refresh tokens in platform secure storage (flutter_secure_storage); never Hive/SharedPreferences. Check session, device binding, and user status on protected requests. Verify behavior against the project's Serverpod auth/session implementation.
+- Bangladesh phone numbers are normalized to `+880` E.164 and invalid prefixes are rejected.
+- Rate-limit OTP starts by phone, secure install ID, and keyed client-IP hash using database transactions and PostgreSQL advisory locks. IP changes do not block OTP verification. Trust proxy headers only from the configured hosting ingress.
+- OTP: cryptographically generated 6 digits, Argon2id hash at rest, 5-minute expiry, single use, max 5 attempts, 60-second resend cooldown, and per-phone/device/IP hourly limits. Challenges are bound to phone and secure install ID. Never log OTPs.
+- PIN: exactly 5 numeric digits; Argon2id hash at rest. Reject `00000` in every build. Lock login for 15 minutes after 5 wrong PINs. Use a generic error for unknown accounts and incorrect PINs.
+- Device policy: a UUIDv4 install ID is generated once and persisted in `flutter_secure_storage`. The first verified OTP binds it. OTP verification from a different install ID moves the account binding and revokes all existing tokens before issuing a new token. PIN login must come from the bound install; use the Forgot PIN OTP flow to transfer to a new install.
+- Twilio is the initial SMS adapter. Inject `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_FROM_NUMBER` from a secret manager; never commit or log credential values. Trial accounts can send only to verified destination numbers. Inject `OTP_IP_RATE_LIMIT_HMAC_KEY` similarly. SMS delivery fails closed when Twilio is unconfigured or rejects the request.
+- Use the socket peer IP for the keyed abuse-rate-limit signal; do not trust forwarded IP headers until a trusted ingress resolver is configured. A changing IP never invalidates a pending challenge.
+- Store Serverpod auth sessions only through the secure auth-session manager; never persist tokens in Hive/SharedPreferences. Suspended/deleted users cannot authenticate.
 - Suspended/deleted users cannot authenticate; deleted users cannot reset PIN. On deletion, revoke sessions and push tokens, remove profile/health data as required, and anonymize retained request/pledge references.
 - If app version is below the supported minimum, return UPDATE_REQUIRED and block normal use. Keep minimum version in code/deployment configuration; no Config entity/API.
 - Never log OTPs, PINs, tokens, or full phone numbers; mask phone numbers.

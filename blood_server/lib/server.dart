@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io' as io;
 
 import 'package:serverpod/serverpod.dart';
@@ -7,6 +9,7 @@ import 'package:serverpod_auth_idp_server/providers/email.dart';
 
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
+import 'src/auth/phone_otp_idp.dart';
 import 'src/web/routes/app_config_route.dart';
 import 'src/web/routes/root.dart';
 
@@ -39,6 +42,10 @@ void run(List<String> args) async {
       EmailIdpConfigFromPasswords(
         sendRegistrationVerificationCode: _sendRegistrationCode,
         sendPasswordResetVerificationCode: _sendPasswordResetCode,
+      ),
+      PhoneOtpIdpConfig(
+        sendOtp: _sendOtp,
+        ipRateLimitHmacKey: _requiredSecret('OTP_IP_RATE_LIMIT_HMAC_KEY'),
       ),
     ],
   );
@@ -93,6 +100,103 @@ void run(List<String> args) async {
   await pod.start();
 }
 
+Future<void> _sendOtp(
+  Session session, {
+  required String phone,
+  required String code,
+}) async {
+  final accountSid = io.Platform.environment['TWILIO_ACCOUNT_SID'];
+  final authToken = io.Platform.environment['TWILIO_AUTH_TOKEN'];
+  final fromNumber = io.Platform.environment['TWILIO_FROM_NUMBER'];
+  if (accountSid == null ||
+      accountSid.trim().isEmpty ||
+      authToken == null ||
+      authToken.trim().isEmpty ||
+      fromNumber == null ||
+      !RegExp(r'^AC[0-9a-fA-F]{32}$').hasMatch(accountSid) ||
+      !RegExp(r'^\+[1-9]\d{7,14}$').hasMatch(fromNumber) ||
+      !RegExp(r'^\d{6}$').hasMatch(code)) {
+    session.log(
+      '[PhoneOtpIdp] Twilio configuration or generated OTP is invalid.',
+      level: LogLevel.error,
+    );
+    throw const PhoneOtpDeliveryException();
+  }
+
+  final httpClient = io.HttpClient()
+    ..connectionTimeout = const Duration(seconds: 10);
+  try {
+    final uri = Uri.https(
+      'api.twilio.com',
+      '/2010-04-01/Accounts/$accountSid/Messages.json',
+    );
+    final request = await httpClient
+        .postUrl(uri)
+        .timeout(
+          const Duration(seconds: 10),
+        );
+    request.headers
+      ..set(
+        io.HttpHeaders.authorizationHeader,
+        'Basic ${base64Encode(utf8.encode('$accountSid:$authToken'))}',
+      )
+      ..contentType = io.ContentType(
+        'application',
+        'x-www-form-urlencoded',
+      );
+    request.write(
+      Uri(
+        queryParameters: {
+          'To': phone,
+          'From': fromNumber,
+          'Body': 'BloodX verification code: $code. Expires in 5 minutes.',
+        },
+      ).query,
+    );
+    final response = await request.close().timeout(
+      const Duration(seconds: 10),
+    );
+    await response.drain<void>();
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      session.log(
+        '[PhoneOtpIdp] Twilio rejected SMS delivery (HTTP ${response.statusCode}) for ${PhoneOtpIdp.maskPhone(phone)}.',
+        level: LogLevel.error,
+      );
+      throw const PhoneOtpDeliveryException();
+    }
+  } on io.SocketException {
+    session.log(
+      '[PhoneOtpIdp] Twilio SMS delivery failed due to a network error.',
+      level: LogLevel.error,
+    );
+    throw const PhoneOtpDeliveryException();
+  } on io.HttpException {
+    session.log(
+      '[PhoneOtpIdp] Twilio SMS delivery failed due to an HTTP client error.',
+      level: LogLevel.error,
+    );
+    throw const PhoneOtpDeliveryException();
+  } on TimeoutException {
+    session.log(
+      '[PhoneOtpIdp] Twilio SMS delivery timed out.',
+      level: LogLevel.error,
+    );
+    throw const PhoneOtpDeliveryException();
+  } finally {
+    httpClient.close(force: true);
+  }
+}
+
+String _requiredSecret(String name) {
+  final value = io.Platform.environment[name];
+  if (value == null || value.trim().isEmpty) {
+    throw StateError(
+      'Required secret-backed environment variable $name is missing.',
+    );
+  }
+  return value;
+}
+
 void _sendRegistrationCode(
   Session session, {
   required String email,
@@ -100,9 +204,11 @@ void _sendRegistrationCode(
   required String verificationCode,
   required Transaction? transaction,
 }) {
-  // NOTE: Here you call your mail service to send the verification code to
-  // the user. For testing, we will just log the verification code.
-  session.log('[EmailIdp] Registration code ($email): $verificationCode');
+  session.log(
+    '[EmailIdp] Registration email delivery is not configured.',
+    level: LogLevel.error,
+  );
+  throw StateError('Email verification delivery is not configured.');
 }
 
 void _sendPasswordResetCode(
@@ -112,7 +218,9 @@ void _sendPasswordResetCode(
   required String verificationCode,
   required Transaction? transaction,
 }) {
-  // NOTE: Here you call your mail service to send the verification code to
-  // the user. For testing, we will just log the verification code.
-  session.log('[EmailIdp] Password reset code ($email): $verificationCode');
+  session.log(
+    '[EmailIdp] Password reset email delivery is not configured.',
+    level: LogLevel.error,
+  );
+  throw StateError('Email verification delivery is not configured.');
 }

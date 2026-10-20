@@ -1,6 +1,13 @@
 accountDeletion:
   - deleteMyAccount:
   - deleteAccountAfterReview:
+auth:
+  - setPin:
+  - loginWithPin:
+authIdp:
+  - hasAccount:
+  - startLogin:
+  - finishLogin:
 emailIdp:
   - login:
   - startRegistration:

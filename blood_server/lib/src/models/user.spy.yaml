@@ -8,6 +8,11 @@ fields:
   displayName: String
   # Links the app account to Serverpod authentication without exposing it in DTOs.
   authUserId: UuidValue?
+  boundInstallId: UuidValue?
+  pinHash: String?
+  pinSetAt: DateTime?
+  pinFailedAttempts: int, defaultModel=0, defaultPersist=0
+  pinLockedUntil: DateTime?
   language: Language, defaultModel=bn, defaultPersist=bn
   status: UserStatus, defaultModel=active, defaultPersist=active
   suspendedReason: String?

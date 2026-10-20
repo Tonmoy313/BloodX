@@ -17,7 +17,7 @@ class AuthState {
   final String normalizedE164;
   final String maskedPhone;
   final String? userId;
-  final String? challengeId;
+  final int? challengeId;
   final int resendCountdown;
   final bool isNewUser;
   final bool donorOptIn;
@@ -82,7 +82,7 @@ class AuthState {
     String? normalizedE164,
     String? maskedPhone,
     String? userId,
-    String? challengeId,
+    int? challengeId,
     int? resendCountdown,
     bool? isNewUser,
     bool? donorOptIn,

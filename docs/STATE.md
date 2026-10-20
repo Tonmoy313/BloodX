@@ -53,10 +53,10 @@ Requester posts a request (group, bags, hospital, needed-by) → eligible volunt
 - D-019 Docs are token-lean: one task reads STATE + one phase file + one spec file.
 - D-020 Agents never wait on questions: use the default, record it, ask in parallel (see AGENTS.md).
 
-Implementation status: P0-8 phone/PIN authentication, durable phone-auth sessions, and explicit device-ID binding are not implemented yet. The current phone/PIN controller uses simulated flows; the existing secure-storage restore applies to Serverpod auth credentials.
+Implementation status: P0-8 custom phone OTP/PIN auth is in progress. Twilio credentials are read from secret-backed environment variables; device IDs are generated and stored in secure storage, and client IP is used only for abuse-rate limiting.
 
 ## PROPOSED
-- P-001 SMS via adapter; local Bangladesh gateway primary (Twilio is costly/unreliable here, [Likely]).
+- P-001 SMS through a provider adapter; Twilio is the initial provider, with credentials injected from Secret Manager-backed environment variables.
 - P-002 Bangla-first UI with English toggle.
 - P-003 Readiness check (4–5 yes/no) once per 24 h; gates the pledge button, not the list.
 - P-004 Pledge: 10-min free cancel; "Still coming?" push 30 min before arrival; grace then auto-release.
@@ -86,15 +86,17 @@ Implementation status: P0-8 phone/PIN authentication, durable phone-auth session
 | Q-004 | Website donor export format and claim flow | P1-7 blocked; spec only |
 | Q-005 | iOS review vs coming-soon tiles | Flags hide unfinished tiles in the iOS review build |
 | Q-006 | Partner reward program rules | Not built until partners exist |
-| Q-007 | Which SMS provider | Adapter with a dev log provider only |
+| Q-007 | Which SMS provider | Twilio adapter; read account SID, auth token, and sender number from secret-backed environment variables |
 | Q-008 | Branding and Bangla copy | Placeholder styling |
 | Q-009 | Standby pledge for 1-bag critical requests | Not in v1 |
 | Q-010 | Does the website expose an API or database for donor claim | Unknown |
+| Q-015 | Should OTP verification require the originating IP to remain unchanged? | No; bind the challenge to its secure install ID and use a keyed IP hash only for abuse rate limits |
 ## Deps (one line each: name · why · task)
 flutter_secure_storage · securely persist the signed-in app session · P0-7
 package_info_plus · compare the installed app version with server policy · P0-9
 shared_preferences · non-sensitive profile cache and first-install marker · P0-7
 http · fetch public client config before secure session restoration · P0-9
+crypto · keyed IP hashing for OTP abuse limits · P0-8
 serverpod · generated PostgreSQL-compatible application entities and protocol · P0-8
 permission_handler · request foreground location permission · P0 donor flow
 geolocator · check location service state and obtain current foreground location · P0 donor flow

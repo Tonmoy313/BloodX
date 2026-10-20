@@ -30,6 +30,13 @@ void main() {
           authUserId: UuidValue.fromString(
             '00000000-0000-0000-0000-000000000001',
           ),
+          boundInstallId: UuidValue.fromString(
+            '00000000-0000-4000-8000-000000000002',
+          ),
+          pinHash: 'argon2-hash',
+          pinSetAt: DateTime.utc(2025, 12, 30),
+          pinFailedAttempts: 3,
+          pinLockedUntil: DateTime.utc(2025, 12, 31),
           status: UserStatus.suspended,
           suspendedReason: 'personal reason',
           lastSeenAt: DateTime.utc(2025, 12, 31),
@@ -41,6 +48,11 @@ void main() {
       expect(deleted.phoneHmac, isNull);
       expect(deleted.displayName, 'Deleted user');
       expect(deleted.authUserId, isNull);
+      expect(deleted.boundInstallId, isNull);
+      expect(deleted.pinHash, isNull);
+      expect(deleted.pinSetAt, isNull);
+      expect(deleted.pinFailedAttempts, 0);
+      expect(deleted.pinLockedUntil, isNull);
       expect(deleted.status, UserStatus.deleted);
       expect(deleted.suspendedReason, isNull);
       expect(deleted.lastSeenAt, isNull);

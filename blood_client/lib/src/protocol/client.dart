@@ -13,9 +13,9 @@
 
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i3;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
+    as _i3;
+import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
     as _i4;
 import 'package:blood_client/src/protocol/greetings/greeting.dart' as _i5;
 import 'protocol.dart' as _i6;
@@ -46,11 +46,86 @@ class EndpointAccountDeletion extends _i1.EndpointRef {
   );
 }
 
+/// {@category Endpoint}
+class EndpointAuth extends _i1.EndpointRef {
+  EndpointAuth(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'auth';
+
+  _i2.Future<void> setPin({required String pin}) =>
+      caller.callServerEndpoint<void>(
+        'auth',
+        'setPin',
+        {'pin': pin},
+      );
+
+  _i2.Future<_i3.AuthSuccess> loginWithPin({
+    required String phone,
+    required String pin,
+    required String installId,
+  }) => caller.callServerEndpoint<_i3.AuthSuccess>(
+    'auth',
+    'loginWithPin',
+    {
+      'phone': phone,
+      'pin': pin,
+      'installId': installId,
+    },
+    authenticated: false,
+  );
+}
+
+/// {@category Endpoint}
+class EndpointAuthIdp extends _i4.EndpointIdpBase {
+  EndpointAuthIdp(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'authIdp';
+
+  @override
+  _i2.Future<bool> hasAccount() => caller.callServerEndpoint<bool>(
+    'authIdp',
+    'hasAccount',
+    {},
+  );
+
+  _i2.Future<int> startLogin({
+    required String phone,
+    required String installId,
+    required bool isForgotPin,
+  }) => caller.callServerEndpoint<int>(
+    'authIdp',
+    'startLogin',
+    {
+      'phone': phone,
+      'installId': installId,
+      'isForgotPin': isForgotPin,
+    },
+    authenticated: false,
+  );
+
+  _i2.Future<_i3.AuthSuccess> finishLogin({
+    required int challengeId,
+    required String code,
+    required String installId,
+  }) => caller.callServerEndpoint<_i3.AuthSuccess>(
+    'authIdp',
+    'finishLogin',
+    {
+      'challengeId': challengeId,
+      'code': code,
+      'installId': installId,
+    },
+    authenticated: false,
+  );
+}
+
 /// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
 /// are made available on the server and enable the corresponding sign-in widget
 /// on the client.
 /// {@category Endpoint}
-class EndpointEmailIdp extends _i3.EndpointEmailIdpBase {
+class EndpointEmailIdp extends _i4.EndpointEmailIdpBase {
   EndpointEmailIdp(_i1.EndpointCaller caller) : super(caller);
 
   @override
@@ -66,10 +141,10 @@ class EndpointEmailIdp extends _i3.EndpointEmailIdpBase {
   ///
   /// Throws an [AuthUserBlockedException] if the auth user is blocked.
   @override
-  _i2.Future<_i4.AuthSuccess> login({
+  _i2.Future<_i3.AuthSuccess> login({
     required String email,
     required String password,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
+  }) => caller.callServerEndpoint<_i3.AuthSuccess>(
     'emailIdp',
     'login',
     {
@@ -134,10 +209,10 @@ class EndpointEmailIdp extends _i3.EndpointEmailIdpBase {
   ///
   /// Returns a session for the newly created user.
   @override
-  _i2.Future<_i4.AuthSuccess> finishRegistration({
+  _i2.Future<_i3.AuthSuccess> finishRegistration({
     required String registrationToken,
     required String password,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
+  }) => caller.callServerEndpoint<_i3.AuthSuccess>(
     'emailIdp',
     'finishRegistration',
     {
@@ -232,16 +307,16 @@ class EndpointEmailIdp extends _i3.EndpointEmailIdpBase {
 /// By extending [RefreshJwtTokensEndpoint], the JWT token refresh endpoint
 /// is made available on the server and enables automatic token refresh on the client.
 /// {@category Endpoint}
-class EndpointJwtRefresh extends _i4.EndpointRefreshJwtTokens {
+class EndpointJwtRefresh extends _i3.EndpointRefreshJwtTokens {
   EndpointJwtRefresh(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'jwtRefresh';
 
   @override
-  _i2.Future<_i4.AuthSuccess> refreshAccessToken({
+  _i2.Future<_i3.AuthSuccess> refreshAccessToken({
     required String refreshToken,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
+  }) => caller.callServerEndpoint<_i3.AuthSuccess>(
     'jwtRefresh',
     'refreshAccessToken',
     {'refreshToken': refreshToken},
@@ -316,8 +391,8 @@ class EndpointProfile extends _i1.EndpointRef {
   @override
   String get name => 'profile';
 
-  _i2.Future<_i4.AuthUserModel> getMyProfile() =>
-      caller.callServerEndpoint<_i4.AuthUserModel>(
+  _i2.Future<_i3.AuthUserModel> getMyProfile() =>
+      caller.callServerEndpoint<_i3.AuthUserModel>(
         'profile',
         'getMyProfile',
         {},
@@ -326,13 +401,13 @@ class EndpointProfile extends _i1.EndpointRef {
 
 class Modules {
   Modules(Client client) {
-    serverpod_auth_idp = _i3.Caller(client);
-    serverpod_auth_core = _i4.Caller(client);
+    serverpod_auth_idp = _i4.Caller(client);
+    serverpod_auth_core = _i3.Caller(client);
   }
 
-  late final _i3.Caller serverpod_auth_idp;
+  late final _i4.Caller serverpod_auth_idp;
 
-  late final _i4.Caller serverpod_auth_core;
+  late final _i3.Caller serverpod_auth_core;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -365,6 +440,8 @@ class Client extends _i1.ServerpodClientShared {
              disconnectStreamsOnLostInternetConnection,
        ) {
     accountDeletion = EndpointAccountDeletion(this);
+    auth = EndpointAuth(this);
+    authIdp = EndpointAuthIdp(this);
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     donorProfile = EndpointDonorProfile(this);
@@ -375,6 +452,10 @@ class Client extends _i1.ServerpodClientShared {
   }
 
   late final EndpointAccountDeletion accountDeletion;
+
+  late final EndpointAuth auth;
+
+  late final EndpointAuthIdp authIdp;
 
   late final EndpointEmailIdp emailIdp;
 
@@ -393,6 +474,8 @@ class Client extends _i1.ServerpodClientShared {
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
     'accountDeletion': accountDeletion,
+    'auth': auth,
+    'authIdp': authIdp,
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'donorProfile': donorProfile,

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart';
+import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 
 import '../localization/app_language.dart';
 import '../network/serverpod_client.dart';
@@ -33,10 +33,13 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
   @override
   void initState() {
     super.initState();
-    if (client.auth.isAuthenticated) {
+    if (_authSession.isAuthenticated) {
       unawaited(_validateProfile());
     }
   }
+
+  FlutterAuthSessionManager get _authSession =>
+      FlutterAuthSessionManagerExtension(client).authSessionManager;
 
   Future<SessionProfileSnapshot> _getProfile() async {
     final profile = await client.profile.getMyProfile();
@@ -85,8 +88,8 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
   }
 
   Future<void> _discardExpiredSession() async {
-    await client.auth.storage.set(null);
-    await client.auth.restore();
+    await _authSession.storage.set(null);
+    await _authSession.restore();
     await AuthController.instance.signOut();
     await AppSessionStartup.clearProfileCache();
     if (mounted) {
@@ -110,10 +113,16 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.lock_outline_rounded, size: 48, color: colors.error),
+                  Icon(
+                    Icons.lock_outline_rounded,
+                    size: 48,
+                    color: colors.error,
+                  ),
                   const SizedBox(height: 16),
                   Text(
-                    isBangla ? 'অ্যাকাউন্ট সাময়িকভাবে বন্ধ' : 'Account suspended',
+                    isBangla
+                        ? 'অ্যাকাউন্ট সাময়িকভাবে বন্ধ'
+                        : 'Account suspended',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
@@ -126,7 +135,8 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
                   ),
                   const SizedBox(height: 24),
                   TextButton(
-                    onPressed: () => AuthSessionRevocationOutbox.signOut(client),
+                    onPressed: () =>
+                        AuthSessionRevocationOutbox.signOut(client),
                     child: Text(isBangla ? 'লগ আউট' : 'Log out'),
                   ),
                 ],
