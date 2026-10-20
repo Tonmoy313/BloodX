@@ -1,0 +1,23 @@
+name: security-review
+
+# Runs only on PRs labeled `safety-critical`. Bills tokens to your Anthropic API key.
+# Pin the action to a reviewed commit SHA instead of @main once you have vetted it.
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  security:
+    if: contains(github.event.pull_request.labels.*.name, 'safety-critical')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: anthropics/claude-code-security-review@main
+        with:
+          claude-api-key: ${{ secrets.CLAUDE_API_KEY }}

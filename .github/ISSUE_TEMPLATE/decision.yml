@@ -1,0 +1,23 @@
+name: Decision
+description: An open question for the owner
+labels: ["decision-needed"]
+body:
+  - type: input
+    id: qid
+    attributes:
+      label: Question ID
+      placeholder: "Q-011"
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Options and risks
+  - type: input
+    id: default
+    attributes:
+      label: Temporary default until answered

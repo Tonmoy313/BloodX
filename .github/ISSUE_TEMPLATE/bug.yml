@@ -1,0 +1,33 @@
+name: Bug
+description: Something behaves wrongly
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Never paste phone numbers, names, or health details. Use request codes (for example A-1042) instead."
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options: ["Critical: delays or loses a blood request", "High", "Medium", "Low"]
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options: ["Android", "iOS", "Server", "Admin web"]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true
