@@ -1,0 +1,14 @@
+class: ConsentRecord
+serverOnly: true
+table: consent_record
+fields:
+  user: User?, relation(onDelete=Restrict)
+  type: ConsentType
+  version: String
+  acceptedAt: DateTime
+  locale: String
+  appVersion: String
+  withdrawnAt: DateTime?
+indexes:
+  consent_record_user_type_accepted_at:
+    fields: userId, type, acceptedAt

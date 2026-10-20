@@ -1,3 +1,5 @@
+import 'package:blood_client/blood_client.dart';
+
 enum AuthStatus {
   unauthenticated,
   sendingOtp,
@@ -10,26 +12,33 @@ enum AuthStatus {
   error,
 }
 
-/// BloodX Auth state model aligned with spec/auth.md.
+/// Persisted profile fields use the names and types from Serverpod tables.
+/// The remaining fields are transient client-side authentication state.
 class AuthState {
   final AuthStatus status;
   final String rawPhone;
-  final String normalizedE164;
+  final String phoneE164;
   final String maskedPhone;
-  final String? userId;
-  final String? challengeId;
+  final int? appUserId;
+  final String? authUserId;
+  final int? otpChallengeId;
   final int resendCountdown;
   final bool isNewUser;
   final bool donorOptIn;
   final String? displayName;
+  final Sex? sex;
+  final DateTime? dateOfBirth;
+  final String? profileImagePath;
+  final String? pendingProfileImagePath;
+  final Language language;
+  final UserStatus? accountStatus;
   final String? bloodGroup;
   final String? area;
-  final String? locationCoordinates;
-  final List<String> preferredHospitals;
+  final String? address;
+  final double? latitude;
+  final double? longitude;
+  final List<String> preferredCenters;
   final bool donorProfileComplete;
-  final String? pinHash;
-  final int failedPinAttempts;
-  final DateTime? lockoutUntil;
   final bool isForgotPin;
   final bool appVersionSupported;
   final String? errorMessage;
@@ -37,22 +46,28 @@ class AuthState {
   const AuthState({
     this.status = AuthStatus.unauthenticated,
     this.rawPhone = '',
-    this.normalizedE164 = '',
+    this.phoneE164 = '',
     this.maskedPhone = '',
-    this.userId,
-    this.challengeId,
+    this.appUserId,
+    this.authUserId,
+    this.otpChallengeId,
     this.resendCountdown = 60,
     this.isNewUser = false,
     this.donorOptIn = false, // D-015: Default OFF
     this.displayName,
+    this.sex,
+    this.dateOfBirth,
+    this.profileImagePath,
+    this.pendingProfileImagePath,
+    this.language = Language.bn,
+    this.accountStatus,
     this.bloodGroup,
     this.area,
-    this.locationCoordinates,
-    this.preferredHospitals = const [],
+    this.address,
+    this.latitude,
+    this.longitude,
+    this.preferredCenters = const [],
     this.donorProfileComplete = false,
-    this.pinHash,
-    this.failedPinAttempts = 0,
-    this.lockoutUntil,
     this.isForgotPin = false,
     this.appVersionSupported = true,
     this.errorMessage,
@@ -65,36 +80,31 @@ class AuthState {
 
   bool get isAuthenticated => status == AuthStatus.authenticated;
 
-  bool get isLockedOut {
-    if (lockoutUntil == null) return false;
-    return DateTime.now().isBefore(lockoutUntil!);
-  }
-
-  int get remainingLockoutMinutes {
-    if (lockoutUntil == null) return 0;
-    final diff = lockoutUntil!.difference(DateTime.now()).inMinutes;
-    return diff < 0 ? 0 : diff + 1;
-  }
-
   AuthState copyWith({
     AuthStatus? status,
     String? rawPhone,
-    String? normalizedE164,
+    String? phoneE164,
     String? maskedPhone,
-    String? userId,
-    String? challengeId,
+    int? appUserId,
+    String? authUserId,
+    int? otpChallengeId,
     int? resendCountdown,
     bool? isNewUser,
     bool? donorOptIn,
     String? displayName,
+    Sex? sex,
+    DateTime? dateOfBirth,
+    String? profileImagePath,
+    String? pendingProfileImagePath,
+    Language? language,
+    UserStatus? accountStatus,
     String? bloodGroup,
     String? area,
-    String? locationCoordinates,
-    List<String>? preferredHospitals,
+    String? address,
+    double? latitude,
+    double? longitude,
+    List<String>? preferredCenters,
     bool? donorProfileComplete,
-    String? pinHash,
-    int? failedPinAttempts,
-    DateTime? lockoutUntil,
     bool? isForgotPin,
     bool? appVersionSupported,
     String? errorMessage,
@@ -102,22 +112,29 @@ class AuthState {
     return AuthState(
       status: status ?? this.status,
       rawPhone: rawPhone ?? this.rawPhone,
-      normalizedE164: normalizedE164 ?? this.normalizedE164,
+      phoneE164: phoneE164 ?? this.phoneE164,
       maskedPhone: maskedPhone ?? this.maskedPhone,
-      userId: userId ?? this.userId,
-      challengeId: challengeId ?? this.challengeId,
+      appUserId: appUserId ?? this.appUserId,
+      authUserId: authUserId ?? this.authUserId,
+      otpChallengeId: otpChallengeId ?? this.otpChallengeId,
       resendCountdown: resendCountdown ?? this.resendCountdown,
       isNewUser: isNewUser ?? this.isNewUser,
       donorOptIn: donorOptIn ?? this.donorOptIn,
       displayName: displayName ?? this.displayName,
+      sex: sex ?? this.sex,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      profileImagePath: profileImagePath ?? this.profileImagePath,
+      pendingProfileImagePath:
+          pendingProfileImagePath ?? this.pendingProfileImagePath,
+      language: language ?? this.language,
+      accountStatus: accountStatus ?? this.accountStatus,
       bloodGroup: bloodGroup ?? this.bloodGroup,
       area: area ?? this.area,
-      locationCoordinates: locationCoordinates ?? this.locationCoordinates,
-      preferredHospitals: preferredHospitals ?? this.preferredHospitals,
+      address: address ?? this.address,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      preferredCenters: preferredCenters ?? this.preferredCenters,
       donorProfileComplete: donorProfileComplete ?? this.donorProfileComplete,
-      pinHash: pinHash ?? this.pinHash,
-      failedPinAttempts: failedPinAttempts ?? this.failedPinAttempts,
-      lockoutUntil: lockoutUntil ?? this.lockoutUntil,
       isForgotPin: isForgotPin ?? this.isForgotPin,
       appVersionSupported: appVersionSupported ?? this.appVersionSupported,
       errorMessage: errorMessage,

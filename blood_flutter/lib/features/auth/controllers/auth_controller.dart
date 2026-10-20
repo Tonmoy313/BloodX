@@ -1,6 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:blood_client/blood_client.dart';
+import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
+import '../../../core/localization/blood_strings.dart';
+import '../../../core/network/serverpod_client.dart';
 import '../models/auth_state.dart';
 
 /// Business logic controller for BloodX Authentication.
@@ -12,31 +15,36 @@ class AuthController extends ChangeNotifier {
 
   AuthState _state = const AuthState();
   Timer? _countdownTimer;
+  int _failedPinAttempts = 0;
+  DateTime? _lockoutUntil;
 
   AuthState get state => _state;
+  bool get isLockedOut => _isLockedOut;
+  int get remainingLockoutMinutes {
+    final lockoutUntil = _lockoutUntil;
+    if (lockoutUntil == null) return 0;
+    final diff = lockoutUntil.difference(DateTime.now()).inMinutes;
+    return diff < 0 ? 0 : diff + 1;
+  }
 
   void restoreCachedSession({
-    required String userId,
+    required String authUserId,
     required bool donorOptIn,
   }) {
     _state = _state.copyWith(
       status: AuthStatus.authenticated,
-      userId: userId,
+      authUserId: authUserId,
       donorOptIn: donorOptIn,
     );
     notifyListeners();
   }
 
-  void updateCachedProfile({required String userId, required bool donorOptIn}) {
-    _state = _state.copyWith(userId: userId, donorOptIn: donorOptIn);
+  void updateCachedProfile({
+    required String authUserId,
+    required bool donorOptIn,
+  }) {
+    _state = _state.copyWith(authUserId: authUserId, donorOptIn: donorOptIn);
     notifyListeners();
-  }
-
-  /// Helper to hash PIN securely using standard library.
-  static String hashPin(String pin) {
-    const salt = 'bloodx_secure_pin_salt_2026';
-    final bytes = utf8.encode('$salt:$pin');
-    return base64Url.encode(bytes);
   }
 
   /// Validates and normalizes Bangladesh phone number (+880 only).
@@ -102,26 +110,41 @@ class AuthController extends ChangeNotifier {
     _state = _state.copyWith(
       status: AuthStatus.sendingOtp,
       rawPhone: phoneInput,
-      normalizedE164: normalized,
+      phoneE164: normalized,
       maskedPhone: maskPhone(normalized),
       isForgotPin: isForgotPin,
       errorMessage: null,
     );
     notifyListeners();
 
-    // Simulated network call / ready for Serverpod auth endpoint
-    await Future.delayed(const Duration(milliseconds: 700));
-
-    final challenge = 'chal_${DateTime.now().millisecondsSinceEpoch}';
-
-    _state = _state.copyWith(
-      status: AuthStatus.otpSent,
-      challengeId: challenge,
-      resendCountdown: 60,
-    );
-    _startCountdownTimer();
-    notifyListeners();
-    return true;
+    try {
+      final challengeId = await client.authIdp.startLogin(
+        phone: normalized,
+        isForgotPin: isForgotPin,
+      );
+      _state = _state.copyWith(
+        status: AuthStatus.otpSent,
+        otpChallengeId: challengeId,
+        resendCountdown: 60,
+      );
+      _startCountdownTimer();
+      notifyListeners();
+      return true;
+    } on ServerpodClientException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'Unable to send a verification code. Try again.',
+      );
+      notifyListeners();
+      return false;
+    } on TimeoutException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'The request timed out. Check your connection and retry.',
+      );
+      notifyListeners();
+      return false;
+    }
   }
 
   void _startCountdownTimer() {
@@ -146,7 +169,7 @@ class AuthController extends ChangeNotifier {
 
   /// Verifies 6-digit OTP code (S4 -> S5).
   Future<bool> verifyOtp(String code) async {
-    if (code.length != 6) {
+    if (!RegExp(r'^\d{6}$').hasMatch(code)) {
       _state = _state.copyWith(
         status: AuthStatus.error,
         errorMessage: 'Please enter a 6-digit verification code.',
@@ -161,19 +184,48 @@ class AuthController extends ChangeNotifier {
     );
     notifyListeners();
 
-    await Future.delayed(const Duration(milliseconds: 700));
+    final challengeId = _state.otpChallengeId;
+    if (challengeId == null) {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: BloodStrings.invalidOtpError,
+      );
+      notifyListeners();
+      return false;
+    }
 
-    // In dev mode, test OTP 000000 or any 6 digits succeeds
-    _state = _state.copyWith(
-      status: _state.isForgotPin
-          ? AuthStatus.pinSetupRequired
-          : AuthStatus.authenticated,
-      isNewUser: !_state.isForgotPin,
-      errorMessage: null,
-    );
-    _countdownTimer?.cancel();
-    notifyListeners();
-    return true;
+    try {
+      final authSuccess = await client.authIdp.finishLogin(
+        challengeId: challengeId,
+        code: code,
+      );
+      await FlutterAuthSessionManagerExtension(
+        client,
+      ).authSessionManager.updateSignedInUser(authSuccess);
+      _state = _state.copyWith(
+        status: AuthStatus.authenticated,
+        authUserId: authSuccess.authUserId.toString(),
+        isNewUser: !_state.isForgotPin,
+        errorMessage: null,
+      );
+      _countdownTimer?.cancel();
+      notifyListeners();
+      return true;
+    } on ServerpodClientException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: BloodStrings.invalidOtpError,
+      );
+      notifyListeners();
+      return false;
+    } on TimeoutException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'The request timed out. Check your connection and retry.',
+      );
+      notifyListeners();
+      return false;
+    }
   }
 
   /// Sets up a 5-digit PIN (S5 per spec/auth.md).
@@ -187,42 +239,60 @@ class AuthController extends ChangeNotifier {
       return false;
     }
 
-    // Spec: 00000 test-only, rejected in production
-    if (pin == '00000' && kReleaseMode) {
+    if (pin == '00000') {
       _state = _state.copyWith(
         status: AuthStatus.error,
-        errorMessage: 'Insecure PIN (00000) is rejected.',
+        errorMessage: BloodStrings.pinInsecureError,
       );
       notifyListeners();
       return false;
     }
 
-    if (_state.isForgotPin) {
-      _state = _state.copyWith(status: AuthStatus.unauthenticated);
+    try {
+      await client.auth.setPin(pin: pin);
+      final wasForgotPin = _state.isForgotPin;
+      if (wasForgotPin) {
+        await FlutterAuthSessionManagerExtension(
+          client,
+        ).authSessionManager.updateSignedInUser(null);
+      }
+      _failedPinAttempts = 0;
+      _lockoutUntil = null;
+      _state = _state.copyWith(
+        status: wasForgotPin
+            ? AuthStatus.unauthenticated
+            : AuthStatus.authenticated,
+        isForgotPin: false,
+        errorMessage: null,
+      );
+      notifyListeners();
+      return true;
+    } on ServerpodClientException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'Unable to save your PIN. Try again.',
+      );
+      notifyListeners();
+      return false;
+    } on TimeoutException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'The request timed out. Check your connection and retry.',
+      );
+      notifyListeners();
+      return false;
     }
-
-    final hash = hashPin(pin);
-    _state = _state.copyWith(
-      pinHash: hash,
-      failedPinAttempts: 0,
-      lockoutUntil: null,
-      status: AuthStatus.unauthenticated,
-      isForgotPin: false,
-      errorMessage: null,
-    );
-    notifyListeners();
-    return true;
   }
 
   /// Authenticates using Phone + 5-digit PIN (S6 Login).
   /// Enforces lockout for 15 minutes after 5 consecutive failed attempts.
   Future<bool> loginWithPin(String phoneInput, String pin) async {
     // Check lockout
-    if (_state.isLockedOut) {
+    if (_isLockedOut) {
       _state = _state.copyWith(
         status: AuthStatus.lockedOut,
         errorMessage:
-            'Too many failed attempts. Locked for ${_state.remainingLockoutMinutes} minutes.',
+            'Too many failed attempts. Locked for $remainingLockoutMinutes minutes.',
       );
       notifyListeners();
       return false;
@@ -238,7 +308,7 @@ class AuthController extends ChangeNotifier {
       return false;
     }
 
-    if (pin.length != 5) {
+    if (!RegExp(r'^\d{5}$').hasMatch(pin) || pin == '00000') {
       _state = _state.copyWith(
         status: AuthStatus.error,
         errorMessage: 'PIN must be 5 digits.',
@@ -250,67 +320,88 @@ class AuthController extends ChangeNotifier {
     _state = _state.copyWith(
       status: AuthStatus.authenticatingPin,
       rawPhone: phoneInput,
-      normalizedE164: normalized,
+      phoneE164: normalized,
       maskedPhone: maskPhone(normalized),
       errorMessage: null,
     );
     notifyListeners();
 
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    final hashedInput = hashPin(pin);
-    // Development fallback: accepts set pinHash or standard dev PIN '12345'
-    final isMatch = _state.pinHash == null
-        ? (pin == '12345' || pin == '00000')
-        : (_state.pinHash == hashedInput);
-
-    if (!isMatch) {
-      final attempts = _state.failedPinAttempts + 1;
-      DateTime? lockout;
-      if (attempts >= 5) {
-        lockout = DateTime.now().add(const Duration(minutes: 15));
-      }
-
+    try {
+      final authSuccess = await client.auth.loginWithPin(
+        phone: normalized,
+        pin: pin,
+      );
+      await FlutterAuthSessionManagerExtension(
+        client,
+      ).authSessionManager.updateSignedInUser(authSuccess);
+      _failedPinAttempts = 0;
+      _lockoutUntil = null;
       _state = _state.copyWith(
-        status: attempts >= 5
+        status: AuthStatus.authenticated,
+        authUserId: authSuccess.authUserId.toString(),
+        isNewUser: false,
+        errorMessage: null,
+      );
+      notifyListeners();
+      return true;
+    } on ServerpodClientException catch (error) {
+      if (error.statusCode >= 400 && error.statusCode < 500) {
+        _failedPinAttempts++;
+        if (_failedPinAttempts >= 5) {
+          _lockoutUntil = DateTime.now().add(const Duration(minutes: 15));
+        }
+      }
+      _state = _state.copyWith(
+        status: _isLockedOut
             ? AuthStatus.lockedOut
             : AuthStatus.unauthenticated,
-        failedPinAttempts: attempts,
-        lockoutUntil: lockout,
-        // Spec rule: Do not disclose whether a phone has an account
-        errorMessage: attempts >= 5
-            ? 'Account locked for 15 minutes due to 5 incorrect attempts.'
-            : 'Invalid mobile number or PIN.',
+        errorMessage: 'Invalid mobile number or PIN.',
+      );
+      notifyListeners();
+      return false;
+    } on TimeoutException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'The request timed out. Check your connection and retry.',
       );
       notifyListeners();
       return false;
     }
+  }
 
-    // Login successful
+  bool saveOnboardingProfile({
+    required String name,
+    required Sex sex,
+    required DateTime dateOfBirth,
+    String? imagePath,
+  }) {
+    final normalizedName = name.trim();
+    final birthDate = DateTime.utc(
+      dateOfBirth.year,
+      dateOfBirth.month,
+      dateOfBirth.day,
+    );
+    final today = DateTime.now().toUtc();
+    final todayDate = DateTime.utc(today.year, today.month, today.day);
+    if (normalizedName.isEmpty ||
+        normalizedName.length > 100 ||
+        birthDate.isAfter(todayDate)) {
+      return false;
+    }
+
     _state = _state.copyWith(
-      status: AuthStatus.authenticated,
-      failedPinAttempts: 0,
-      lockoutUntil: null,
+      displayName: normalizedName,
+      sex: sex,
+      dateOfBirth: birthDate,
+      pendingProfileImagePath: imagePath,
       errorMessage: null,
     );
     notifyListeners();
     return true;
   }
 
-  /// Legacy / Quick profile completion for tests.
-  Future<void> completeProfile({
-    required String name,
-    required String bloodGroup,
-    required String area,
-    required bool isDonor,
-  }) async {
-    _state = _state.copyWith(
-      displayName: name.trim(),
-      bloodGroup: bloodGroup,
-      area: area,
-      donorOptIn: isDonor,
-      isNewUser: false,
-    );
+  void markDonorPromptHandled() {
+    _state = _state.copyWith(isNewUser: false);
     notifyListeners();
   }
 
@@ -318,14 +409,18 @@ class AuthController extends ChangeNotifier {
   Future<void> saveDonorHealthDetails({
     required String bloodGroup,
     required String area,
-    required String locationCoordinates,
-    required List<String> preferredHospitals,
+    required String address,
+    required double latitude,
+    required double longitude,
+    required List<String> preferredCenters,
   }) async {
     _state = _state.copyWith(
       bloodGroup: bloodGroup,
       area: area,
-      locationCoordinates: locationCoordinates,
-      preferredHospitals: preferredHospitals,
+      address: address,
+      latitude: latitude,
+      longitude: longitude,
+      preferredCenters: preferredCenters,
       donorOptIn: true,
       donorProfileComplete: true,
       status: AuthStatus.authenticated,
@@ -340,6 +435,7 @@ class AuthController extends ChangeNotifier {
     }
 
     _countdownTimer?.cancel();
+    _clearPinState();
     _state = const AuthState(
       status: AuthStatus.unauthenticated,
       donorOptIn: false,
@@ -351,8 +447,20 @@ class AuthController extends ChangeNotifier {
   /// Signs out current session per spec: "app -> s6 (logout)".
   Future<void> signOut() async {
     _countdownTimer?.cancel();
+    _clearPinState();
+    await FlutterAuthSessionManagerExtension(
+      client,
+    ).authSessionManager.updateSignedInUser(null);
     _state = const AuthState();
     notifyListeners();
+  }
+
+  bool get _isLockedOut =>
+      _lockoutUntil != null && DateTime.now().isBefore(_lockoutUntil!);
+
+  void _clearPinState() {
+    _failedPinAttempts = 0;
+    _lockoutUntil = null;
   }
 
   @override

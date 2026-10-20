@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/localization/app_language.dart';
 import '../../../core/localization/blood_strings.dart';
-import '../../../core/theme/blood_colors.dart';
 import '../../../core/widgets/blood_button.dart';
 import '../../../core/widgets/blood_drop_logo.dart';
 import '../../../core/widgets/blood_text_field.dart';
@@ -14,12 +13,10 @@ import '../controllers/auth_controller.dart';
 /// Forgot PIN navigation, and Sign Up navigation.
 class LoginPinScreen extends StatefulWidget {
   final String? initialPhone;
-  final bool donorOptInPending;
 
   const LoginPinScreen({
     super.key,
     this.initialPhone,
-    this.donorOptInPending = false,
   });
 
   @override
@@ -78,15 +75,8 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
     if (!mounted) return;
 
     if (success) {
-      // Flow per spec:
-      // If donor checked in S3 (or profile incomplete): s6 -> s8 <-> s9 -> app
-      // Else: s6 -> app
-      final shouldGoToHealthDetails =
-          widget.donorOptInPending ||
-          (AuthController.instance.state.donorOptIn &&
-              !AuthController.instance.state.donorProfileComplete);
-
-      if (shouldGoToHealthDetails) {
+      final authState = AuthController.instance.state;
+      if (authState.donorOptIn && !authState.donorProfileComplete) {
         AppRoutes.replaceAll(context, AppRoutes.donorHealthDetails);
       } else {
         AppRoutes.replaceAll(context, AppRoutes.home);
@@ -114,7 +104,7 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
     return ListenableBuilder(
       listenable: Listenable.merge([
@@ -130,17 +120,17 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
             actions: [
               TextButton.icon(
                 onPressed: () => AppLanguage.instance.toggleLanguage(),
-                icon: const Icon(
+                icon: Icon(
                   Icons.language_rounded,
                   size: 16,
-                  color: BloodColors.primary,
+                  color: cs.primary,
                 ),
                 label: Text(
                   BloodStrings.languageToggleText,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: BloodColors.primary,
+                    color: cs.primary,
                   ),
                 ),
               ),
@@ -162,7 +152,7 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                       height: 68,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: BloodColors.primary.withValues(alpha: 0.1),
+                        color: cs.primary.withValues(alpha: 0.1),
                       ),
                       child: const Center(
                         child: BloodDropLogo(
@@ -178,59 +168,54 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                   // Header
                   Center(
                     child: Text(
-                    BloodStrings.loginTitle,
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w800,
-                      color: isDark
-                          ? BloodColors.textPrimaryDark
-                          : BloodColors.textPrimaryLight,
-                      letterSpacing: -0.3,
+                      BloodStrings.loginTitle,
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: cs.onSurface,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  ),
-                  
+
                   const SizedBox(height: 8),
                   Text(
                     BloodStrings.loginSubtitle,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: isDark
-                          ? BloodColors.textSecondaryDark
-                          : BloodColors.textSecondaryLight,
+                      color: cs.onSurfaceVariant,
                       height: 1.4,
                     ),
                   ),
                   const SizedBox(height: 32),
 
                   // Lockout Warning if applicable
-                  if (authState.isLockedOut) ...[
+                  if (AuthController.instance.isLockedOut) ...[
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: BloodColors.error.withValues(alpha: 0.12),
+                        color: cs.error.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: BloodColors.error.withValues(alpha: 0.4),
+                          color: cs.error.withValues(alpha: 0.4),
                         ),
                       ),
                       child: Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.lock_clock_rounded,
-                            color: BloodColors.error,
+                            color: cs.error,
                             size: 22,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              'Locked for ${authState.remainingLockoutMinutes}m due to 5 wrong PIN attempts.',
-                              style: const TextStyle(
+                              'Locked for ${AuthController.instance.remainingLockoutMinutes}m due to 5 wrong PIN attempts.',
+                              style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
-                                color: BloodColors.error,
+                                color: cs.error,
                               ),
                             ),
                           ),
@@ -280,9 +265,7 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
-                              color: isDark
-                                  ? BloodColors.textPrimaryDark
-                                  : BloodColors.textPrimaryLight,
+                              color: cs.onSurface,
                             ),
                           ),
                         ],
@@ -310,7 +293,7 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                             ? Icons.visibility_off_rounded
                             : Icons.visibility_rounded,
                         size: 20,
-                        color: isDark ? Colors.grey[400] : Colors.grey[600],
+                        color: cs.onSurfaceVariant,
                       ),
                       onPressed: () {
                         setState(() {
@@ -327,10 +310,10 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                       onPressed: _handleForgotPin,
                       child: Text(
                         BloodStrings.forgotPin,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: BloodColors.primary,
+                          color: cs.primary,
                         ),
                       ),
                     ),
@@ -342,7 +325,9 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                     text: BloodStrings.loginButton,
                     icon: Icons.login_rounded,
                     isLoading: authState.isLoading,
-                    onPressed: authState.isLockedOut ? null : _handleLogin,
+                    onPressed: AuthController.instance.isLockedOut
+                        ? null
+                        : _handleLogin,
                   ),
                   const SizedBox(height: 32),
 
@@ -355,19 +340,17 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                           BloodStrings.dontHaveAccount,
                           style: TextStyle(
                             fontSize: 14,
-                            color: isDark
-                                ? BloodColors.textSecondaryDark
-                                : BloodColors.textSecondaryLight,
+                            color: cs.onSurfaceVariant,
                           ),
                         ),
                         GestureDetector(
                           onTap: _handleGoToSignUp,
                           child: Text(
                             BloodStrings.signUpLink,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w800,
-                              color: BloodColors.primary,
+                              color: cs.primary,
                               decoration: TextDecoration.underline,
                             ),
                           ),

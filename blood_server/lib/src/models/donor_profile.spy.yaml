@@ -1,0 +1,17 @@
+class: DonorProfile
+serverOnly: true
+table: donor_profile
+fields:
+  user: User?, relation(onDelete=Cascade)
+  bloodGroup: String
+  area: String
+  address: String
+  latitude: double
+  longitude: double
+  preferredCenters: List<String>
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+  updatedAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  donor_profile_user_id:
+    fields: userId
+    unique: true

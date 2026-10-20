@@ -1,0 +1,6 @@
+enum: ConsentType
+serialized: byName
+values:
+  - termsOfService
+  - privacyPolicy
+  - donorOptIn

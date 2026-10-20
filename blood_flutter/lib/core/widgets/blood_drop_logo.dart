@@ -166,18 +166,16 @@ class _BloodDropPainter extends CustomPainter {
     );
     path.close();
 
-    // Drop Linear Gradient
+    // Drop Linear Gradient. The colors come from the active theme so the
+    // emblem matches the selected preset.
     final rect = Rect.fromLTWH(0, 0, width, height);
     final gradient = LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color(0xFFFF5252),
-        Color(0xFFD32F2F),
-        Color(0xFF8E0000),
-        // primaryColor.withValues(alpha: 0.9),
-        // primaryColor,
-        // deepColor,
+        Color.lerp(primaryColor, Colors.white, 0.28)!,
+        primaryColor,
+        deepColor,
       ],
       stops: const [0.0, 0.55, 1.0],
     );
@@ -237,5 +235,8 @@ class _BloodDropPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _BloodDropPainter oldDelegate) {
+    return oldDelegate.primaryColor != primaryColor ||
+        oldDelegate.deepColor != deepColor;
+  }
 }

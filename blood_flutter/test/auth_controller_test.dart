@@ -1,3 +1,4 @@
+import 'package:blood_client/blood_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:blood_flutter/features/auth/controllers/auth_controller.dart';
 import 'package:blood_flutter/core/localization/app_language.dart';
@@ -63,40 +64,39 @@ void main() {
   group('AuthController - Auth Flow & Volunteer Principle', () {
     test('donor opt-in is false by default (D-015)', () {
       final controller = AuthController.instance;
-      controller.signOut();
       expect(controller.state.donorOptIn, isFalse);
     });
 
     test(
-      'requestOtp, verifyOtp and completeProfile update state correctly',
+      'rejects invalid auth input before contacting the server',
       () async {
         final controller = AuthController.instance;
-        controller.signOut();
-
-        // Request OTP
-        final requestSuccess = await controller.requestOtp('01712345678');
-        expect(requestSuccess, isTrue);
-        expect(controller.state.normalizedE164, '+8801712345678');
-        expect(controller.state.challengeId, isNotNull);
-
-        // Verify OTP
-        final verifySuccess = await controller.verifyOtp('123456');
-        expect(verifySuccess, isTrue);
-        expect(controller.state.isAuthenticated, isTrue);
-
-        // Complete Profile
-        await controller.completeProfile(
-          name: 'Rahim Ahmed',
-          bloodGroup: 'B+',
-          area: 'Mirpur',
-          isDonor: true,
-        );
-        expect(controller.state.displayName, 'Rahim Ahmed');
-        expect(controller.state.bloodGroup, 'B+');
-        expect(controller.state.area, 'Mirpur');
-        expect(controller.state.donorOptIn, isTrue);
+        expect(await controller.requestOtp('invalid'), isFalse);
+        expect(await controller.verifyOtp('12'), isFalse);
+        expect(await controller.loginWithPin('invalid', '12345'), isFalse);
+        expect(await controller.setupPin('00000'), isFalse);
       },
     );
+
+    test('rejects invalid onboarding profile data', () {
+      final controller = AuthController.instance;
+      expect(
+        controller.saveOnboardingProfile(
+          name: ' ',
+          sex: Sex.female,
+          dateOfBirth: DateTime.utc(1990, 1, 1),
+        ),
+        isFalse,
+      );
+      expect(
+        controller.saveOnboardingProfile(
+          name: 'Valid Name',
+          sex: Sex.female,
+          dateOfBirth: DateTime.now().add(const Duration(days: 1)),
+        ),
+        isFalse,
+      );
+    });
   });
 
   group('AppLanguage - Bangla-first & English Toggle', () {

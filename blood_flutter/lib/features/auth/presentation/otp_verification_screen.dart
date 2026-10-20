@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/localization/app_language.dart';
 import '../../../core/localization/blood_strings.dart';
-import '../../../core/theme/blood_colors.dart';
 import '../../../core/widgets/blood_button.dart';
 import '../controllers/auth_controller.dart';
 import '../../../core/router/app_routes.dart';
@@ -102,11 +101,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           arguments: const {'isForgotPin': true},
         );
       } else if (authState.isNewUser) {
-        AppRoutes.replaceAll(
-          context,
-          AppRoutes.pinSetup,
-          arguments: {'donorOptIn': authState.donorOptIn},
-        );
+        AppRoutes.replaceAll(context, AppRoutes.pinSetup);
       } else {
         AppRoutes.replaceAll(context, AppRoutes.home);
       }
@@ -127,7 +122,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(BloodStrings.resendCodeNow),
-          backgroundColor: BloodColors.primary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
       );
     }
@@ -135,7 +130,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
     return ListenableBuilder(
       listenable: Listenable.merge([
@@ -154,17 +149,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             actions: [
               TextButton.icon(
                 onPressed: () => AppLanguage.instance.toggleLanguage(),
-                icon: const Icon(
+                icon: Icon(
                   Icons.language_rounded,
                   size: 16,
-                  color: BloodColors.primary,
+                  color: cs.primary,
                 ),
                 label: Text(
                   BloodStrings.languageToggleText,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: BloodColors.primary,
+                    color: cs.primary,
                   ),
                 ),
               ),
@@ -185,10 +180,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.w800,
-                      color: isDark
-                          ? BloodColors.textPrimaryDark
-                          : BloodColors.textPrimaryLight,
-                      letterSpacing: -0.3,
+                      color: cs.onSurface,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -199,9 +191,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         '${BloodStrings.otpScreenSubtitle} ',
                         style: TextStyle(
                           fontSize: 14,
-                          color: isDark
-                              ? BloodColors.textSecondaryDark
-                              : BloodColors.textSecondaryLight,
+                          color: cs.onSurfaceVariant,
                         ),
                       ),
                       Text(
@@ -211,18 +201,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: isDark
-                              ? BloodColors.textPrimaryDark
-                              : BloodColors.textPrimaryLight,
+                          color: cs.onSurface,
                         ),
                       ),
                       const SizedBox(width: 6),
                       GestureDetector(
                         onTap: () => Navigator.of(context).pop(),
-                        child: const Icon(
+                        child: Icon(
                           Icons.edit_outlined,
                           size: 16,
-                          color: BloodColors.primary,
+                          color: cs.primary,
                         ),
                       ),
                     ],
@@ -256,9 +244,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
-                              color: isDark
-                                  ? BloodColors.textPrimaryDark
-                                  : BloodColors.textPrimaryLight,
+                              color: cs.onSurface,
                             ),
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
@@ -266,9 +252,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             decoration: InputDecoration(
                               counterText: '',
                               contentPadding: EdgeInsets.zero,
-                              fillColor: isDark
-                                  ? BloodColors.surfaceMutedDark
-                                  : BloodColors.surfaceMutedLight,
+                              fillColor: cs.surfaceContainerHighest,
                               filled: true,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
@@ -276,8 +260,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(
-                                  color: BloodColors.primary,
+                                borderSide: BorderSide(
+                                  color: cs.primary,
                                   width: 2,
                                 ),
                               ),
@@ -294,9 +278,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     const SizedBox(height: 12),
                     Text(
                       _errorMessage!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
-                        color: BloodColors.error,
+                        color: cs.error,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -311,9 +295,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         Icon(
                           Icons.timer_outlined,
                           size: 16,
-                          color: isDark
-                              ? BloodColors.textMutedDark
-                              : BloodColors.textMutedLight,
+                          color: cs.onSurfaceVariant,
                         ),
                         const SizedBox(width: 6),
                         Text(
@@ -321,9 +303,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: isDark
-                                ? BloodColors.textMutedDark
-                                : BloodColors.textMutedLight,
+                            color: cs.onSurfaceVariant,
                           ),
                         ),
                       ] else ...[
@@ -331,10 +311,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           onPressed: _handleResend,
                           child: Text(
                             BloodStrings.resendCodeNow,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
-                              color: BloodColors.primary,
+                              color: cs.primary,
                             ),
                           ),
                         ),
@@ -356,24 +336,20 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: isDark
-                          ? BloodColors.surfaceMutedDark
-                          : const Color(0xFFF9FAFB),
+                      color: cs.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: isDark
-                            ? Colors.grey[850]!
-                            : const Color(0xFFE5E7EB),
+                        color: cs.outlineVariant,
                         width: 1,
                       ),
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.lock_rounded,
                           size: 20,
-                          color: BloodColors.primary,
+                          color: cs.primary,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -385,9 +361,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
-                                  color: isDark
-                                      ? BloodColors.textPrimaryDark
-                                      : BloodColors.textPrimaryLight,
+                                  color: cs.onSurface,
                                 ),
                               ),
                               const SizedBox(height: 4),
@@ -396,9 +370,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   height: 1.4,
-                                  color: isDark
-                                      ? BloodColors.textSecondaryDark
-                                      : BloodColors.textSecondaryLight,
+                                  color: cs.onSurfaceVariant,
                                 ),
                               ),
                             ],

@@ -1,0 +1,34 @@
+name: deploy-prod
+
+# Production deploys only from a version tag (v*), and only after manual approval:
+# set required reviewers on the GitHub environment named `production`.
+# Does nothing until the repo variable DEPLOY_ENABLED is 'true'.
+# TODO in P0-4: secrets via --set-secrets, migration policy, verify flags against current gcloud docs.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Deploy to Cloud Run (production)
+        run: |
+          gcloud run deploy "${{ vars.CLOUD_RUN_SERVICE }}" \
+            --project "${{ vars.GCP_PROJECT }}" \
+            --region "${{ vars.GCP_REGION }}" \
+            --source blood_server \
+            --min-instances 1 --max-instances 20 \
+            --no-cpu-throttling

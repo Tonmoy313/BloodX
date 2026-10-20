@@ -1,0 +1,39 @@
+name: Task
+description: A task from a phase file in docs/phases/
+title: "P?-?? "
+body:
+  - type: input
+    id: task_id
+    attributes:
+      label: Task ID
+      placeholder: "P2-04"
+    validations:
+      required: true
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      options: ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7"]
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What and why
+    validations:
+      required: true
+  - type: textarea
+    id: docs
+    attributes:
+      label: Docs to read
+      placeholder: "docs/spec/pledge.md"
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety-critical (AGENTS.md list)?
+      options:
+        - label: Yes, add the safety-critical label

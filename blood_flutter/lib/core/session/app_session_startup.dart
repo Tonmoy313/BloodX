@@ -8,10 +8,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart';
+import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../localization/app_language.dart';
+import '../theme/theme_controller.dart';
 import '../../features/auth/controllers/auth_controller.dart';
 import 'auth_session_revocation_outbox.dart';
 import 'session_profile_validator.dart';
@@ -49,6 +50,13 @@ class AppSessionStartup {
       );
     }
 
+    // Cosmetic preferences are restored for every user, signed in or not, so
+    // the shell always opens in the language and theme the person chose.
+    await AppThemeController.instance.load();
+    _restoreLanguage(preferences);
+
+    final authSessionManager =
+        FlutterAuthSessionManagerExtension(client).authSessionManager;
     final hasRestoredSession = await SessionRestorePolicy.restore(
       isFirstInstall: preferences.getBool(_firstInstallKey) != true,
       clear: () async {
@@ -59,8 +67,8 @@ class AppSessionStartup {
         await preferences.setBool(_firstInstallKey, true);
       },
       restore: () async {
-        await client.auth.restore();
-        final authInfo = client.auth.authInfo;
+        await authSessionManager.restore();
+        final authInfo = authSessionManager.authInfo;
         if (authInfo == null) return false;
         if (authInfo.token.isEmpty || authInfo.refreshToken?.isEmpty != false) {
           await _clearSavedAuthentication(client);
@@ -73,20 +81,11 @@ class AppSessionStartup {
     unawaited(AuthSessionRevocationOutbox.retryPending(serverUrl));
 
     if (hasRestoredSession) {
-      final userId = client.auth.authInfo!.authUserId.toString();
+      final userId = authSessionManager.authInfo!.authUserId.toString();
       final cachedUserId = preferences.getString(_cachedUserIdKey);
       final cacheMatchesSession = cachedUserId == userId;
-      final language = preferences.getString(_languageKey);
-      final locale = switch (language) {
-        'en' => const Locale('en'),
-        'bn' => const Locale('bn'),
-        _ => null,
-      };
-      if (locale != null) {
-        AppLanguage.instance.setLocale(locale);
-      }
       AuthController.instance.restoreCachedSession(
-        userId: userId,
+        authUserId: userId,
         donorOptIn:
             cacheMatchesSession &&
             (preferences.getBool(_cachedDonorStatusKey) ?? false),
@@ -124,8 +123,10 @@ class AppSessionStartup {
 
   static Future<void> _clearSavedAuthentication(Client client) async {
     try {
-      await client.auth.storage.set(null);
-      await client.auth.restore();
+      final authSessionManager =
+          FlutterAuthSessionManagerExtension(client).authSessionManager;
+      await authSessionManager.storage.set(null);
+      await authSessionManager.restore();
     } on PlatformException catch (error) {
       debugPrint('Could not clear saved authentication: ${error.code}');
     }
@@ -177,6 +178,20 @@ class AppSessionStartup {
     return cachedVersion;
   }
 
+  /// Applies the saved language. A missing or unknown value keeps the
+  /// Bangla-first default.
+  static void _restoreLanguage(SharedPreferences preferences) {
+    final language = preferences.getString(_languageKey);
+    final locale = switch (language) {
+      'en' => const Locale('en'),
+      'bn' => const Locale('bn'),
+      _ => null,
+    };
+    if (locale != null) {
+      AppLanguage.instance.setLocale(locale);
+    }
+  }
+
   static bool isVersionSupported(String installed, String minimum) {
     if (!_isValidVersion(installed) || !_isValidVersion(minimum)) return false;
     final installedParts = installed.split('.').map(int.parse).toList();
@@ -191,12 +206,4 @@ class AppSessionStartup {
 
   static bool _isValidVersion(String version) =>
       RegExp(r'^\d+\.\d+\.\d+$').hasMatch(version);
-
-  static Future<void> persistLanguage(String language) async {
-    if (language != 'bn' && language != 'en') {
-      throw ArgumentError.value(language, 'language', 'Expected bn or en.');
-    }
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setString(_languageKey, language);
-  }
 }

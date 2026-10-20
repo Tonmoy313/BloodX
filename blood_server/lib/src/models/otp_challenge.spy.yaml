@@ -1,0 +1,20 @@
+class: OtpChallenge
+serverOnly: true
+table: otp_challenge
+fields:
+  phoneE164: String
+  codeHash: String
+  type: OtpType
+  attempts: int, defaultModel=0, defaultPersist=0
+  consumedAt: DateTime?
+  installId: UuidValue
+  ip: String
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+  expiresAt: DateTime
+indexes:
+  otp_challenge_phone_created_at:
+    fields: phoneE164, createdAt
+  otp_challenge_ip_created_at:
+    fields: ip, createdAt
+  otp_challenge_install_created_at:
+    fields: installId, createdAt

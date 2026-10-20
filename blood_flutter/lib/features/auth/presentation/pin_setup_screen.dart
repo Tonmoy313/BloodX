@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/localization/blood_strings.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/blood_colors.dart';
+
 // import '../../../core/widgets/blood_button.dart';
 import '../controllers/auth_controller.dart';
 
@@ -10,12 +10,10 @@ import '../controllers/auth_controller.dart';
 /// On success: stores secure hash and routes to S6 (Login).
 class PinSetupScreen extends StatefulWidget {
   final bool isForgotPin;
-  final bool donorOptIn;
 
   const PinSetupScreen({
     super.key,
     this.isForgotPin = false,
-    this.donorOptIn = false,
   });
 
   @override
@@ -83,14 +81,17 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
           ),
         );
 
-        AppRoutes.replaceAll(
-          context,
-          AppRoutes.login,
-          arguments: {
-            'initialPhone': AuthController.instance.state.rawPhone,
-            'donorOptInPending': widget.donorOptIn,
-          },
-        );
+        if (widget.isForgotPin) {
+          AppRoutes.replaceAll(
+            context,
+            AppRoutes.login,
+            arguments: {
+              'initialPhone': AuthController.instance.state.rawPhone,
+            },
+          );
+        } else {
+          AppRoutes.replaceAll(context, AppRoutes.profileSetup);
+        }
       } else {
         setState(() {
           _errorMessage =
@@ -106,7 +107,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -136,17 +137,17 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
-                color: BloodColors.primary.withValues(alpha: 0.1),
+                color: cs.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 _isConfirming
                     ? 'Step 2/2 · verify_pin'
                     : 'Step 1/2 · pin_setup',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: BloodColors.primary,
+                  color: cs.primary,
                 ),
               ),
             ),
@@ -163,9 +164,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
-                  color: isDark
-                      ? BloodColors.textPrimaryDark
-                      : BloodColors.textPrimaryLight,
+                  color: cs.onSurface,
                 ),
               ),
             ),
@@ -180,9 +179,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: isDark
-                      ? BloodColors.textSecondaryDark
-                      : BloodColors.textSecondaryLight,
+                  color: cs.onSurfaceVariant,
                 ),
               ),
             ),
@@ -200,11 +197,9 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                   height: 20,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isFilled ? BloodColors.primary : Colors.transparent,
+                    color: isFilled ? cs.primary : Colors.transparent,
                     border: Border.all(
-                      color: isFilled
-                          ? BloodColors.primary
-                          : (isDark ? Colors.grey[700]! : Colors.grey[400]!),
+                      color: isFilled ? cs.primary : cs.outline,
                       width: 2,
                     ),
                   ),
@@ -216,10 +211,10 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
               const SizedBox(height: 16),
               Text(
                 _errorMessage!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: BloodColors.error,
+                  color: cs.error,
                 ),
               ),
             ],
@@ -231,17 +226,17 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 16),
               child: Column(
                 children: [
-                  _buildKeypadRow(['1', '2', '3'], isDark),
+                  _buildKeypadRow(['1', '2', '3']),
                   const SizedBox(height: 16),
-                  _buildKeypadRow(['4', '5', '6'], isDark),
+                  _buildKeypadRow(['4', '5', '6']),
                   const SizedBox(height: 16),
-                  _buildKeypadRow(['7', '8', '9'], isDark),
+                  _buildKeypadRow(['7', '8', '9']),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       const SizedBox(width: 68, height: 68), // Spacer
-                      _buildKeypadButton('0', isDark),
+                      _buildKeypadButton('0'),
                       SizedBox(
                         width: 68,
                         height: 68,
@@ -265,14 +260,16 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
     );
   }
 
-  Widget _buildKeypadRow(List<String> digits, bool isDark) {
+  Widget _buildKeypadRow(List<String> digits) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: digits.map((d) => _buildKeypadButton(d, isDark)).toList(),
+      children: digits.map((d) => _buildKeypadButton(d)).toList(),
     );
   }
 
-  Widget _buildKeypadButton(String digit, bool isDark) {
+  Widget _buildKeypadButton(String digit) {
+    final cs = Theme.of(context).colorScheme;
+
     return InkWell(
       onTap: () => _onDigitPressed(digit),
       borderRadius: BorderRadius.circular(34),
@@ -281,12 +278,8 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
         height: 68,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isDark
-              ? BloodColors.surfaceMutedDark
-              : BloodColors.surfaceMutedLight,
-          border: Border.all(
-            color: isDark ? Colors.grey[800]! : const Color(0xFFE5E7EB),
-          ),
+          color: cs.surfaceContainerHighest,
+          border: Border.all(color: cs.outlineVariant),
         ),
         child: Center(
           child: Text(
@@ -294,9 +287,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w700,
-              color: isDark
-                  ? BloodColors.textPrimaryDark
-                  : BloodColors.textPrimaryLight,
+              color: cs.onSurface,
             ),
           ),
         ),

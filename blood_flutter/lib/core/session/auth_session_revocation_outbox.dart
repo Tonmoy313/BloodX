@@ -70,7 +70,9 @@ class AuthSessionRevocationOutbox {
     try {
       await retry;
     } on PlatformException catch (error) {
-      debugPrint('Pending logout retry could not read secure storage: ${error.code}');
+      debugPrint(
+        'Pending logout retry could not read secure storage: ${error.code}',
+      );
     } on FormatException catch (error) {
       debugPrint('Pending logout retry data is invalid: ${error.message}');
     } finally {
@@ -128,8 +130,9 @@ class AuthSessionRevocationOutbox {
     );
     final client = Client(serverUrl)
       ..connectivityMonitor = FlutterConnectivityMonitor();
-    auth_flutter.FlutterAuthSessionManagerExtension(client)
-        .authSessionManager = auth_flutter.FlutterAuthSessionManager(
+    auth_flutter.FlutterAuthSessionManagerExtension(
+      client,
+    ).authSessionManager = auth_flutter.FlutterAuthSessionManager(
       storage: storage,
     );
 

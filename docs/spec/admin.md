@@ -1,0 +1,8 @@
+# admin — staff panel (Flutter web, own origin, CORS locked)
+Roles: ops, medical_reviewer, super_admin (AdminUser). ⚑ = writes AuditLog.
+Endpoints: listRequestQueue(status, urgency, age)[ops, super] · getRequestAdminDetail ⚑ (waves, delivery, pledges, requester info) · closeRequest ⚑(reason) · markRequestFake ⚑ (flags requester, releases pledges) · suspendUser ⚑ · manageHospitals ⚑ · reviewReports ⚑ · viewDonorHealthSummary ⚑ + editDeferral ⚑ [medical_reviewer, super] (category only) · broadcast ⚑ [super] (rate-limited) · viewDeliveryHealth [ops, super] · viewAuditLog [super] · updateConfig ⚑ + setFeatureFlag ⚑ [super] (validate ranges) · liftBreak ⚑.
+User safety endpoints: reportRequest(request_id, reason, note?) · reportUser(user via pledge, reason, note?), both rate-limited. Report(reporter, target_type, target_id, reason, note, status, reviewer, outcome). Reason chips: fake request, abusive, spam, other.
+AuditLog(actor_user_id, actor_role, action, target_type, target_id, device, created_at): append-only, kept ≥24 mo; covers contact reveal, admin health views, deferral edits, suspension, request close, config change.
+Screens: live queue (ID, group, bags, urgency, hospital, status, age, flag) · request detail (slip image, wave timeline, delivery log, pledges; Call requester, Close, Suspend, Mark fake) · Hospitals · Donors (summary) · Reports · Broadcast · Delivery health (sent/delivered/opened/failed/fallback) · Audit log · Config/flags.
+Rules: render all user text as plain text (sanitized); no secrets in the client; during beta ops watches every critical request and can call donors manually.
+Tests: every role × endpoint allowed/denied · every ⚑ action writes an AuditLog row · health summary hidden from ops.

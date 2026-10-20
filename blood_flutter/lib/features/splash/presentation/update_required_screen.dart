@@ -31,7 +31,11 @@ class UpdateRequiredScreen extends StatelessWidget {
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: [
-                    const BloodDropLogo(size: 88, animated: false, showGlow: false),
+                    const BloodDropLogo(
+                      size: 88,
+                      animated: false,
+                      showGlow: false,
+                    ),
                     Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
@@ -55,7 +59,6 @@ class UpdateRequiredScreen extends StatelessWidget {
                     fontSize: 26,
                     fontWeight: FontWeight.w800,
                     color: cs.onSurface,
-                    letterSpacing: -0.3,
                   ),
                 ),
                 const SizedBox(height: 14),

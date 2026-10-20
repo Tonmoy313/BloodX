@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/localization/app_language.dart';
 import '../../../core/localization/blood_strings.dart';
-import '../../../core/theme/blood_colors.dart';
 import '../../../core/widgets/blood_button.dart';
 import '../../../core/widgets/blood_drop_logo.dart';
 import '../../../core/widgets/blood_text_field.dart';
@@ -47,27 +46,25 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
   }
 
   Future<bool?> _showTermsAgreementDialog() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
     return showDialog<bool>(
       context: context,
       barrierDismissible: true,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        backgroundColor: isDark
-            ? BloodColors.surfaceDark
-            : BloodColors.surfaceLight,
+        backgroundColor: cs.surface,
         title: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: BloodColors.primary.withValues(alpha: 0.12),
+                color: cs.primary.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.security_rounded,
-                color: BloodColors.primary,
+                color: cs.primary,
                 size: 22,
               ),
             ),
@@ -78,9 +75,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
-                  color: isDark
-                      ? BloodColors.textPrimaryDark
-                      : BloodColors.textPrimaryLight,
+                  color: cs.onSurface,
                 ),
               ),
             ),
@@ -95,9 +90,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: isDark
-                    ? BloodColors.textSecondaryDark
-                    : BloodColors.textSecondaryLight,
+                color: cs.onSurfaceVariant,
                 height: 1.4,
               ),
             ),
@@ -109,10 +102,10 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
               },
               child: Text(
                 '${BloodStrings.termsOfService} ${BloodStrings.and} ${BloodStrings.privacyPolicy}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
-                  color: BloodColors.primary,
+                  color: cs.primary,
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -127,16 +120,14 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
               BloodStrings.cancel,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: isDark
-                    ? BloodColors.textMutedDark
-                    : BloodColors.textMutedLight,
+                color: cs.onSurfaceVariant,
               ),
             ),
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
             style: FilledButton.styleFrom(
-              backgroundColor: BloodColors.primary,
+              backgroundColor: cs.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -225,7 +216,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
     return ListenableBuilder(
       listenable: Listenable.merge([
@@ -250,17 +241,17 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
               // Language Switcher Toggle
               TextButton.icon(
                 onPressed: () => AppLanguage.instance.toggleLanguage(),
-                icon: const Icon(
+                icon: Icon(
                   Icons.language_rounded,
                   size: 16,
-                  color: BloodColors.primary,
+                  color: cs.primary,
                 ),
                 label: Text(
                   BloodStrings.languageToggleText,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: BloodColors.primary,
+                    color: cs.primary,
                   ),
                 ),
               ),
@@ -282,7 +273,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                       height: 68,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: BloodColors.primary.withValues(alpha: 0.1),
+                        color: cs.primary.withValues(alpha: 0.1),
                       ),
                       child: const Center(
                         child: BloodDropLogo(
@@ -303,10 +294,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.w800,
-                        color: isDark
-                            ? BloodColors.textPrimaryDark
-                            : BloodColors.textPrimaryLight,
-                        letterSpacing: -0.3,
+                        color: cs.onSurface,
                       ),
                     ),
                   ),
@@ -321,9 +309,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: isDark
-                            ? BloodColors.textSecondaryDark
-                            : BloodColors.textSecondaryLight,
+                        color: cs.onSurfaceVariant,
                         height: 1.4,
                       ),
                     ),
@@ -380,18 +366,14 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
-                              color: isDark
-                                  ? BloodColors.textPrimaryDark
-                                  : BloodColors.textPrimaryLight,
+                              color: cs.onSurface,
                             ),
                           ),
                           const SizedBox(width: 8),
                           Container(
                             height: 22,
                             width: 1,
-                            color: isDark
-                                ? Colors.grey[700]
-                                : const Color(0xFFD1D5DB),
+                            color: cs.outlineVariant,
                           ),
                         ],
                       ),
@@ -421,9 +403,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: isDark
-                                  ? BloodColors.textSecondaryDark
-                                  : BloodColors.textSecondaryLight,
+                              color: cs.onSurfaceVariant,
                               letterSpacing: 0.5,
                             ),
                           ),
@@ -463,20 +443,14 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: isDark
-                            ? BloodColors.surfaceMutedDark.withValues(
-                                alpha: 0.5,
-                              )
-                            : BloodColors.surfaceMutedLight.withValues(
-                                alpha: 0.5,
-                              ),
+                        color: cs.surfaceContainerHighest.withValues(
+                          alpha: 0.5,
+                        ),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: _termsAgreed
-                              ? BloodColors.primary.withValues(alpha: 0.5)
-                              : (isDark
-                                    ? Colors.grey[800]!
-                                    : const Color(0xFFE5E7EB)),
+                              ? cs.primary.withValues(alpha: 0.5)
+                              : cs.outlineVariant,
                           width: 1.2,
                         ),
                       ),
@@ -488,7 +462,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                             height: 24,
                             child: Checkbox(
                               value: _termsAgreed,
-                              activeColor: BloodColors.primary,
+                              activeColor: cs.primary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(6),
                               ),
@@ -514,19 +488,17 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                                     BloodStrings.termsPrefix,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: isDark
-                                          ? BloodColors.textSecondaryDark
-                                          : BloodColors.textSecondaryLight,
+                                      color: cs.onSurfaceVariant,
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: _showTermsPrivacyDialog,
                                     child: Text(
                                       BloodStrings.termsOfService,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700,
-                                        color: BloodColors.primary,
+                                        color: cs.primary,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -535,19 +507,17 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                                     BloodStrings.and,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: isDark
-                                          ? BloodColors.textSecondaryDark
-                                          : BloodColors.textSecondaryLight,
+                                      color: cs.onSurfaceVariant,
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: _showTermsPrivacyDialog,
                                     child: Text(
                                       BloodStrings.privacyPolicy,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700,
-                                        color: BloodColors.primary,
+                                        color: cs.primary,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -556,9 +526,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                                     BloodStrings.agreed,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: isDark
-                                          ? BloodColors.textSecondaryDark
-                                          : BloodColors.textSecondaryLight,
+                                      color: cs.onSurfaceVariant,
                                     ),
                                   ),
                                 ],

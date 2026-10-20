@@ -1,0 +1,5 @@
+enum: Sex
+serialized: byName
+values:
+  - male
+  - female

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/localization/blood_strings.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/blood_colors.dart';
 import '../../../core/widgets/blood_button.dart';
 import '../../../core/widgets/blood_text_field.dart';
 import '../controllers/auth_controller.dart';
@@ -54,8 +53,9 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
       _isDeleting = true;
     });
 
-    final success =
-        await AuthController.instance.deleteAccount(_inputController.text);
+    final success = await AuthController.instance.deleteAccount(
+      _inputController.text,
+    );
     if (!mounted) return;
 
     if (success) {
@@ -64,7 +64,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(BloodStrings.deleteSuccessMsg),
-          backgroundColor: BloodColors.primaryDark,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
         ),
       );
