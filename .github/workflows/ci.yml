@@ -11,6 +11,10 @@ concurrency:
 
 permissions:
   contents: read
+  # gitleaks-action lists the pull request commits to scan them, which needs
+  # read access to pull requests. Without this the job fails with a 403
+  # "Resource not accessible by integration" instead of reporting leaks.
+  pull-requests: read
 
 jobs:
   secrets:
