@@ -21,7 +21,7 @@ class AuthState {
   final String maskedPhone;
   final int? appUserId;
   final String? authUserId;
-  final String? otpChallengeId;
+  final int? otpChallengeId;
   final int resendCountdown;
   final bool isNewUser;
   final bool donorOptIn;
@@ -87,7 +87,7 @@ class AuthState {
     String? maskedPhone,
     int? appUserId,
     String? authUserId,
-    String? otpChallengeId,
+    int? otpChallengeId,
     int? resendCountdown,
     bool? isNewUser,
     bool? donorOptIn,

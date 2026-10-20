@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart';
+import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import '../../../core/localization/app_language.dart';
 import '../../../core/localization/blood_strings.dart';
 import '../../../core/router/app_routes.dart';
@@ -33,7 +33,9 @@ class _HomePlaceholderScreenState extends State<HomePlaceholderScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final isSimulatedNewUser =
-          !client.auth.isAuthenticated &&
+          !FlutterAuthSessionManagerExtension(client)
+              .authSessionManager
+              .isAuthenticated &&
           AuthController.instance.state.isNewUser;
       if (mounted && isSimulatedNewUser) {
         _donorPromptHandled = true;

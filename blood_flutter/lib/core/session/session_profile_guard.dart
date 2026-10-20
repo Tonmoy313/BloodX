@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart';
+import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 
 import '../localization/app_language.dart';
 import '../network/serverpod_client.dart';
@@ -36,7 +36,9 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
   @override
   void initState() {
     super.initState();
-    if (client.auth.isAuthenticated) {
+    if (FlutterAuthSessionManagerExtension(client)
+        .authSessionManager
+        .isAuthenticated) {
       unawaited(_validateProfile());
     }
   }
@@ -78,8 +80,10 @@ class _SessionProfileGuardState extends State<SessionProfileGuard> {
   }
 
   Future<void> _discardExpiredSession() async {
-    await client.auth.storage.set(null);
-    await client.auth.restore();
+    final authSessionManager =
+        FlutterAuthSessionManagerExtension(client).authSessionManager;
+    await authSessionManager.storage.set(null);
+    await authSessionManager.restore();
     await AuthController.instance.signOut();
     await AppSessionStartup.clearProfileCache();
     if (mounted) {

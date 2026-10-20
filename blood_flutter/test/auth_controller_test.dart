@@ -64,39 +64,17 @@ void main() {
   group('AuthController - Auth Flow & Volunteer Principle', () {
     test('donor opt-in is false by default (D-015)', () {
       final controller = AuthController.instance;
-      controller.signOut();
       expect(controller.state.donorOptIn, isFalse);
     });
 
     test(
-      'requestOtp, verifyOtp and completeProfile update state correctly',
+      'rejects invalid auth input before contacting the server',
       () async {
         final controller = AuthController.instance;
-        controller.signOut();
-
-        // Request OTP
-        final requestSuccess = await controller.requestOtp('01712345678');
-        expect(requestSuccess, isTrue);
-        expect(controller.state.phoneE164, '+8801712345678');
-        expect(controller.state.otpChallengeId, isNotNull);
-
-        // Verify OTP
-        final verifySuccess = await controller.verifyOtp('123456');
-        expect(verifySuccess, isTrue);
-        expect(controller.state.isAuthenticated, isTrue);
-
-        // Complete the user profile draft.
-        final saved = controller.saveOnboardingProfile(
-          name: 'Rahim Ahmed',
-          sex: Sex.male,
-          dateOfBirth: DateTime.utc(1990, 5, 10),
-          imagePath: 'profile-photo.jpg',
-        );
-        expect(saved, isTrue);
-        expect(controller.state.displayName, 'Rahim Ahmed');
-        expect(controller.state.sex, Sex.male);
-        expect(controller.state.dateOfBirth, DateTime.utc(1990, 5, 10));
-        expect(controller.state.pendingProfileImagePath, 'profile-photo.jpg');
+        expect(await controller.requestOtp('invalid'), isFalse);
+        expect(await controller.verifyOtp('12'), isFalse);
+        expect(await controller.loginWithPin('invalid', '12345'), isFalse);
+        expect(await controller.setupPin('00000'), isFalse);
       },
     );
 
