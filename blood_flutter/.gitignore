@@ -13,3 +13,5 @@ build/
 .idea/
 *.iml
 *.log
+
+sentry.properties

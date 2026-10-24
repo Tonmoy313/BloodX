@@ -46,6 +46,7 @@ dependencies:
   sentry_flutter: ^8.14.2
 
 dev_dependencies:
+  sentry_dart_plugin: ^3.4.0
   flutter_lints: '>=3.0.0 <7.0.0'
   flutter_test:
     sdk: flutter
@@ -96,3 +97,9 @@ dependency_overrides:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: bloodx
+  org: musafir-tech
