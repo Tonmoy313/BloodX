@@ -9,3 +9,5 @@ build/
 *.iml
 *.log
 migrations/generated/
+
+sentry.properties

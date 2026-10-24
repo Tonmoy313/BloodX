@@ -3,7 +3,6 @@ import 'package:serverpod/protocol.dart' show AccessDeniedException;
 import 'package:serverpod_auth_idp_server/core.dart';
 
 import 'phone_otp_idp.dart';
-
 class AuthEndpoint extends Endpoint {
   PhoneOtpIdp get phoneOtpIdp => AuthServices.instance.phoneOtpIdp;
 

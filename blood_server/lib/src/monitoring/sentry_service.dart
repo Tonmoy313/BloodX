@@ -32,11 +32,11 @@ class SentryService {
   static final _random = Random.secure();
 
   /// Initialise from environment variables. Safe to call multiple times.
-  static void init() {
+  static void init({String? dsn, String? release}) {
     if (_initialised) return;
-    _dsn = io.Platform.environment['SENTRY_DSN_SERVER'];
+    _dsn = dsn ?? io.Platform.environment['SENTRY_DSN_SERVER'];
     _env = io.Platform.environment['APP_ENV'] ?? 'development';
-    _release = io.Platform.environment['SENTRY_RELEASE'] ?? 'unknown';
+    _release = release ?? io.Platform.environment['SENTRY_RELEASE'] ?? 'unknown';
     _initialised = true;
 
     final hasDsn = _dsn != null && _dsn!.trim().isNotEmpty;

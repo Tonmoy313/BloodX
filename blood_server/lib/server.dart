@@ -9,6 +9,7 @@ import 'package:serverpod_cloud_storage_s3/serverpod_cloud_storage_s3.dart';
 
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
+import 'package:dotenv/dotenv.dart' as dotenv;
 
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
@@ -21,40 +22,52 @@ import 'src/web/routes/root.dart';
 
 /// The starting point of the Serverpod server.
 void run(List<String> args) async {
-  SentryService.init(); // P0-11: initialise before anything else
+  final dotEnv = dotenv.DotEnv(includePlatformEnvironment: true)
+    ..load(['C:\\Users\\user\\Documents\\Blood\\blood\\.env']);
+
+  SentryService.init(dsn: dotEnv['SENTRY_DSN_SERVER'], release: dotEnv['SENTRY_RELEASE']);
   SentryService.logInfo('Starting BloodX server...');
   SentryService.logInfo(
-    'OTP mode: ${io.Platform.environment['SKIP_TWILIO'] == 'true' ? 'development' : 'production'}',
+    'OTP mode: ${dotEnv['SKIP_TWILIO'] == 'true' ? 'development' : 'production'}',
   );
   SentryService.logInfo(
-    'runMode: ${io.Platform.environment['RUN_MODE'] ?? 'development'}',
+    'runMode: ${dotEnv['RUN_MODE'] ?? 'development'}',
   );
+  try {
+  throw StateError('Test Sentry Server Error');
+} catch (exception, stackTrace) {
+  await SentryService.captureException(
+    exception, 
+    stackTrace: stackTrace,
+  );
+}
   await Sentry.init(
     (options) {
-      options.dsn =io.Platform.environment["SENTRY_DSN_SERVER"]; // Or read from your server .env file
+      options.dsn = dotEnv['SENTRY_DSN_SERVER'];
       options.tracesSampleRate = 1.0;
-    },);
+    },
+  );
+  
   // Initialize Serverpod and connect it with your generated code.
   final pod = Serverpod(args, Protocol(), Endpoints());
   final useDevelopmentOtp =
       pod.config.runMode == 'development' &&
-      io.Platform.environment['SKIP_TWILIO'] == 'true';
+      dotEnv['SKIP_TWILIO'] == 'true';
 
   // P0-5: Register private R2 buckets for staging and production.
   // Both buckets are private; clients receive short-lived signed URLs only.
   final runMode = pod.config.runMode;
   if (runMode == 'staging' || runMode == 'production') {
     _validateR2OrLog(); // fail fast if secrets are missing
-    final accountId = io.Platform.environment['R2_ACCOUNT_ID'] ?? '';
+    final accountId = dotEnv['R2_ACCOUNT_ID'] ?? '';
     final endpoint = 'https://$accountId.r2.cloudflarestorage.com';
 
-    
-    pod.addCloudStorage(  
+    pod.addCloudStorage(
       S3CloudStorage(
         serverpod: pod,
         storageId: R2SignedUrlService.storageIdSlips,
         public: false,
-        bucket: io.Platform.environment['R2_BUCKET_SLIPS'] ?? '',
+        bucket: dotEnv['R2_BUCKET_SLIPS'] ?? '',
         region: 'auto',
       ),
     );
@@ -64,10 +77,10 @@ void run(List<String> args) async {
         serverpod: pod,
         storageId: R2SignedUrlService.storageIdGenerated,
         public: false,
-        bucket: io.Platform.environment['R2_BUCKET_GENERATED'] ?? '',
+        bucket: dotEnv['R2_BUCKET_GENERATED'] ?? '',
         region: 'auto',
-         // Handle endpoint via CustomEndpointConfig from serverpod_cloud_storage_s3_compat
-        ),
+        // Handle endpoint via CustomEndpointConfig from serverpod_cloud_storage_s3_compat
+      ),
     );
     SentryService.logInfo('R2 private buckets registered.');
   }
@@ -84,8 +97,8 @@ void run(List<String> args) async {
       EmailIdpConfigFromPasswords(
         sendRegistrationVerificationCode: _sendRegistrationCode,
         sendPasswordResetVerificationCode: _sendPasswordResetCode,
-      ), 
-      
+      ),
+
       // Configure the phone OTP identity provider for phone number authentication.
       PhoneOtpIdpConfig(
         sendOtp: _sendOtp,
@@ -120,7 +133,7 @@ void run(List<String> args) async {
     AppConfigRoute(
       apiConfig: pod.config.apiServer,
       minSupportedAppVersion:
-          io.Platform.environment['MIN_SUPPORTED_APP_VERSION'] ?? '1.0.0',
+          dotEnv['MIN_SUPPORTED_APP_VERSION'] ?? '1.0.0',
     ),
     '/app/assets/assets/config.json',
   );
@@ -158,7 +171,10 @@ Future<void> _sendOtp(
   required String phone,
   required String code,
 }) async {
-  if (io.Platform.environment['SKIP_TWILIO'] == 'true' &&
+  final dotEnv = dotenv.DotEnv(includePlatformEnvironment: true)
+    ..load(['C:\\Users\\user\\Documents\\Blood\\blood\\.env']);
+
+  if (dotEnv['SKIP_TWILIO'] == 'true' &&
       Serverpod.instance.config.runMode == 'development') {
     session.log(
       '[PhoneOtpIdp] Development SMS bypass for ${PhoneOtpIdp.maskPhone(phone)}; use the development test code.',
@@ -167,9 +183,9 @@ Future<void> _sendOtp(
     return;
   }
 
-  final accountSid = io.Platform.environment['TWILIO_ACCOUNT_SID'];
-  final authToken = io.Platform.environment['TWILIO_AUTH_TOKEN'];
-  final fromNumber = io.Platform.environment['TWILIO_FROM_NUMBER'];
+  final accountSid = dotEnv['TWILIO_ACCOUNT_SID'];
+  final authToken = dotEnv['TWILIO_AUTH_TOKEN'];
+  final fromNumber = dotEnv['TWILIO_FROM_NUMBER'];
   if (accountSid == null ||
       accountSid.trim().isEmpty ||
       authToken == null ||
@@ -258,7 +274,6 @@ String _requiredSecret(String name, {String? devFallback}) {
   );
 }
 
-
 /// Validate R2 environment variables. Logs a warning on missing vars instead
 /// of throwing, so the server still starts; storage calls fail at request time
 /// with a clear error rather than crashing on startup.
@@ -287,7 +302,6 @@ void _validateR2OrLog() {
 
 String _generateOtp() =>
     math.Random.secure().nextInt(1000000).toString().padLeft(6, '0');
-
 
 void _sendRegistrationCode(
   Session session, {
