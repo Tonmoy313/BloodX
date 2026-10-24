@@ -325,6 +325,35 @@ class EndpointJwtRefresh extends _i3.EndpointRefreshJwtTokens {
 }
 
 /// {@category Endpoint}
+class EndpointR2 extends _i1.EndpointRef {
+  EndpointR2(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'r2';
+
+  /// Allows an authenticated client to get a pre-signed upload URL for slips.
+  _i2.Future<String> signedUploadUrl(String key) =>
+      caller.callServerEndpoint<String>(
+        'r2',
+        'signedUploadUrl',
+        {'key': key},
+      );
+
+  /// Allows an authenticated client to get a pre-signed download URL.
+  _i2.Future<String> signedDownloadUrl({
+    required String storageId,
+    required String key,
+  }) => caller.callServerEndpoint<String>(
+    'r2',
+    'signedDownloadUrl',
+    {
+      'storageId': storageId,
+      'key': key,
+    },
+  );
+}
+
+/// {@category Endpoint}
 class EndpointDonorProfile extends _i1.EndpointRef {
   EndpointDonorProfile(_i1.EndpointCaller caller) : super(caller);
 
@@ -444,6 +473,7 @@ class Client extends _i1.ServerpodClientShared {
     authIdp = EndpointAuthIdp(this);
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
+    r2 = EndpointR2(this);
     donorProfile = EndpointDonorProfile(this);
     donorPrompt = EndpointDonorPrompt(this);
     greeting = EndpointGreeting(this);
@@ -460,6 +490,8 @@ class Client extends _i1.ServerpodClientShared {
   late final EndpointEmailIdp emailIdp;
 
   late final EndpointJwtRefresh jwtRefresh;
+
+  late final EndpointR2 r2;
 
   late final EndpointDonorProfile donorProfile;
 
@@ -478,6 +510,7 @@ class Client extends _i1.ServerpodClientShared {
     'authIdp': authIdp,
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
+    'r2': r2,
     'donorProfile': donorProfile,
     'donorPrompt': donorPrompt,
     'greeting': greeting,
