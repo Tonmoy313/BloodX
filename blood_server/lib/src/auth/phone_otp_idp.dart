@@ -92,7 +92,7 @@ class PhoneOtpIdp {
          hashSaltLength: 16,
          parameters: Argon2HashParameters(memory: 19456),
        );
-
+  
   Future<bool> hasAccount(Session session) async {
     final authUserId = session.authenticated?.authUserId;
     if (authUserId == null) return false;

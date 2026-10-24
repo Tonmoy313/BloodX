@@ -1,34 +1,76 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' as io;
+import 'dart:math' as math;
 
+import 'package:sentry/sentry.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_cloud_storage_s3/serverpod_cloud_storage_s3.dart';
+
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
 
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
 import 'src/auth/phone_otp_idp.dart';
+import 'src/monitoring/sentry_service.dart';
+import 'src/storage/r2_signed_url_service.dart';
 import 'src/web/routes/app_config_route.dart';
+import 'src/web/routes/health_route.dart';
 import 'src/web/routes/root.dart';
 
 /// The starting point of the Serverpod server.
 void run(List<String> args) async {
+  SentryService.init(); // P0-11: initialise before anything else
+  SentryService.logInfo('Starting BloodX server...');
+  SentryService.logInfo(
+    'OTP mode: ${io.Platform.environment['SKIP_TWILIO'] == 'true' ? 'development' : 'production'}',
+  );
+  SentryService.logInfo(
+    'runMode: ${io.Platform.environment['RUN_MODE'] ?? 'development'}',
+  );
+  await Sentry.init(
+    (options) {
+      options.dsn =io.Platform.environment["SENTRY_DSN_SERVER"]; // Or read from your server .env file
+      options.tracesSampleRate = 1.0;
+    },);
   // Initialize Serverpod and connect it with your generated code.
   final pod = Serverpod(args, Protocol(), Endpoints());
+  final useDevelopmentOtp =
+      pod.config.runMode == 'development' &&
+      io.Platform.environment['SKIP_TWILIO'] == 'true';
 
-  // Setup Cloud Storage using Cloudflare R2
-  pod.addCloudStorage(
-    S3CloudStorage(
-      serverpod: pod,
-      storageId: 'public',
-      public: true,
-      bucket: 'bloodx',
-      region: 'auto',
-    ),
-  );
+  // P0-5: Register private R2 buckets for staging and production.
+  // Both buckets are private; clients receive short-lived signed URLs only.
+  final runMode = pod.config.runMode;
+  if (runMode == 'staging' || runMode == 'production') {
+    _validateR2OrLog(); // fail fast if secrets are missing
+    final accountId = io.Platform.environment['R2_ACCOUNT_ID'] ?? '';
+    final endpoint = 'https://$accountId.r2.cloudflarestorage.com';
 
+    
+    pod.addCloudStorage(  
+      S3CloudStorage(
+        serverpod: pod,
+        storageId: R2SignedUrlService.storageIdSlips,
+        public: false,
+        bucket: io.Platform.environment['R2_BUCKET_SLIPS'] ?? '',
+        region: 'auto',
+      ),
+    );
+
+    pod.addCloudStorage(
+      S3CloudStorage(
+        serverpod: pod,
+        storageId: R2SignedUrlService.storageIdGenerated,
+        public: false,
+        bucket: io.Platform.environment['R2_BUCKET_GENERATED'] ?? '',
+        region: 'auto',
+         // Handle endpoint via CustomEndpointConfig from serverpod_cloud_storage_s3_compat
+        ),
+    );
+    SentryService.logInfo('R2 private buckets registered.');
+  }
   // Initialize authentication services for the server.
   // Token managers will be used to validate and issue authentication keys,
   // and the identity providers will be the authentication options available for users.
@@ -42,13 +84,24 @@ void run(List<String> args) async {
       EmailIdpConfigFromPasswords(
         sendRegistrationVerificationCode: _sendRegistrationCode,
         sendPasswordResetVerificationCode: _sendPasswordResetCode,
-      ),
+      ), 
+      
+      // Configure the phone OTP identity provider for phone number authentication.
       PhoneOtpIdpConfig(
         sendOtp: _sendOtp,
-        ipRateLimitHmacKey: _requiredSecret('OTP_IP_RATE_LIMIT_HMAC_KEY'),
+        codeGenerator: useDevelopmentOtp ? () => '000000' : _generateOtp,
+        ipRateLimitHmacKey: _requiredSecret(
+          'OTP_IP_RATE_LIMIT_HMAC_KEY',
+          devFallback: pod.config.runMode == 'development'
+              ? 'dev-only-key-do-not-use-in-prod'
+              : null,
+        ),
       ),
     ],
   );
+
+  // P0-4: /health liveness probe — cheap, no DB I/O.
+  pod.webServer.addRoute(HealthRoute(), '/health');
 
   // Setup a default page at the web root.
   // These are used by the default page.
@@ -105,6 +158,15 @@ Future<void> _sendOtp(
   required String phone,
   required String code,
 }) async {
+  if (io.Platform.environment['SKIP_TWILIO'] == 'true' &&
+      Serverpod.instance.config.runMode == 'development') {
+    session.log(
+      '[PhoneOtpIdp] Development SMS bypass for ${PhoneOtpIdp.maskPhone(phone)}; use the development test code.',
+      level: LogLevel.info,
+    );
+    return;
+  }
+
   final accountSid = io.Platform.environment['TWILIO_ACCOUNT_SID'];
   final authToken = io.Platform.environment['TWILIO_AUTH_TOKEN'];
   final fromNumber = io.Platform.environment['TWILIO_FROM_NUMBER'];
@@ -187,15 +249,45 @@ Future<void> _sendOtp(
   }
 }
 
-String _requiredSecret(String name) {
+String _requiredSecret(String name, {String? devFallback}) {
   final value = io.Platform.environment[name];
-  if (value == null || value.trim().isEmpty) {
-    throw StateError(
-      'Required secret-backed environment variable $name is missing.',
+  if (value != null && value.trim().isNotEmpty) return value;
+  if (devFallback != null) return devFallback;
+  throw StateError(
+    'Required secret-backed environment variable $name is missing.',
+  );
+}
+
+
+/// Validate R2 environment variables. Logs a warning on missing vars instead
+/// of throwing, so the server still starts; storage calls fail at request time
+/// with a clear error rather than crashing on startup.
+void _validateR2OrLog() {
+  const required = [
+    'R2_ACCOUNT_ID',
+    'R2_ACCESS_KEY_ID',
+    'R2_SECRET_ACCESS_KEY',
+    'R2_BUCKET_SLIPS',
+    'R2_BUCKET_GENERATED',
+  ];
+  final missing = required
+      .where(
+        (k) =>
+            io.Platform.environment[k] == null ||
+            io.Platform.environment[k]!.trim().isEmpty,
+      )
+      .toList();
+  if (missing.isNotEmpty) {
+    SentryService.logWarning(
+      'Missing R2 environment variables: ${missing.join(', ')}. '
+      'Signed-URL requests will fail until they are injected from Secret Manager.',
     );
   }
-  return value;
 }
+
+String _generateOtp() =>
+    math.Random.secure().nextInt(1000000).toString().padLeft(6, '0');
+
 
 void _sendRegistrationCode(
   Session session, {

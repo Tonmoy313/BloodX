@@ -29,12 +29,14 @@ webServer:
   publicScheme: http
 
 # This is the database setup for your test server.
+# config/development.yaml  ← leave as-is (Neon)
+# config/test.yaml  ← NEW, points to local Postgres
 database:
   host: localhost
   port: 9090
   name: blood_test
   user: postgres
-  #maxConnectionCount: 10 # Defaults to 10, a negative or null value removes the limit
+  requireSsl: false
 
 # This is the setup for your Redis test instance.
 redis:

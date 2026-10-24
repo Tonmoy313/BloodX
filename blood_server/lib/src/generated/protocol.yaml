@@ -19,6 +19,9 @@ emailIdp:
   - hasAccount:
 jwtRefresh:
   - refreshAccessToken:
+r2:
+  - signedUploadUrl:
+  - signedDownloadUrl:
 donorProfile:
   - saveMyProfile:
 donorPrompt:

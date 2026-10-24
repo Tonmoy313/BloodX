@@ -9,31 +9,39 @@
 # Configuration for the main API server.
 apiServer:
   port: 8080
-  publicHost: localhost
+  # publicHost: localhost
+  publicHost: 0.0.0.0
   publicPort: 8080
   publicScheme: http
 
 # Configuration for the Insights server.
 insightsServer:
   port: 8081
-  publicHost: localhost
+  # publicHost: localhost
+  publicHost: 0.0.0.0
   publicPort: 8081
   publicScheme: http
 
 # Configuration for the web server.
 webServer:
   port: 8082
-  publicHost: localhost
+  # publicHost: localhost
+  publicHost: 0.0.0.0
   publicPort: 8082
   publicScheme: http
 
 # This is the database setup for your server.
 database:
-  host: ep-calm-frost-b3s899un-pooler.c-4.ap-southeast-1.aws.neon.tech
-  port: 5432
-  name: BloodX
-  user: neondb_owner
-  requireSsl: true
+  # host: ep-calm-frost-b3s899un-pooler.c-4.ap-southeast-1.aws.neon.tech
+  # port: 5432
+  # name: BloodX
+  # user: neondb_owner
+  # requireSsl: true
+  host: localhost
+  port: 8090
+  name: blood
+  user: postgres
+  requireSsl: false
   #isUnixSocket: true # defaults to false
   #maxConnectionCount: 10 # Defaults to 10, a negative or null value removes the limit
 
