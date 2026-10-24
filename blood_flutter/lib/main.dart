@@ -1,3 +1,5 @@
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -9,10 +11,19 @@ import 'core/session/app_session_startup.dart';
 import 'core/theme/theme_controller.dart';
 import 'features/splash/presentation/update_required_screen.dart';
 import 'features/splash/presentation/splash_screen.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //sentry 
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =  io.Platform.environment['SENTRY_DSN_APP'];
+      options.tracesSampleRate = 1.0; // Adjust for production (e.g., 0.2)
+    },
+  );
 
+  // system button
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(_systemUiOverlayStyle(Brightness.light));
 

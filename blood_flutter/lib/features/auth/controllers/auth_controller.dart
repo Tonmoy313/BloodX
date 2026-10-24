@@ -106,7 +106,8 @@ class AuthController extends ChangeNotifier {
       errorMessage: null,
     );
     notifyListeners();
-
+    // TODO: Use a logging framework instead of print.
+    // logger.info('Requesting OTP for $normalized (forgotPin: $isForgotPin)');
     try {
       final installId = await DeviceIdentity.getInstallId();
       final challengeId = await client.authIdp.startLogin(
