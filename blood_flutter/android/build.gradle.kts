@@ -16,6 +16,13 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 subprojects {
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        compilerOptions.languageVersion.set(
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_8,
+        )
+    }
+}
+subprojects {
     project.evaluationDependsOn(":app")
 }
 

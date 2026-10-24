@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
   blood_client:
     path: ../blood_client
+  flutter_dotenv: 5.2.1
   serverpod_flutter: 3.4.13
   serverpod_auth_idp_flutter: 3.4.13
   package_info_plus: ^8.3.1
@@ -72,6 +73,7 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
     - assets/config.json
+    - .env
 dependency_overrides:
   flutter_secure_storage: ^10.0.0
 

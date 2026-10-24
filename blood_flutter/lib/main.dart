@@ -1,41 +1,49 @@
-import 'dart:io' as io;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 import 'core/localization/app_language.dart';
+import 'core/monitoring/app_sentry_service.dart';
 import 'core/network/serverpod_client.dart';
 import 'core/router/app_routes.dart';
 import 'core/session/app_session_startup.dart';
 import 'core/theme/theme_controller.dart';
 import 'features/splash/presentation/update_required_screen.dart';
 import 'features/splash/presentation/splash_screen.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //sentry 
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =  io.Platform.environment['SENTRY_DSN_APP'];
-      options.tracesSampleRate = 1.0; // Adjust for production (e.g., 0.2)
+  
+  const sentryDsn = String.fromEnvironment('SENTRY_DSN_APP');
+  const appEnvironment = String.fromEnvironment(
+    'APP_ENV',
+    defaultValue: 'development',
+  );
+  const appRelease = String.fromEnvironment(
+    'SENTRY_RELEASE',
+    defaultValue: 'local',
+  );
+
+  await AppSentryService.init(
+    dsn: sentryDsn.isEmpty ? null : sentryDsn,
+    env: appEnvironment,
+    release: appRelease,
+    appRunner: () async {
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(
+        _systemUiOverlayStyle(Brightness.light),
+      );
+
+      serverUrl = await getServerUrl();
+      initializeClient(serverUrl);
+
+      final startup = await AppSessionStartup.initialize(
+        serverUrl: serverUrl,
+        client: client,
+      );
+
+      runApp(BloodApp(startup: startup));
     },
   );
-
-  // system button
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(_systemUiOverlayStyle(Brightness.light));
-
-  serverUrl = await getServerUrl();
-  initializeClient(serverUrl);
-
-  final startup = await AppSessionStartup.initialize(
-    serverUrl: serverUrl,
-    client: client,
-  );
-
-  runApp(BloodApp(startup: startup));
 }
 
 class BloodApp extends StatelessWidget {
