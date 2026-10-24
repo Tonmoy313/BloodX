@@ -1,0 +1,17 @@
+{
+  "0": "client.dart",
+  "1": "protocol.dart",
+  "2": "package:serverpod_client/serverpod_client.dart",
+  "3": "greeting.dart",
+  "4": "_i1.EndpointRef",
+  "5": "Client",
+  "6": "platform.dart",
+  "7": "language.dart",
+  "8": "admin_role.dart",
+  "9": "consent_type.dart",
+  "10": "otp_type.dart",
+  "11": "CHANGELOG.md",
+  "12": "endpoint.md",
+  "13": "README.md",
+  "14": "@Deprecated"
+}
