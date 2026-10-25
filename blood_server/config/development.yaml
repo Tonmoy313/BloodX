@@ -33,12 +33,12 @@ webServer:
 # This is the database setup for your server.
 database:
   # host: ep-calm-frost-b3s899un-pooler.c-4.ap-southeast-1.aws.neon.tech
-  # port: 5432
+  # port: 8090
   # name: BloodX
   # user: neondb_owner
   # requireSsl: true
   host: localhost
-  port: 8090
+  port: 5432
   name: blood
   user: postgres
   requireSsl: false
@@ -47,7 +47,7 @@ database:
 
 # This is the setup for Redis.
 redis:
-  enabled: false
+  enabled: true
   host: localhost
   port: 8091
   #user: # defaults to empty

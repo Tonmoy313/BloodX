@@ -22,10 +22,11 @@ import 'src/web/routes/root.dart';
 
 /// The starting point of the Serverpod server.
 void run(List<String> args) async {
-  final dotEnv = dotenv.DotEnv(includePlatformEnvironment: true)
-    ..load(['C:\\Users\\user\\Documents\\Blood\\blood\\.env']);
+  final dotEnv = dotenv.DotEnv(includePlatformEnvironment: true);
+  if (io.File('.env').existsSync()) {
+    dotEnv.load(['.env']);
+  }
 
-  SentryService.init(dsn: dotEnv['SENTRY_DSN_SERVER'], release: dotEnv['SENTRY_RELEASE']);
   SentryService.logInfo('Starting BloodX server...');
   SentryService.logInfo(
     'OTP mode: ${dotEnv['SKIP_TWILIO'] == 'true' ? 'development' : 'production'}',
@@ -33,14 +34,6 @@ void run(List<String> args) async {
   SentryService.logInfo(
     'runMode: ${dotEnv['RUN_MODE'] ?? 'development'}',
   );
-  try {
-  throw StateError('Test Sentry Server Error');
-} catch (exception, stackTrace) {
-  await SentryService.captureException(
-    exception, 
-    stackTrace: stackTrace,
-  );
-}
   await Sentry.init(
     (options) {
       options.dsn = dotEnv['SENTRY_DSN_SERVER'];
@@ -112,7 +105,7 @@ void run(List<String> args) async {
       ),
     ],
   );
-
+  
   // P0-4: /health liveness probe — cheap, no DB I/O.
   pod.webServer.addRoute(HealthRoute(), '/health');
 
@@ -263,6 +256,22 @@ Future<void> _sendOtp(
   } finally {
     httpClient.close(force: true);
   }
+}
+
+Future<void> initFirebase() async {
+  final path = io.Platform.environment['FCM_SERVICE_ACCOUNT_JSON_PATH'];
+  if (path == null || path.isEmpty) {
+    throw StateError('FCM_SERVICE_ACCOUNT_JSON_PATH is not set');
+  }
+
+  final file = io.File(path);
+  if (!await file.exists()) {
+    throw StateError('FCM service account file not found at $path');
+  }
+
+  final raw = await file.readAsString();
+  final credentials = jsonDecode(raw) as Map<String, dynamic>;
+
 }
 
 String _requiredSecret(String name, {String? devFallback}) {
