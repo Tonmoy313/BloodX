@@ -1,0 +1,12 @@
+class: AdminUser
+serverOnly: true
+table: admin_user
+fields:
+  user: User?, relation(onDelete=Restrict)
+  role: AdminRole
+  enabled: bool, defaultModel=true, defaultPersist=true
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  admin_user_user_id:
+    fields: userId
+    unique: true

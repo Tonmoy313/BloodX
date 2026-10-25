@@ -1,0 +1,63 @@
+# ============================================
+# Dart / Serverpod
+# ============================================
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+pubspec.lock
+build/
+*.dill
+*.snapshot
+
+# ============================================
+# Serverpod generated code
+# ============================================
+lib/src/generated/
+lib/src/protocol/
+test/integration/test_tools/
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# ============================================
+# Environment / secrets
+# ============================================
+.env
+.env.*
+!.env.example
+config/passwords.yaml
+!config/test.yaml
+!config/generator.yaml
+
+# ============================================
+# Sentry
+# ============================================
+sentry-wizard.exe
+sentry.properties
+
+# ============================================
+# Graphify output
+# ============================================
+graphify-out/
+**/graphify-out/
+
+# ============================================
+# Docker / local DB
+# ============================================
+docker-compose.override.yaml
+*.pid
+
+# ============================================
+# Logs / coverage
+# ============================================
+*.log
+coverage/
+*.lcov
+
+# ============================================
+# OS / IDE
+# ============================================
+.DS_Store
+.idea/
+*.iml

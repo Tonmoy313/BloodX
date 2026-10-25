@@ -3,28 +3,61 @@ import 'package:flutter/services.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 import 'core/localization/app_language.dart';
+import 'core/monitoring/app_sentry_service.dart';
 import 'core/network/serverpod_client.dart';
 import 'core/router/app_routes.dart';
 import 'core/session/app_session_startup.dart';
 import 'core/theme/theme_controller.dart';
 import 'features/splash/presentation/update_required_screen.dart';
-import 'features/splash/presentation/splash_screen.dart';
+import 'features/splash/presentation/splash_screen.dart';import 'package:sentry_flutter/sentry_flutter.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(_systemUiOverlayStyle(Brightness.light));
-
-  serverUrl = await getServerUrl();
-  initializeClient(serverUrl);
-
-  final startup = await AppSessionStartup.initialize(
-    serverUrl: serverUrl,
-    client: client,
+  
+  const sentryDsn = String.fromEnvironment('SENTRY_DSN_APP');
+  const appEnvironment = String.fromEnvironment(
+    'APP_ENV',
+    defaultValue: 'development',
+  );
+  const appRelease = String.fromEnvironment(
+    'SENTRY_RELEASE',
+    defaultValue: 'local',
   );
 
-  runApp(BloodApp(startup: startup));
+  await AppSentryService.init(
+    dsn: sentryDsn.isEmpty ? null : sentryDsn,
+    env: appEnvironment,
+    release: appRelease,
+    appRunner: () async {
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(
+        _systemUiOverlayStyle(Brightness.light),
+      );
+
+      serverUrl = await getServerUrl();
+      initializeClient(serverUrl);
+
+      final startup = await AppSessionStartup.initialize(
+        serverUrl: serverUrl,
+        client: client,
+      );
+
+      await SentryFlutter.init(
+    (options) {
+      options.dsn = 'https://5a0be9b864a5ea4ed98036e5cd3d97c5@o4512309581381632.ingest.us.sentry.io/4512309662515200';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      // The sampling rate for profiling is relative to tracesSampleRate
+      // Setting to 1.0 will profile 100% of sampled transactions:
+      options.profilesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(SentryWidget(child: BloodApp(startup: startup))),
+  );
+  // TODO: Remove this line after sending the first sample event to sentry.
+  await Sentry.captureException(Exception('This is a sample exception.'));
+    },
+  );
 }
 
 class BloodApp extends StatelessWidget {

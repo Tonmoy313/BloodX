@@ -8,6 +8,7 @@ import '../../../core/widgets/blood_drop_logo.dart';
 import '../../../core/widgets/blood_text_field.dart';
 import '../../../core/router/app_routes.dart';
 import '../controllers/auth_controller.dart';
+import 'donor_opt_in_dialog.dart';
 
 /// S6: Phone + PIN Login Screen per spec/auth.md.
 /// Features Bangladesh phone input (+880 prefix), 5-digit PIN, 15-min lockout after 5 fails,
@@ -78,13 +79,21 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
     if (!mounted) return;
 
     if (success) {
-      // Flow per spec:
-      // If donor checked in S3 (or profile incomplete): s6 -> s8 <-> s9 -> app
-      // Else: s6 -> app
-      final shouldGoToHealthDetails =
+      final authState = AuthController.instance.state;
+      final shouldPromptNewUser =
+          authState.isNewUser && !authState.donorProfileComplete;
+      var shouldGoToHealthDetails =
           widget.donorOptInPending ||
-          (AuthController.instance.state.donorOptIn &&
-              !AuthController.instance.state.donorProfileComplete);
+          (authState.donorOptIn && !authState.donorProfileComplete);
+
+      if (shouldPromptNewUser) {
+        shouldGoToHealthDetails = await DonorOptInDialog.show(
+          context,
+          initialValue: shouldGoToHealthDetails,
+        );
+        if (!mounted) return;
+        AuthController.instance.setDonorOptIn(shouldGoToHealthDetails);
+      }
 
       if (shouldGoToHealthDetails) {
         AppRoutes.replaceAll(context, AppRoutes.donorHealthDetails);

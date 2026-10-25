@@ -1,0 +1,16 @@
+class: FeatureFlag
+serverOnly: true
+table: feature_flag
+fields:
+  key: String
+  enabled: bool
+  scope: FlagScope, defaultModel=all, defaultPersist=all
+  minAppVersion: String?
+  updatedBy: User?, relation(onDelete=Restrict)
+  updatedAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  feature_flag_key:
+    fields: key
+    unique: true
+  feature_flag_updated_by:
+    fields: updatedById

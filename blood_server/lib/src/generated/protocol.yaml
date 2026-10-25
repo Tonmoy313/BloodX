@@ -1,0 +1,32 @@
+accountDeletion:
+  - deleteMyAccount:
+  - deleteAccountAfterReview:
+auth:
+  - setPin:
+  - loginWithPin:
+authIdp:
+  - hasAccount:
+  - startLogin:
+  - finishLogin:
+emailIdp:
+  - login:
+  - startRegistration:
+  - verifyRegistrationCode:
+  - finishRegistration:
+  - startPasswordReset:
+  - verifyPasswordResetCode:
+  - finishPasswordReset:
+  - hasAccount:
+jwtRefresh:
+  - refreshAccessToken:
+r2:
+  - signedUploadUrl:
+  - signedDownloadUrl:
+donorProfile:
+  - saveMyProfile:
+donorPrompt:
+  - claimDonorPrompt:
+greeting:
+  - hello:
+profile:
+  - getMyProfile:

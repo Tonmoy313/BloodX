@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart';
+import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../localization/app_language.dart';
@@ -35,6 +35,9 @@ class AppSessionStartup {
     required String serverUrl,
     required Client client,
   }) async {
+    final authSession = FlutterAuthSessionManagerExtension(
+      client,
+    ).authSessionManager;
     final preferences = await SharedPreferences.getInstance();
     final packageInfo = await PackageInfo.fromPlatform();
     final minimumVersion = await _loadMinimumVersion(
@@ -59,8 +62,8 @@ class AppSessionStartup {
         await preferences.setBool(_firstInstallKey, true);
       },
       restore: () async {
-        await client.auth.restore();
-        final authInfo = client.auth.authInfo;
+        await authSession.restore();
+        final authInfo = authSession.authInfo;
         if (authInfo == null) return false;
         if (authInfo.token.isEmpty || authInfo.refreshToken?.isEmpty != false) {
           await _clearSavedAuthentication(client);
@@ -73,7 +76,7 @@ class AppSessionStartup {
     unawaited(AuthSessionRevocationOutbox.retryPending(serverUrl));
 
     if (hasRestoredSession) {
-      final userId = client.auth.authInfo!.authUserId.toString();
+      final userId = authSession.authInfo!.authUserId.toString();
       final cachedUserId = preferences.getString(_cachedUserIdKey);
       final cacheMatchesSession = cachedUserId == userId;
       final language = preferences.getString(_languageKey);
@@ -124,8 +127,11 @@ class AppSessionStartup {
 
   static Future<void> _clearSavedAuthentication(Client client) async {
     try {
-      await client.auth.storage.set(null);
-      await client.auth.restore();
+      final authSession = FlutterAuthSessionManagerExtension(
+        client,
+      ).authSessionManager;
+      await authSession.storage.set(null);
+      await authSession.restore();
     } on PlatformException catch (error) {
       debugPrint('Could not clear saved authentication: ${error.code}');
     }

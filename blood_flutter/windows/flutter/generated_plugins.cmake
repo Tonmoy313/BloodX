@@ -6,6 +6,9 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   desktop_webview_window
   flutter_secure_storage_windows
+  geolocator_windows
+  permission_handler_windows
+  sentry_flutter
   url_launcher_windows
   window_to_front
 )

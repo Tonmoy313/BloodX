@@ -1,0 +1,18 @@
+name: _
+publish_to: none
+
+environment:
+  sdk: '^3.8.0'
+
+workspace:
+  - blood_client
+  - blood_server
+  - blood_flutter
+
+sentry_dart_plugin: ^3.4.0
+sentry_flutter: ^10.2.0
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: bloodx
+  org: musafir-tech

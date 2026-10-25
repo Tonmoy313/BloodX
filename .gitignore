@@ -1,0 +1,90 @@
+# ============================================
+# OS / IDE
+# ============================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+workspace.xml
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+
+# .vscode/
+
+# ============================================
+# Environment / secrets
+# ============================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+
+# ============================================
+# Dart / Flutter
+# ============================================
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+build/
+*.dill
+*.dill.d
+*.snapshot
+*.track.dill
+
+# Generated Dart files
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+*.config.dart
+
+# ============================================
+# Graphify output (generated analysis)
+# ============================================
+graphify-out/
+**/graphify-out/
+.graphify_root
+.graphify_labels.json
+.graphify_labels.json.sig
+
+# ============================================
+# Sentry
+# ============================================
+sentry-wizard.exe
+sentry.properties
+.sentry-native/
+
+# ============================================
+# Test / coverage
+# ============================================
+coverage/
+*.lcov
+test/.test_coverage.dart
+build/test_cache/
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/
+
+# ============================================
+# Misc
+# ============================================
+structure.txt
+skills-lock.json

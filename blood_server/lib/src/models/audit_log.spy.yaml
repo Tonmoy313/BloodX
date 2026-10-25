@@ -1,0 +1,16 @@
+class: AuditLog
+serverOnly: true
+table: audit_log
+fields:
+  actor: User?, relation(onDelete=Restrict)
+  action: String
+  entityType: String
+  entityKey: String
+  details: String?
+  metadata: Map<String, String>?
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  audit_log_actor_created_at:
+    fields: actorId, createdAt
+  audit_log_entity_created_at:
+    fields: entityType, entityKey, createdAt

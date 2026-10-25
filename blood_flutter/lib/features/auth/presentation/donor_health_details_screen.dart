@@ -1,4 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:serverpod_client/serverpod_client.dart';
+
+import 'package:blood_client/blood_client.dart';
+import '../../../core/network/serverpod_client.dart';
 import '../../../core/localization/app_language.dart';
 import '../../../core/localization/blood_strings.dart';
 import '../../../core/router/app_routes.dart';
@@ -18,9 +25,14 @@ class DonorHealthDetailsScreen extends StatefulWidget {
 }
 
 class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
+  final TextEditingController _addressController = TextEditingController();
   String _selectedBloodGroup = 'O+';
   String _selectedArea = 'Dhanmondi';
-  String _selectedCoordinates = '23.7465, 90.3760';
+  String _selectedCoordinates = '';
+  double? _latitude;
+  double? _longitude;
+  bool _hasPreciseLocation = false;
+  bool _isSaving = false;
 
   // 5 Required medical screening checkboxes (D-014, D-016)
   bool _checkAge = true;
@@ -29,10 +41,19 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
   bool _checkCooldown = true;
   bool _checkMedication = true;
 
-  final Set<String> _selectedHospitals = {'Dhaka Medical College Hospital (DMCH)'};
+  final Set<String> _selectedHospitals = {
+    'Dhaka Medical College Hospital (DMCH)',
+  };
 
   final List<String> _bloodGroups = [
-    'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-',
   ];
 
   final List<String> _dhakaHospitals = [
@@ -50,7 +71,17 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
   ];
 
   bool get _allEligibilityPassed =>
-      _checkAge && _checkWeight && _checkHealth && _checkCooldown && _checkMedication;
+      _checkAge &&
+      _checkWeight &&
+      _checkHealth &&
+      _checkCooldown &&
+      _checkMedication;
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
+  }
 
   Future<void> _pickLocationOnMap() async {
     // S9: Pick current location using Google Map
@@ -63,12 +94,33 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
     if (result != null && mounted) {
       setState(() {
         _selectedArea = result['area'] ?? _selectedArea;
-        _selectedCoordinates = result['coordinates'] ?? _selectedCoordinates;
+        _latitude = double.tryParse(result['latitude'] ?? '');
+        _longitude = double.tryParse(result['longitude'] ?? '');
+        _hasPreciseLocation =
+            result['precise'] == 'true' &&
+            _latitude != null &&
+            _longitude != null;
+        _selectedCoordinates = _hasPreciseLocation
+            ? '${_latitude!.toStringAsFixed(6)}, ${_longitude!.toStringAsFixed(6)}'
+            : '';
       });
     }
   }
 
   Future<void> _handleSave() async {
+    if (!_hasPreciseLocation ||
+        _latitude == null ||
+        _longitude == null ||
+        _addressController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(BloodStrings.donorLocationRequired),
+          backgroundColor: BloodColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
     if (!_allEligibilityPassed) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -80,17 +132,54 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
       return;
     }
 
-    await AuthController.instance.saveDonorHealthDetails(
-      bloodGroup: _selectedBloodGroup,
-      area: _selectedArea,
-      locationCoordinates: _selectedCoordinates,
-      preferredHospitals: _selectedHospitals.toList(),
-    );
+    setState(() => _isSaving = true);
+    try {
+      await client.donorProfile.saveMyProfile(
+        bloodGroup: _selectedBloodGroup,
+        area: _selectedArea,
+        address: _addressController.text.trim(),
+        latitude: _latitude!,
+        longitude: _longitude!,
+        preferredCenters: _selectedHospitals.toList(),
+      );
+      await AuthController.instance.saveDonorHealthDetails(
+        bloodGroup: _selectedBloodGroup,
+        area: _selectedArea,
+        locationCoordinates: _selectedCoordinates,
+        preferredHospitals: _selectedHospitals.toList(),
+      );
+    } on ServerpodClientException catch (error) {
+      _showDonorProfileSaveError(
+        error.message.isEmpty
+            ? BloodStrings.donorProfileSaveFailed
+            : error.message,
+      );
+      return;
+    } on SocketException {
+      _showDonorProfileSaveError(BloodStrings.donorProfileSaveFailed);
+      return;
+    } on TimeoutException {
+      _showDonorProfileSaveError(BloodStrings.donorProfileSaveFailed);
+      return;
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
 
     if (!mounted) return;
 
     // Navigate to App home
     AppRoutes.replaceAll(context, AppRoutes.home);
+  }
+
+  void _showDonorProfileSaveError(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: BloodColors.error,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
@@ -155,8 +244,8 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                           color: isSelected
                               ? Colors.white
                               : (isDark
-                                  ? BloodColors.textPrimaryDark
-                                  : BloodColors.textPrimaryLight),
+                                    ? BloodColors.textPrimaryDark
+                                    : BloodColors.textPrimaryLight),
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
                         ),
@@ -165,7 +254,9 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                           side: BorderSide(
                             color: isSelected
                                 ? BloodColors.primary
-                                : (isDark ? Colors.grey[800]! : const Color(0xFFE5E7EB)),
+                                : (isDark
+                                      ? Colors.grey[800]!
+                                      : const Color(0xFFE5E7EB)),
                           ),
                         ),
                         onSelected: (val) {
@@ -196,7 +287,10 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                     onTap: _pickLocationOnMap,
                     borderRadius: BorderRadius.circular(16),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       decoration: BoxDecoration(
                         color: isDark
                             ? BloodColors.surfaceMutedDark
@@ -242,7 +336,10 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               color: BloodColors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
@@ -261,6 +358,28 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                     ),
                   ),
                   const SizedBox(height: 28),
+
+                  Text(
+                    BloodStrings.addressFieldLabel,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: isDark
+                          ? BloodColors.textPrimaryDark
+                          : BloodColors.textPrimaryLight,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _addressController,
+                    maxLength: 250,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: InputDecoration(
+                      hintText: BloodStrings.addressFieldHint,
+                      filled: true,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
 
                   // 3. Medical Eligibility Screening Checkboxes
                   Text(
@@ -295,20 +414,22 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                   _buildEligibilityTile(
                     title: BloodStrings.eligCooldown,
                     value: _checkCooldown,
-                    onChanged: (v) => setState(() => _checkCooldown = v ?? false),
+                    onChanged: (v) =>
+                        setState(() => _checkCooldown = v ?? false),
                     isDark: isDark,
                   ),
                   _buildEligibilityTile(
                     title: BloodStrings.eligMedication,
                     value: _checkMedication,
-                    onChanged: (v) => setState(() => _checkMedication = v ?? false),
+                    onChanged: (v) =>
+                        setState(() => _checkMedication = v ?? false),
                     isDark: isDark,
                   ),
                   const SizedBox(height: 24),
 
                   // 4. Preferred Nearby Hospitals
                   Text(
-                    BloodStrings.preferredHospitalsLabel,
+                    BloodStrings.preferredCentersLabel,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -328,22 +449,28 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                           hospital,
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                             color: isSelected
                                 ? BloodColors.primary
                                 : (isDark
-                                    ? BloodColors.textSecondaryDark
-                                    : BloodColors.textSecondaryLight),
+                                      ? BloodColors.textSecondaryDark
+                                      : BloodColors.textSecondaryLight),
                           ),
                         ),
                         selected: isSelected,
-                        selectedColor: BloodColors.primary.withValues(alpha: 0.15),
+                        selectedColor: BloodColors.primary.withValues(
+                          alpha: 0.15,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(
                             color: isSelected
                                 ? BloodColors.primary
-                                : (isDark ? Colors.grey[800]! : const Color(0xFFE5E7EB)),
+                                : (isDark
+                                      ? Colors.grey[800]!
+                                      : const Color(0xFFE5E7EB)),
                           ),
                         ),
                         onSelected: (selected) {
@@ -371,7 +498,9 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                           : BloodColors.surfaceMutedLight,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: isDark ? Colors.grey[800]! : const Color(0xFFE5E7EB),
+                        color: isDark
+                            ? Colors.grey[800]!
+                            : const Color(0xFFE5E7EB),
                       ),
                     ),
                     child: Text(
@@ -391,7 +520,8 @@ class _DonorHealthDetailsScreenState extends State<DonorHealthDetailsScreen> {
                   BloodButton(
                     text: BloodStrings.saveAndProceed,
                     icon: Icons.check_circle_rounded,
-                    onPressed: _handleSave,
+                    onPressed: _isSaving ? null : _handleSave,
+                    isLoading: _isSaving,
                   ),
                   const SizedBox(height: 20),
                 ],

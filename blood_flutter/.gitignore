@@ -1,0 +1,110 @@
+# ============================================
+# Flutter / Dart
+# ============================================
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+pubspec.lock
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+*.dill
+*.snapshot
+
+# ============================================
+# Generated code
+# ============================================
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+*.config.dart
+lib/generated/
+
+# ============================================
+# Android
+# ============================================
+android/.gradle/
+android/local.properties
+android/.kotlin/
+android/key.properties
+android/app/*.keystore
+android/app/*.jks
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/.cxx/
+android/build/
+android/gradle/wrapper/gradle-wrapper.jar
+
+# ============================================
+# iOS / macOS
+# ============================================
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Flutter/flutter_export_environment.sh
+ios/Runner/GeneratedPluginRegistrant.*
+macos/Pods/
+macos/Flutter/ephemeral/
+macos/Flutter/GeneratedPluginRegistrant.swift
+
+# ============================================
+# Web / Desktop
+# ============================================
+web/build/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
+linux/build/
+windows/build/
+
+# ============================================
+# Environment / secrets
+# ============================================
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.pem
+*.key
+
+# ============================================
+# Sentry
+# ============================================
+sentry-wizard.exe
+sentry.properties
+
+# ============================================
+# Graphify output
+# ============================================
+graphify-out/
+**/graphify-out/
+
+# ============================================
+# Test / coverage
+# ============================================
+coverage/
+*.lcov
+test/.test_coverage.dart
+build/test_cache/
+build/unit_test_assets/
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/
+
+# ============================================
+# OS / IDE
+# ============================================
+.DS_Store
+.idea/
+*.iml
+*.ipr
+*.iws

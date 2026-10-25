@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
   blood_client:
     path: ../blood_client
+  flutter_dotenv: 5.2.1
   serverpod_flutter: 3.4.13
   serverpod_auth_idp_flutter: 3.4.13
   package_info_plus: ^8.3.1
@@ -40,8 +41,12 @@ dependencies:
   serverpod_auth_core_client: 3.4.13
   serverpod_auth_core_flutter: 3.4.13
   serverpod_client: 3.4.13
+  permission_handler: ^12.0.1
+  geolocator: ^14.0.1
+  sentry_flutter: ^8.14.2
 
 dev_dependencies:
+  sentry_dart_plugin: ^3.4.0
   flutter_lints: '>=3.0.0 <7.0.0'
   flutter_test:
     sdk: flutter
@@ -69,6 +74,7 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
     - assets/config.json
+    - .env
 dependency_overrides:
   flutter_secure_storage: ^10.0.0
 
@@ -91,3 +97,9 @@ dependency_overrides:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: bloodx
+  org: musafir-tech

@@ -17,19 +17,22 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
-    client.auth.authInfoListenable.addListener(_updateSignedInState);
-    _isSignedIn = client.auth.isAuthenticated;
+    _authSession.authInfoListenable.addListener(_updateSignedInState);
+    _isSignedIn = _authSession.isAuthenticated;
   }
 
   @override
   void dispose() {
-    client.auth.authInfoListenable.removeListener(_updateSignedInState);
+    _authSession.authInfoListenable.removeListener(_updateSignedInState);
     super.dispose();
   }
 
+  FlutterAuthSessionManager get _authSession =>
+      FlutterAuthSessionManagerExtension(client).authSessionManager;
+
   void _updateSignedInState() {
     setState(() {
-      _isSignedIn = client.auth.isAuthenticated;
+      _isSignedIn = _authSession.isAuthenticated;
     });
   }
 

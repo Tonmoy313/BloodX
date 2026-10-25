@@ -1,0 +1,92 @@
+services:
+  blood_server:
+    build:
+      context: ..
+      dockerfile: blood_server/Dockerfile
+    entrypoint: ["/app/server"]
+    command:
+      - "--mode=development"
+      - "--server-id=default"
+      - "--logging=normal"
+      - "--role=monolith"
+      - "--apply-migrations"
+    container_name: blood_server
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      SERVERPOD_DATABASE_HOST: postgres
+      SERVERPOD_DATABASE_PORT: 5432
+      SERVERPOD_DATABASE_NAME: blood
+      SERVERPOD_DATABASE_USER: postgres
+      SERVERPOD_DATABASE_PASSWORD: "hRkOBSMaedwB-f124UikztcUv24bBN5C"
+      SERVERPOD_REDIS_HOST: redis
+      SERVERPOD_REDIS_PORT: 6379
+      SERVERPOD_REDIS_PASSWORD: "StvrSOOLkxI0giRhGq8eUIAKmCwK9nh8"
+      RUN_MODE: development
+      SKIP_TWILIO: "true"
+      runmode: development
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+    volumes:
+      - ./config/passwords.yaml:/app/config/passwords.yaml:ro
+      - ./secrets:/app/secrets:ro
+
+  # Development services
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: blood_postgres
+    restart: unless-stopped
+    ports:
+      - "8090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: blood
+      POSTGRES_PASSWORD: "hRkOBSMaedwB-f124UikztcUv24bBN5C"
+    volumes:
+      - blood_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6.2.6
+    container_name: blood_redis
+    restart: unless-stopped
+    ports:
+      - "8091:6379"
+    command: redis-server --requirepass "StvrSOOLkxI0giRhGq8eUIAKmCwK9nh8"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  # Test services
+  postgres_test:
+    image: pgvector/pgvector:pg16
+    container_name: blood_postgres_test
+    restart: unless-stopped
+    ports:
+      - "9090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: blood_test
+      POSTGRES_PASSWORD: "bw4T4-Ncj_w79_BM06JBlRYMhE8YOzPe"
+    volumes:
+      - blood_test_data:/var/lib/postgresql/data
+
+  redis_test:
+    image: redis:6.2.6
+    container_name: blood_redis_test
+    restart: unless-stopped
+    ports:
+      - "9091:6379"
+    command: redis-server --requirepass "EAy_JnwX2iA4KV59Qd1rxs2tYmedPbKc"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+volumes:
+  blood_data:
+  blood_test_data:

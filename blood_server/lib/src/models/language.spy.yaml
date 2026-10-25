@@ -1,0 +1,6 @@
+enum: Language
+serialized: byName
+default: bn
+values:
+  - bn
+  - en
