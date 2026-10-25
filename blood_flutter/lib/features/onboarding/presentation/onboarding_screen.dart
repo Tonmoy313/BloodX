@@ -289,12 +289,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
 
-  ElevatedButton(
-  onPressed: () {
-    throw StateError('This is test exception');
-  },
-  child: const Text('Verify Sentry Setup'),
-)
               ],
             ),
           ),

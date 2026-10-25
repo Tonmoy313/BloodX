@@ -1,0 +1,8 @@
+.git
+.env
+**/.env
+blood_server/config/passwords.yaml
+**/secrets/**
+**/.dart_tool/
+**/build/
+**/graphify-out/

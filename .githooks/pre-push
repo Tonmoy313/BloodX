@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master)
+      echo "pre-push: direct pushes to main are blocked. Use a task branch and open a PR."
+      exit 1;;
+  esac
+done
+exit 0

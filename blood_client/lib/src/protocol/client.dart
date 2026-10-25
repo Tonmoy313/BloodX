@@ -324,6 +324,10 @@ class EndpointJwtRefresh extends _i3.EndpointRefreshJwtTokens {
   );
 }
 
+///R2Endpoint (The Gateway):
+///Serverpod requires classes that extend Endpoint to expose functions over the network
+///to your Flutter app. Without an endpoint, your Flutter app has no way to make a remote
+/// call to ask the server for a signed URL.
 /// {@category Endpoint}
 class EndpointR2 extends _i1.EndpointRef {
   EndpointR2(_i1.EndpointCaller caller) : super(caller);

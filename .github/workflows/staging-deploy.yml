@@ -1,0 +1,132 @@
+# P0-4: Cloud Run staging pipeline
+# Triggers on every merge to main. Builds and deploys the server to Cloud Run
+# staging (service: bloodx-staging). Workflow does nothing unless
+# DEPLOY_ENABLED repo variable is set to "true" (safe for fork / initial setup).
+#
+# Required GitHub secrets (set via Settings > Secrets):
+#   (none — credentials use Workload Identity Federation)
+#
+# Required GitHub repo variables (set via Settings > Variables):
+#   GCP_WIF_PROVIDER  — full WIF provider resource name
+#   GCP_DEPLOY_SA     — service account email with Cloud Run deploy permission
+#   GCP_PROJECT       — Google Cloud project ID (staging)
+#   GCP_REGION        — Cloud Run region, e.g. asia-southeast1
+#   CLOUD_RUN_SERVICE — Cloud Run service name, e.g. bloodx-staging
+#   DEPLOY_ENABLED    — set to "true" to activate deploys
+#
+# Secrets injected at runtime via Cloud Run --set-secrets (Secret Manager):
+#   DATABASE_URL, REDIS_HOST, REDIS_PASSWORD, R2_*, FCM_SERVICE_ACCOUNT_JSON,
+#   TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER,
+#   OTP_IP_RATE_LIMIT_HMAC_KEY, SENTRY_DSN_SERVER
+
+name: staging-deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write   # required for Workload Identity Federation
+
+env:
+  IMAGE: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT }}/bloodx/server
+
+jobs:
+  deploy:
+    name: Build & deploy to Cloud Run staging
+    runs-on: ubuntu-latest
+    # Guard: do nothing until the owner flips DEPLOY_ENABLED to true.
+    if: vars.DEPLOY_ENABLED == 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ vars.GCP_REGION }}-docker.pkg.dev --quiet
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -f blood_server/Dockerfile \
+            -t ${{ env.IMAGE }}:${{ github.sha }} \
+            -t ${{ env.IMAGE }}:latest \
+            .
+
+      - name: Push image to Artifact Registry
+        run: |
+          docker push ${{ env.IMAGE }}:${{ github.sha }}
+          docker push ${{ env.IMAGE }}:latest
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        run: |
+          gcloud run deploy ${{ vars.CLOUD_RUN_SERVICE }} \
+            --image=${{ env.IMAGE }}:${{ github.sha }} \
+            --project=${{ vars.GCP_PROJECT }} \
+            --region=${{ vars.GCP_REGION }} \
+            --platform=managed \
+            --no-allow-unauthenticated \
+            --min-instances=1 \
+            --max-instances=5 \
+            --cpu=1 \
+            --memory=512Mi \
+            --cpu-always-on \
+            --timeout=60s \
+            --concurrency=80 \
+            --port=8080 \
+            --set-env-vars="APP_ENV=staging,SENTRY_RELEASE=${{ github.sha }}" \
+            --set-secrets="\
+              DATABASE_URL=bloodx-staging-database-url:latest,\
+              REDIS_HOST=bloodx-staging-redis-host:latest,\
+              REDIS_PASSWORD=bloodx-staging-redis-password:latest,\
+              R2_ACCOUNT_ID=bloodx-r2-account-id:latest,\
+              R2_ACCESS_KEY_ID=bloodx-r2-access-key-id:latest,\
+              R2_SECRET_ACCESS_KEY=bloodx-r2-secret-access-key:latest,\
+              R2_BUCKET_SLIPS=bloodx-staging-r2-bucket-slips:latest,\
+              R2_BUCKET_GENERATED=bloodx-staging-r2-bucket-generated:latest,\
+              FCM_SERVICE_ACCOUNT_JSON=bloodx-staging-fcm-sa-json:latest,\
+              TWILIO_ACCOUNT_SID=bloodx-twilio-account-sid:latest,\
+              TWILIO_AUTH_TOKEN=bloodx-twilio-auth-token:latest,\
+              TWILIO_FROM_NUMBER=bloodx-twilio-from-number:latest,\
+              OTP_IP_RATE_LIMIT_HMAC_KEY=bloodx-otp-ip-hmac-key:latest,\
+              SENTRY_DSN_SERVER=bloodx-sentry-dsn-server:latest" \
+            --format="value(status.url)"
+
+      - name: Smoke-test /health endpoint
+        run: |
+          URL=$(gcloud run services describe ${{ vars.CLOUD_RUN_SERVICE }} \
+            --project=${{ vars.GCP_PROJECT }} \
+            --region=${{ vars.GCP_REGION }} \
+            --format="value(status.url)")
+          # Use an ID token to authenticate to the private Cloud Run service.
+          TOKEN=$(gcloud auth print-identity-token)
+          STATUS=$(curl -sf -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $TOKEN" \
+            "$URL/health")
+          if [ "$STATUS" != "200" ]; then
+            echo "Health check failed with status $STATUS"
+            exit 1
+          fi
+          echo "Health check passed (HTTP $STATUS)"
+
+      - name: Record deployed revision
+        if: success()
+        run: |
+          REVISION=$(gcloud run services describe ${{ vars.CLOUD_RUN_SERVICE }} \
+            --project=${{ vars.GCP_PROJECT }} \
+            --region=${{ vars.GCP_REGION }} \
+            --format="value(status.latestReadyRevisionName)")
+          echo "Deployed revision: $REVISION"
+          echo "DEPLOYED_REVISION=$REVISION" >> $GITHUB_STEP_SUMMARY

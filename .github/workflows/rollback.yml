@@ -1,0 +1,91 @@
+# P0-4: Cloud Run rollback workflow
+# Rolls back the Cloud Run staging service to the previous traffic revision.
+# Run this manually from GitHub Actions > Rollback tab after a bad deploy.
+#
+# This workflow is intentionally simple: it just shifts 100% traffic back to
+# the last known-good revision (stored in GH_ROLLBACK_REVISION var or auto-
+# detected from the revision list).
+
+name: rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      revision:
+        description: >
+          Cloud Run revision name to roll back to
+          (leave blank to auto-detect the previous revision).
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  rollback:
+    name: Roll back Cloud Run staging
+    runs-on: ubuntu-latest
+    if: vars.DEPLOY_ENABLED == 'true'
+
+    steps:
+      - name: Authenticate to Google Cloud (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Resolve rollback revision
+        id: resolve
+        run: |
+          if [ -n "${{ github.event.inputs.revision }}" ]; then
+            echo "revision=${{ github.event.inputs.revision }}" >> $GITHUB_OUTPUT
+          else
+            # List revisions newest-first; skip the current LATEST, take the next one.
+            REVISIONS=$(gcloud run revisions list \
+              --service=${{ vars.CLOUD_RUN_SERVICE }} \
+              --project=${{ vars.GCP_PROJECT }} \
+              --region=${{ vars.GCP_REGION }} \
+              --sort-by="~DEPLOYED" \
+              --format="value(name)" \
+              --limit=3)
+            # Second line is the previous revision (first line = latest).
+            PREV=$(echo "$REVISIONS" | sed -n '2p')
+            if [ -z "$PREV" ]; then
+              echo "No previous revision found. Cannot roll back."
+              exit 1
+            fi
+            echo "revision=$PREV" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Shift 100% traffic to rollback revision
+        run: |
+          echo "Rolling back to revision: ${{ steps.resolve.outputs.revision }}"
+          gcloud run services update-traffic ${{ vars.CLOUD_RUN_SERVICE }} \
+            --project=${{ vars.GCP_PROJECT }} \
+            --region=${{ vars.GCP_REGION }} \
+            --to-revisions=${{ steps.resolve.outputs.revision }}=100
+
+      - name: Smoke-test /health after rollback
+        run: |
+          URL=$(gcloud run services describe ${{ vars.CLOUD_RUN_SERVICE }} \
+            --project=${{ vars.GCP_PROJECT }} \
+            --region=${{ vars.GCP_REGION }} \
+            --format="value(status.url)")
+          TOKEN=$(gcloud auth print-identity-token)
+          STATUS=$(curl -sf -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $TOKEN" \
+            "$URL/health")
+          if [ "$STATUS" != "200" ]; then
+            echo "Health check failed after rollback (HTTP $STATUS)"
+            exit 1
+          fi
+          echo "Rollback successful. Health check passed (HTTP $STATUS)"
+
+      - name: Rollback summary
+        run: |
+          echo "## Rollback complete" >> $GITHUB_STEP_SUMMARY
+          echo "Rolled back to revision: ${{ steps.resolve.outputs.revision }}" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "blood_flutter",
+            "cwd": "${workspaceFolder}/blood_flutter",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "blood_server",
+            "cwd": "${workspaceFolder}/blood_server",
+            "request": "launch",
+            "type": "dart",
+            "preLaunchTask": "docker_compose_up",
+            "program": "bin/main.dart",
+            "env": {
+                "SERVERPOD_PASSWORD_database": "hRkOBSMaedwB-f124UikztcUv24bBN5C"
+            },
+            "args": [
+                "--apply-migrations"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "blood (full stack)",
+            "configurations": [
+                "blood_server",
+                "blood_flutter"
+            ],
+            "presentation": {
+                "order": 1
+            }
+        }
+    ]
+}
