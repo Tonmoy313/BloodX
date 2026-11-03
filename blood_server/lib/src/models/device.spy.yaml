@@ -19,6 +19,7 @@ indexes:
     unique: true
   device_user_id:
     fields: userId
+    unique: true
   device_push_token:
     fields: pushToken
     unique: true

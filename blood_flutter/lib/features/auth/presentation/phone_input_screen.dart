@@ -23,6 +23,7 @@ class PhoneInputScreen extends StatefulWidget {
 }
 
 class _PhoneInputScreenState extends State<PhoneInputScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final FocusNode _phoneFocus = FocusNode();
   String? _errorMessage;
@@ -37,10 +38,12 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
     if (currentPhone.isNotEmpty) {
       _phoneController.text = currentPhone;
     }
+    _nameController.text = AuthController.instance.state.displayName ?? '';
   }
 
   @override
   void dispose() {
+    _nameController.dispose();
     _phoneController.dispose();
     _phoneFocus.dispose();
     super.dispose();
@@ -164,6 +167,15 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
   }
 
   Future<void> _handleSendOtp() async {
+    if (!widget.isForgotPin) {
+      final name = _nameController.text.trim();
+      if (name.isEmpty || name.length > 100) {
+        setState(() => _errorMessage = BloodStrings.profileNameError);
+        return;
+      }
+      AuthController.instance.setProfileName(name);
+    }
+
     final text = _phoneController.text.trim();
     if (text.isEmpty) {
       setState(() {
@@ -329,6 +341,17 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
+
+                  if (!widget.isForgotPin) ...[
+                    BloodTextField(
+                      label: BloodStrings.profileNameLabel,
+                      hintText: BloodStrings.profileNameHint,
+                      controller: _nameController,
+                      maxLength: 100,
+                      textCapitalization: TextCapitalization.words,
+                    ),
+                    const SizedBox(height: 16),
+                  ],
 
                   // Phone Input Field with Bangladesh badge
                   BloodTextField(

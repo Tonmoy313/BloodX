@@ -12,86 +12,137 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../auth/account_deletion_endpoint.dart' as _i2;
-import '../auth/auth_endpoint.dart' as _i3;
-import '../auth/auth_idp_endpoint.dart' as _i4;
-import '../auth/email_idp_endpoint.dart' as _i5;
-import '../auth/jwt_refresh_endpoint.dart' as _i6;
-import '../config/aws_endpoint_config.dart' as _i7;
-import '../donor/donor_profile_endpoint.dart' as _i8;
-import '../donor/donor_prompt_endpoint.dart' as _i9;
-import '../greetings/greeting_endpoint.dart' as _i10;
-import '../profile/profile_endpoint.dart' as _i11;
+import '../area/area_endpoint.dart' as _i2;
+import '../auth/account_deletion_endpoint.dart' as _i3;
+import '../auth/auth_endpoint.dart' as _i4;
+import '../auth/auth_idp_endpoint.dart' as _i5;
+import '../auth/email_idp_endpoint.dart' as _i6;
+import '../auth/jwt_refresh_endpoint.dart' as _i7;
+import '../config/aws_endpoint_config.dart' as _i8;
+import '../donor/donor_profile_endpoint.dart' as _i9;
+import '../donor/donor_prompt_endpoint.dart' as _i10;
+import '../greetings/greeting_endpoint.dart' as _i11;
+import '../profile/profile_endpoint.dart' as _i12;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i12;
-import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i13;
+import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+    as _i14;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'accountDeletion': _i2.AccountDeletionEndpoint()
+      'area': _i2.AreaEndpoint()
+        ..initialize(
+          server,
+          'area',
+          null,
+        ),
+      'accountDeletion': _i3.AccountDeletionEndpoint()
         ..initialize(
           server,
           'accountDeletion',
           null,
         ),
-      'auth': _i3.AuthEndpoint()
+      'auth': _i4.AuthEndpoint()
         ..initialize(
           server,
           'auth',
           null,
         ),
-      'authIdp': _i4.AuthIdpEndpoint()
+      'authIdp': _i5.AuthIdpEndpoint()
         ..initialize(
           server,
           'authIdp',
           null,
         ),
-      'emailIdp': _i5.EmailIdpEndpoint()
+      'emailIdp': _i6.EmailIdpEndpoint()
         ..initialize(
           server,
           'emailIdp',
           null,
         ),
-      'jwtRefresh': _i6.JwtRefreshEndpoint()
+      'jwtRefresh': _i7.JwtRefreshEndpoint()
         ..initialize(
           server,
           'jwtRefresh',
           null,
         ),
-      'r2': _i7.R2Endpoint()
+      'r2': _i8.R2Endpoint()
         ..initialize(
           server,
           'r2',
           null,
         ),
-      'donorProfile': _i8.DonorProfileEndpoint()
+      'donorProfile': _i9.DonorProfileEndpoint()
         ..initialize(
           server,
           'donorProfile',
           null,
         ),
-      'donorPrompt': _i9.DonorPromptEndpoint()
+      'donorPrompt': _i10.DonorPromptEndpoint()
         ..initialize(
           server,
           'donorPrompt',
           null,
         ),
-      'greeting': _i10.GreetingEndpoint()
+      'greeting': _i11.GreetingEndpoint()
         ..initialize(
           server,
           'greeting',
           null,
         ),
-      'profile': _i11.ProfileEndpoint()
+      'profile': _i12.ProfileEndpoint()
         ..initialize(
           server,
           'profile',
           null,
         ),
     };
+    connectors['area'] = _i1.EndpointConnector(
+      name: 'area',
+      endpoint: endpoints['area']!,
+      methodConnectors: {
+        'getDistricts': _i1.MethodConnector(
+          name: 'getDistricts',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['area'] as _i2.AreaEndpoint).getDistricts(session),
+        ),
+        'getUpazilas': _i1.MethodConnector(
+          name: 'getUpazilas',
+          params: {
+            'district': _i1.ParameterDescription(
+              name: 'district',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['area'] as _i2.AreaEndpoint).getUpazilas(
+                session,
+                district: params['district'],
+              ),
+        ),
+        'getAllLocations': _i1.MethodConnector(
+          name: 'getAllLocations',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['area'] as _i2.AreaEndpoint)
+                  .getAllLocations(session),
+        ),
+      },
+    );
     connectors['accountDeletion'] = _i1.EndpointConnector(
       name: 'accountDeletion',
       endpoint: endpoints['accountDeletion']!,
@@ -104,7 +155,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['accountDeletion'] as _i2.AccountDeletionEndpoint)
+                  (endpoints['accountDeletion'] as _i3.AccountDeletionEndpoint)
                       .deleteMyAccount(session),
         ),
         'deleteAccountAfterReview': _i1.MethodConnector(
@@ -126,7 +177,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['accountDeletion'] as _i2.AccountDeletionEndpoint)
+                  (endpoints['accountDeletion'] as _i3.AccountDeletionEndpoint)
                       .deleteAccountAfterReview(
                         session,
                         userId: params['userId'],
@@ -147,14 +198,20 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<String>(),
               nullable: false,
             ),
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
           },
           call:
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['auth'] as _i3.AuthEndpoint).setPin(
+              ) async => (endpoints['auth'] as _i4.AuthEndpoint).setPin(
                 session,
                 pin: params['pin'],
+                name: params['name'],
               ),
         ),
         'loginWithPin': _i1.MethodConnector(
@@ -180,7 +237,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['auth'] as _i3.AuthEndpoint).loginWithPin(
+              ) async => (endpoints['auth'] as _i4.AuthEndpoint).loginWithPin(
                 session,
                 phone: params['phone'],
                 pin: params['pin'],
@@ -200,7 +257,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['authIdp'] as _i4.AuthIdpEndpoint)
+              ) async => (endpoints['authIdp'] as _i5.AuthIdpEndpoint)
                   .hasAccount(session),
         ),
         'startLogin': _i1.MethodConnector(
@@ -227,7 +284,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['authIdp'] as _i4.AuthIdpEndpoint).startLogin(
+                  (endpoints['authIdp'] as _i5.AuthIdpEndpoint).startLogin(
                     session,
                     phone: params['phone'],
                     installId: params['installId'],
@@ -258,7 +315,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['authIdp'] as _i4.AuthIdpEndpoint).finishLogin(
+                  (endpoints['authIdp'] as _i5.AuthIdpEndpoint).finishLogin(
                     session,
                     challengeId: params['challengeId'],
                     code: params['code'],
@@ -289,7 +346,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint).login(
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint).login(
                 session,
                 email: params['email'],
                 password: params['password'],
@@ -308,7 +365,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint)
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint)
                   .startRegistration(
                     session,
                     email: params['email'],
@@ -332,7 +389,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint)
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint)
                   .verifyRegistrationCode(
                     session,
                     accountRequestId: params['accountRequestId'],
@@ -357,7 +414,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint)
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint)
                   .finishRegistration(
                     session,
                     registrationToken: params['registrationToken'],
@@ -377,7 +434,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint)
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint)
                   .startPasswordReset(
                     session,
                     email: params['email'],
@@ -401,7 +458,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint)
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint)
                   .verifyPasswordResetCode(
                     session,
                     passwordResetRequestId: params['passwordResetRequestId'],
@@ -426,7 +483,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint)
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint)
                   .finishPasswordReset(
                     session,
                     finishPasswordResetToken:
@@ -441,7 +498,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i5.EmailIdpEndpoint)
+              ) async => (endpoints['emailIdp'] as _i6.EmailIdpEndpoint)
                   .hasAccount(session),
         ),
       },
@@ -463,7 +520,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['jwtRefresh'] as _i6.JwtRefreshEndpoint)
+              ) async => (endpoints['jwtRefresh'] as _i7.JwtRefreshEndpoint)
                   .refreshAccessToken(
                     session,
                     refreshToken: params['refreshToken'],
@@ -488,7 +545,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['r2'] as _i7.R2Endpoint).signedUploadUrl(
+              ) async => (endpoints['r2'] as _i8.R2Endpoint).signedUploadUrl(
                 session,
                 params['key'],
               ),
@@ -511,7 +568,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['r2'] as _i7.R2Endpoint).signedDownloadUrl(
+              ) async => (endpoints['r2'] as _i8.R2Endpoint).signedDownloadUrl(
                 session,
                 storageId: params['storageId'],
                 key: params['key'],
@@ -526,15 +583,55 @@ class Endpoints extends _i1.EndpointDispatch {
         'saveMyProfile': _i1.MethodConnector(
           name: 'saveMyProfile',
           params: {
+            'dateOfBirth': _i1.ParameterDescription(
+              name: 'dateOfBirth',
+              type: _i1.getType<DateTime>(),
+              nullable: false,
+            ),
+            'sex': _i1.ParameterDescription(
+              name: 'sex',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
             'bloodGroup': _i1.ParameterDescription(
               name: 'bloodGroup',
               type: _i1.getType<String>(),
               nullable: false,
             ),
-            'area': _i1.ParameterDescription(
-              name: 'area',
+            'bloodGroupSource': _i1.ParameterDescription(
+              name: 'bloodGroupSource',
               type: _i1.getType<String>(),
               nullable: false,
+            ),
+            'weightKg': _i1.ParameterDescription(
+              name: 'weightKg',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'lastDonatedAt': _i1.ParameterDescription(
+              name: 'lastDonatedAt',
+              type: _i1.getType<DateTime?>(),
+              nullable: true,
+            ),
+            'apheresisWilling': _i1.ParameterDescription(
+              name: 'apheresisWilling',
+              type: _i1.getType<bool>(),
+              nullable: false,
+            ),
+            'primaryArea': _i1.ParameterDescription(
+              name: 'primaryArea',
+              type: _i1.getType<List<String>>(),
+              nullable: false,
+            ),
+            'secondaryAreas': _i1.ParameterDescription(
+              name: 'secondaryAreas',
+              type: _i1.getType<List<String>>(),
+              nullable: false,
+            ),
+            'tertiaryAreas': _i1.ParameterDescription(
+              name: 'tertiaryAreas',
+              type: _i1.getType<List<String>?>(),
+              nullable: true,
             ),
             'address': _i1.ParameterDescription(
               name: 'address',
@@ -561,15 +658,60 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['donorProfile'] as _i8.DonorProfileEndpoint)
+              ) async => (endpoints['donorProfile'] as _i9.DonorProfileEndpoint)
                   .saveMyProfile(
                     session,
+                    dateOfBirth: params['dateOfBirth'],
+                    sex: params['sex'],
                     bloodGroup: params['bloodGroup'],
-                    area: params['area'],
+                    bloodGroupSource: params['bloodGroupSource'],
+                    weightKg: params['weightKg'],
+                    lastDonatedAt: params['lastDonatedAt'],
+                    apheresisWilling: params['apheresisWilling'],
+                    primaryArea: params['primaryArea'],
+                    secondaryAreas: params['secondaryAreas'],
+                    tertiaryAreas: params['tertiaryAreas'],
                     address: params['address'],
                     latitude: params['latitude'],
                     longitude: params['longitude'],
                     preferredCenters: params['preferredCenters'],
+                  ),
+        ),
+        'submitReadinessCheck': _i1.MethodConnector(
+          name: 'submitReadinessCheck',
+          params: {
+            'weightKg': _i1.ParameterDescription(
+              name: 'weightKg',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'answers': _i1.ParameterDescription(
+              name: 'answers',
+              type: _i1.getType<List<bool>>(),
+              nullable: false,
+            ),
+            'locale': _i1.ParameterDescription(
+              name: 'locale',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'appVersion': _i1.ParameterDescription(
+              name: 'appVersion',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['donorProfile'] as _i9.DonorProfileEndpoint)
+                  .submitReadinessCheck(
+                    session,
+                    weightKg: params['weightKg'],
+                    answers: params['answers'],
+                    locale: params['locale'],
+                    appVersion: params['appVersion'],
                   ),
         ),
       },
@@ -585,7 +727,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['donorPrompt'] as _i9.DonorPromptEndpoint)
+              ) async => (endpoints['donorPrompt'] as _i10.DonorPromptEndpoint)
                   .claimDonorPrompt(session),
         ),
       },
@@ -607,7 +749,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['greeting'] as _i10.GreetingEndpoint).hello(
+              ) async => (endpoints['greeting'] as _i11.GreetingEndpoint).hello(
                 session,
                 params['name'],
               ),
@@ -625,14 +767,52 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['profile'] as _i11.ProfileEndpoint)
+              ) async => (endpoints['profile'] as _i12.ProfileEndpoint)
                   .getMyProfile(session),
+        ),
+        'createMyProfileImageUploadDescription': _i1.MethodConnector(
+          name: 'createMyProfileImageUploadDescription',
+          params: {
+            'extension': _i1.ParameterDescription(
+              name: 'extension',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['profile'] as _i12.ProfileEndpoint)
+                  .createMyProfileImageUploadDescription(
+                    session,
+                    extension: params['extension'],
+                  ),
+        ),
+        'confirmMyProfileImage': _i1.MethodConnector(
+          name: 'confirmMyProfileImage',
+          params: {
+            'imageKey': _i1.ParameterDescription(
+              name: 'imageKey',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['profile'] as _i12.ProfileEndpoint)
+                  .confirmMyProfileImage(
+                    session,
+                    imageKey: params['imageKey'],
+                  ),
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i12.Endpoints()
+    modules['serverpod_auth_idp'] = _i13.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i13.Endpoints()
+    modules['serverpod_auth_core'] = _i14.Endpoints()
       ..initializeEndpoints(server);
   }
 }

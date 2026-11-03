@@ -1,0 +1,15 @@
+class: ReadinessCheck
+serverOnly: true
+table: readiness_check
+fields:
+  donorProfile: DonorProfile?, relation(onDelete=Cascade)
+  questionnaireVersion: String
+  outcome: ReadinessOutcome
+  weightKg: double
+  validUntil: DateTime?
+  locale: String
+  appVersion: String
+  checkedAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  readiness_check_donor_checked_at:
+    fields: donorProfileId, checkedAt

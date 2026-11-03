@@ -1,0 +1,27 @@
+class: KycVerification
+serverOnly: true
+table: kyc_verification
+fields:
+  user: User?, relation(onDelete=Cascade)
+  type: KycVerificationType
+  provider: String
+  providerRef: String
+  status: KycStatus, defaultModel=pending, defaultPersist=pending
+  subjectHmac: String?
+  rejectionCode: String?
+  submittedAt: DateTime, defaultModel=now, defaultPersist=now
+  completedAt: DateTime?
+  expiresAt: DateTime?
+indexes:
+  kyc_verification_user_type_status:
+    fields: userId, type, status
+  kyc_verification_provider_ref:
+    fields: provider, providerRef
+    unique: true
+  kyc_verification_subject_hmac_verified:
+    fields: subjectHmac
+    unique: true
+  kyc_verification_user_type_pending:
+    fields: userId, type
+    unique: true
+  

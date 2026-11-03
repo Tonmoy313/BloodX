@@ -1,0 +1,8 @@
+enum: DeferralReason
+values:
+  - lowWeight
+  - ageLimit
+  - recentDonation
+  - temporaryHealth
+  - travel
+  - medicalReview

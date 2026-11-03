@@ -33,22 +33,20 @@ webServer:
 # This is the database setup for your server.
 database:
   # host: ep-calm-frost-b3s899un-pooler.c-4.ap-southeast-1.aws.neon.tech
-  # port: 8090
-  # name: BloodX
-  # user: neondb_owner
-  # requireSsl: true
-  host: localhost
+  host: ep-calm-frost-b3s899un-pooler.c-4.ap-southeast-1.aws.neon.tech
+  name: BloodX
+  user: neondb_owner
   port: 5432
-  name: blood
-  user: postgres
-  requireSsl: false
+  requireSsl: true
+  PGSSLMODE: require
+  PGCHANNELBINDING: require
   #isUnixSocket: true # defaults to false
   #maxConnectionCount: 10 # Defaults to 10, a negative or null value removes the limit
 
 # This is the setup for Redis.
 redis:
-  enabled: true
-  host: localhost
+  enabled: false
+  host: ep-calm-frost-b3s899un-pooler.c-4.ap-southeast-1.aws.neon.tech
   port: 8091
   #user: # defaults to empty
   #requireSsl: true # defaults to false

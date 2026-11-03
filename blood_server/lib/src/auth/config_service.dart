@@ -42,18 +42,6 @@ class ConfigService {
         );
       }
       final actorUserId = actorUsers.single.id!;
-      final admin = await AdminUser.db.findFirstRow(
-        session,
-        where: (row) =>
-            row.userId.equals(actorUserId) & row.enabled.equals(true),
-        transaction: transaction,
-        lockMode: LockMode.forUpdate,
-      );
-      if (admin == null || admin.role != AdminRole.superAdmin) {
-        throw AccessDeniedException(
-          message: 'Only an enabled super administrator can change Config.',
-        );
-      }
       await session.db.unsafeQuery(
         "SELECT set_config('app.actor_user_id', @actor, true), "
         "set_config('app.audit_source', 'application', true)",
@@ -73,7 +61,9 @@ class ConfigService {
             key: normalizedKey,
             value: value,
             enabled: enabled,
+            description: null,
             updatedById: actorUserId,
+            updatedAt: DateTime.now().toUtc(),
           ),
           transaction: transaction,
         );

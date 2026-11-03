@@ -3,4 +3,6 @@ serialized: byName
 values:
   - termsOfService
   - privacyPolicy
-  - donorOptIn
+  - donorLocationSharing
+  - donorDataSharing
+  - BackgroundTasks

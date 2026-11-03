@@ -25,6 +25,8 @@ services:
       SERVERPOD_REDIS_PASSWORD: "StvrSOOLkxI0giRhGq8eUIAKmCwK9nh8"
       RUN_MODE: development
       SKIP_TWILIO: "true"
+      SKIP_SENTRY: "false"
+      SKIP_R2: "true"
       runmode: development
     depends_on:
       postgres:

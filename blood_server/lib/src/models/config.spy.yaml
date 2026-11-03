@@ -6,6 +6,7 @@ fields:
   key: String
   value: Map<String, String>
   enabled: bool, defaultModel=true, defaultPersist=true
+  description: String?
   updatedBy: User?, relation(onDelete=Restrict)
   updatedAt: DateTime, defaultModel=now, defaultPersist=now
 indexes:

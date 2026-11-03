@@ -1,0 +1,14 @@
+class: Tier
+serverOnly: true
+table: tier
+fields:
+  code: String
+  name: String
+  maxOpenRequests: int, defaultModel=1, defaultPersist=1
+  requiresVerificationLevel: VerificationLevel, defaultModel=phone, defaultPersist=phone
+  isActive: bool, defaultModel=true, defaultPersist=true
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  tier_code:
+    fields: code
+    unique: true

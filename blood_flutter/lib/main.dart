@@ -9,7 +9,8 @@ import 'core/router/app_routes.dart';
 import 'core/session/app_session_startup.dart';
 import 'core/theme/theme_controller.dart';
 import 'features/splash/presentation/update_required_screen.dart';
-import 'features/splash/presentation/splash_screen.dart';import 'package:sentry_flutter/sentry_flutter.dart';
+import 'features/splash/presentation/splash_screen.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,8 +55,6 @@ Future<void> main() async {
     },
     appRunner: () => runApp(SentryWidget(child: BloodApp(startup: startup))),
   );
-  // TODO: Remove this line after sending the first sample event to sentry.
-  await Sentry.captureException(Exception('This is a sample exception.'));
     },
   );
 }

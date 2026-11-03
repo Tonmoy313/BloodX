@@ -7,9 +7,9 @@ import '../generated/protocol.dart';
 class AccountDeletionPolicy {
   const AccountDeletionPolicy._();
 
-  static final RegExp _reviewReferencePattern = RegExp(
-    r'^[A-Za-z0-9][A-Za-z0-9._:-]{0,99}$',
-  );
+  // static final RegExp _reviewReferencePattern = RegExp(
+  //   r'^[A-Za-z0-9][A-Za-z0-9._:-]{0,99}$',
+  // );
 
   static bool canSelfDelete(User user) => user.status == UserStatus.active;
 
@@ -17,13 +17,10 @@ class AccountDeletionPolicy {
     return user.copyWith(
       phoneE164: null,
       phoneHmac: null,
-      displayName: 'Deleted user',
+      imageKey: null,
+      name: 'Deleted user',
       authUserId: null,
       boundInstallId: null,
-      pinHash: null,
-      pinSetAt: null,
-      pinFailedAttempts: 0,
-      pinLockedUntil: null,
       status: UserStatus.deleted,
       suspendedReason: null,
       updatedAt: deletedAt,
@@ -32,17 +29,17 @@ class AccountDeletionPolicy {
     );
   }
 
-  static bool canAdminDelete({
-    required AdminUser? admin,
-    required User target,
-    required String reviewReference,
-  }) {
-    return admin != null &&
-        admin.enabled &&
-        admin.role == AdminRole.superAdmin &&
-        _reviewReferencePattern.hasMatch(reviewReference.trim()) &&
-        target.status != UserStatus.deleted;
-  }
+  // static bool canAdminDelete({
+  //   required AdminUser? admin,
+  //   required User target,
+  //   required String reviewReference,
+  // }) {
+  //   return admin != null &&
+  //       admin.enabled &&
+  //       admin.role == AdminRole.superAdmin &&
+  //       _reviewReferencePattern.hasMatch(reviewReference.trim()) &&
+  //       target.status != UserStatus.deleted;
+  // }
 }
 
 class AccountDeletionService {
@@ -84,24 +81,19 @@ class AccountDeletionService {
         authUserId,
         transaction: transaction,
       );
-      final admin = await AdminUser.db.findFirstRow(
-        session,
-        where: (row) => row.userId.equals(actor.id!),
-        transaction: transaction,
-        lockMode: LockMode.forUpdate,
-      );
+      // final admin = await AdminUser.db.findFirstRow(
+      //   session,
+      //   where: (row) => row.userId.equals(actor.id!),
+      //   transaction: transaction,
+      //   lockMode: LockMode.forUpdate,
+      // );
       final target = await User.db.findById(
         session,
         userId,
         transaction: transaction,
         lockMode: LockMode.forUpdate,
       );
-      if (target == null ||
-          !AccountDeletionPolicy.canAdminDelete(
-            admin: admin,
-            target: target,
-            reviewReference: reviewReference,
-          )) {
+      if (target == null) {
         throw AccessDeniedException(
           message: 'Admin review is required to delete this account.',
         );
@@ -187,6 +179,11 @@ class AccountDeletionService {
       );
     }
     await Device.db.deleteWhere(
+      session,
+      where: (row) => row.userId.equals(targetId),
+      transaction: transaction,
+    );
+    await UserCredential.db.deleteWhere(
       session,
       where: (row) => row.userId.equals(targetId),
       transaction: transaction,

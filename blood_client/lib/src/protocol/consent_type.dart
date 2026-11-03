@@ -16,7 +16,9 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 enum ConsentType implements _i1.SerializableModel {
   termsOfService,
   privacyPolicy,
-  donorOptIn;
+  donorLocationSharing,
+  donorDataSharing,
+  BackgroundTasks;
 
   static ConsentType fromJson(String name) {
     switch (name) {
@@ -24,8 +26,12 @@ enum ConsentType implements _i1.SerializableModel {
         return ConsentType.termsOfService;
       case 'privacyPolicy':
         return ConsentType.privacyPolicy;
-      case 'donorOptIn':
-        return ConsentType.donorOptIn;
+      case 'donorLocationSharing':
+        return ConsentType.donorLocationSharing;
+      case 'donorDataSharing':
+        return ConsentType.donorDataSharing;
+      case 'BackgroundTasks':
+        return ConsentType.BackgroundTasks;
       default:
         throw ArgumentError(
           'Value "$name" cannot be converted to "ConsentType"',

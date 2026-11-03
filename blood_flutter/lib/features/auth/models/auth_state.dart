@@ -31,6 +31,7 @@ class AuthState {
   final int failedPinAttempts;
   final DateTime? lockoutUntil;
   final bool isForgotPin;
+  final bool existingAccount;
   final bool appVersionSupported;
   final String? errorMessage;
 
@@ -54,6 +55,7 @@ class AuthState {
     this.failedPinAttempts = 0,
     this.lockoutUntil,
     this.isForgotPin = false,
+    this.existingAccount = false,
     this.appVersionSupported = true,
     this.errorMessage,
   });
@@ -96,6 +98,7 @@ class AuthState {
     int? failedPinAttempts,
     DateTime? lockoutUntil,
     bool? isForgotPin,
+    bool? existingAccount,
     bool? appVersionSupported,
     String? errorMessage,
   }) {
@@ -119,6 +122,7 @@ class AuthState {
       failedPinAttempts: failedPinAttempts ?? this.failedPinAttempts,
       lockoutUntil: lockoutUntil ?? this.lockoutUntil,
       isForgotPin: isForgotPin ?? this.isForgotPin,
+      existingAccount: existingAccount ?? this.existingAccount,
       appVersionSupported: appVersionSupported ?? this.appVersionSupported,
       errorMessage: errorMessage,
     );

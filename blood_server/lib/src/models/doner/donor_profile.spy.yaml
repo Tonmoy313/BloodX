@@ -1,0 +1,37 @@
+class: DonorProfile
+serverOnly: true
+table: donor_profile
+fields:
+  user: User?, relation(onDelete=Cascade)
+  dateOfBirth: DateTime
+  sex: Sex
+  
+  bloodGroup: BloodGroup
+  bloodGroupSource: BloodGroupSource, defaultModel=self, defaultPersist=self
+  apheresisWilling: bool, defaultModel=false, defaultPersist=false
+  
+  weightKg: double
+  weightDeclaredAt: DateTime
+
+  lastDonatedAt: DateTime?
+  totalDonations: int, defaultModel=0, defaultPersist=0
+  
+  donorStatus: DonorStatus, defaultModel=setupIncomplete, defaultPersist=setupIncomplete
+  leftDonorAt: DateTime?
+
+  alertMode: AlertMode, defaultModel=off, defaultPersist=off
+  availableUntil: DateTime?
+  
+  eligibiltyReminder: bool, defaultModel=true, defaultPersist=true
+  lastPromptAt: DateTime?
+  
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+  updatedAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  donor_profile_user_id:
+    fields: userId
+    unique: true
+  donor_profile_matching:
+    fields: bloodGroup
+  donor_profile_availability_expiry:
+    fields: availableUntil

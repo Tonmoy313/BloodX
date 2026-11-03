@@ -1,0 +1,6 @@
+enum: KycStatus
+serialized: byName
+values:
+  - pending
+  - approved
+  - rejected

@@ -1,0 +1,6 @@
+enum: AreaType
+serialized: byName
+values:
+  - upazilla
+  - district
+  - thana

@@ -22,12 +22,14 @@ abstract class OtpChallenge
     required this.codeHash,
     required this.type,
     int? attempts,
+    int? sendCount,
     this.consumedAt,
     required this.installId,
     required this.ip,
     DateTime? createdAt,
     required this.expiresAt,
   }) : attempts = attempts ?? 0,
+       sendCount = sendCount ?? 0,
        createdAt = createdAt ?? DateTime.now();
 
   factory OtpChallenge({
@@ -36,6 +38,7 @@ abstract class OtpChallenge
     required String codeHash,
     required _i2.OtpType type,
     int? attempts,
+    int? sendCount,
     DateTime? consumedAt,
     required _i1.UuidValue installId,
     required String ip,
@@ -50,6 +53,7 @@ abstract class OtpChallenge
       codeHash: jsonSerialization['codeHash'] as String,
       type: _i2.OtpType.fromJson((jsonSerialization['type'] as String)),
       attempts: jsonSerialization['attempts'] as int?,
+      sendCount: jsonSerialization['sendCount'] as int?,
       consumedAt: jsonSerialization['consumedAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['consumedAt']),
@@ -81,6 +85,8 @@ abstract class OtpChallenge
 
   int attempts;
 
+  int sendCount;
+
   DateTime? consumedAt;
 
   _i1.UuidValue installId;
@@ -103,6 +109,7 @@ abstract class OtpChallenge
     String? codeHash,
     _i2.OtpType? type,
     int? attempts,
+    int? sendCount,
     DateTime? consumedAt,
     _i1.UuidValue? installId,
     String? ip,
@@ -118,6 +125,7 @@ abstract class OtpChallenge
       'codeHash': codeHash,
       'type': type.toJson(),
       'attempts': attempts,
+      'sendCount': sendCount,
       if (consumedAt != null) 'consumedAt': consumedAt?.toJson(),
       'installId': installId.toJson(),
       'ip': ip,
@@ -170,6 +178,7 @@ class _OtpChallengeImpl extends OtpChallenge {
     required String codeHash,
     required _i2.OtpType type,
     int? attempts,
+    int? sendCount,
     DateTime? consumedAt,
     required _i1.UuidValue installId,
     required String ip,
@@ -181,6 +190,7 @@ class _OtpChallengeImpl extends OtpChallenge {
          codeHash: codeHash,
          type: type,
          attempts: attempts,
+         sendCount: sendCount,
          consumedAt: consumedAt,
          installId: installId,
          ip: ip,
@@ -198,6 +208,7 @@ class _OtpChallengeImpl extends OtpChallenge {
     String? codeHash,
     _i2.OtpType? type,
     int? attempts,
+    int? sendCount,
     Object? consumedAt = _Undefined,
     _i1.UuidValue? installId,
     String? ip,
@@ -210,6 +221,7 @@ class _OtpChallengeImpl extends OtpChallenge {
       codeHash: codeHash ?? this.codeHash,
       type: type ?? this.type,
       attempts: attempts ?? this.attempts,
+      sendCount: sendCount ?? this.sendCount,
       consumedAt: consumedAt is DateTime? ? consumedAt : this.consumedAt,
       installId: installId ?? this.installId,
       ip: ip ?? this.ip,
@@ -240,6 +252,11 @@ class OtpChallengeUpdateTable extends _i1.UpdateTable<OtpChallengeTable> {
 
   _i1.ColumnValue<int, int> attempts(int value) => _i1.ColumnValue(
     table.attempts,
+    value,
+  );
+
+  _i1.ColumnValue<int, int> sendCount(int value) => _i1.ColumnValue(
+    table.sendCount,
     value,
   );
 
@@ -295,6 +312,11 @@ class OtpChallengeTable extends _i1.Table<int?> {
       this,
       hasDefault: true,
     );
+    sendCount = _i1.ColumnInt(
+      'sendCount',
+      this,
+      hasDefault: true,
+    );
     consumedAt = _i1.ColumnDateTime(
       'consumedAt',
       this,
@@ -328,6 +350,8 @@ class OtpChallengeTable extends _i1.Table<int?> {
 
   late final _i1.ColumnInt attempts;
 
+  late final _i1.ColumnInt sendCount;
+
   late final _i1.ColumnDateTime consumedAt;
 
   late final _i1.ColumnUuid installId;
@@ -345,6 +369,7 @@ class OtpChallengeTable extends _i1.Table<int?> {
     codeHash,
     type,
     attempts,
+    sendCount,
     consumedAt,
     installId,
     ip,

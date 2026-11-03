@@ -4,10 +4,11 @@
 ### manually. If a collision is detected in this file when doing a code merge, resolve
 ### the conflict by removing and recreating the conflicting migration.
 
-20261003060445615
-20261018125653748-p0-8-auth-models
-20261018125845984-p0-8-audit-model
-20261018134707116-p0-8-session-audit-hardening
-20261018175511960-donor-registration-and-reengagement
-20261018231202000-device-push-token-index
-20261020163324436-p0-8-phone-otp-pin
+20261030052802491
+20261101093420764
+20261101150420055-donor-area-registration
+20261101151018005-consent-version-uniqueness
+20261103050542673-required-donor-profile-fields
+20261103091311414-donor-profile-column-alignment
+20261103101503765-otp-schema-index-alignment
+20261103103955450-partial-index-deferral-alignment

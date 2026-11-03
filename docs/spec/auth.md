@@ -23,15 +23,15 @@ Store PINs as Argon2id hashes; never store plaintext secrets. Serverpod JWT sess
 ## Security rules
 - Bangladesh phone numbers are normalized to `+880` E.164 and invalid prefixes are rejected.
 - Rate-limit OTP starts by phone, secure install ID, and keyed client-IP hash using database transactions and PostgreSQL advisory locks. IP changes do not block OTP verification. Trust proxy headers only from the configured hosting ingress.
-- OTP: cryptographically generated 6 digits, Argon2id hash at rest, 5-minute expiry, single use, max 5 attempts, 60-second resend cooldown, and per-phone/device/IP hourly limits. Challenges are bound to phone and secure install ID. Never log OTPs.
+- OTP: cryptographically generated 6 digits, Argon2id hash at rest, 5-minute expiry, single use, max 5 attempts, 60-second resend cooldown, and per-phone/device/IP hourly limits. Challenges are bound to phone and secure install ID. In local development mode only, print the generated OTP to the server terminal beside a masked phone number; never persist it or expose it in other run modes.
 - PIN: exactly 5 numeric digits; Argon2id hash at rest. Reject `00000` in every build. Lock login for 15 minutes after 5 wrong PINs. Use a generic error for unknown accounts and incorrect PINs.
 - Device policy: a UUIDv4 install ID is generated once and persisted in `flutter_secure_storage`. The first verified OTP binds it. OTP verification from a different install ID moves the account binding and revokes all existing tokens before issuing a new token. PIN login must come from the bound install; use the Forgot PIN OTP flow to transfer to a new install.
-- Twilio is the initial SMS adapter. Inject `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_FROM_NUMBER` from a secret manager; never commit or log credential values. Trial accounts can send only to verified destination numbers. Inject `OTP_IP_RATE_LIMIT_HMAC_KEY` similarly. SMS delivery fails closed when Twilio is unconfigured or rejects the request.
+- Twilio is the SMS adapter outside local development mode. Local development prints generated OTPs to the server terminal and does not contact Twilio. Inject `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_FROM_NUMBER` from a secret manager; never commit or log credential values. Trial accounts can send only to verified destination numbers. Inject `OTP_IP_RATE_LIMIT_HMAC_KEY` similarly. SMS delivery fails closed when Twilio is unconfigured or rejects the request.
 - Use the socket peer IP for the keyed abuse-rate-limit signal; do not trust forwarded IP headers until a trusted ingress resolver is configured. A changing IP never invalidates a pending challenge.
 - Store Serverpod auth sessions only through the secure auth-session manager; never persist tokens in Hive/SharedPreferences. Suspended/deleted users cannot authenticate.
 - Suspended/deleted users cannot authenticate; deleted users cannot reset PIN. On deletion, revoke sessions and push tokens, remove profile/health data as required, and anonymize retained request/pledge references.
 - If app version is below the supported minimum, return UPDATE_REQUIRED and block normal use. Keep minimum version in code/deployment configuration; no Config entity/API.
-- Never log OTPs, PINs, tokens, or full phone numbers; mask phone numbers.
+- Never log OTPs except to the local development terminal as specified above. Never log PINs, tokens, or full phone numbers; mask phone numbers.
 
 ## Screens, dialogues & navigation
 
@@ -53,7 +53,7 @@ Store PINs as Argon2id hashes; never store plaintext secrets. Serverpod JWT sess
 - **S4: OTP Verification (`OtpVerificationScreen`)**
   - 6-digit numeric OTP code input.
   - Masked phone display (`+880 17••• •••89`), 60-second cooldown resend timer.
-  - Single use; test code `000000` permitted in dev mode only.
+  - Single use; a random OTP is printed to the local development server terminal only.
   - On verification success: carries forward context and navigates to **S5**.
 - **S5: PIN Setup (`PinSetupScreen`)**
   - Exactly 5 numeric digits; hashed at rest.

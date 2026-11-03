@@ -1,3 +1,4 @@
+# UserStatus enum moved to enums.spy.yaml
 enum: UserStatus
 serialized: byName
 default: active

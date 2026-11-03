@@ -13,7 +13,7 @@
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'user.dart' as _i2;
-import 'platform.dart' as _i3;
+import 'device_platform.dart' as _i3;
 import 'package:blood_server/src/generated/protocol.dart' as _i4;
 
 abstract class Device implements _i1.TableRow<int?>, _i1.ProtocolSerialization {

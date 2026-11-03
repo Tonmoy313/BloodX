@@ -1,0 +1,16 @@
+class: UserPreference
+serverOnly: true
+table: app_user_preference
+fields:
+  user: User?, relation(onDelete=Cascade)
+  notifyRequest: bool, defaultModel=true, defaultPersist=true
+  notifyFeed: bool, defaultModel=true, defaultPersist=true
+  quietHoursEnabled: bool, defaultModel=false, defaultPersist=false
+  quietHoursStart: DateTime?
+  quietHoursEnd: DateTime?
+  updatedAt: DateTime, defaultModel=now, defaultPersist=now
+
+indexes:
+  app_user_preference_user_id:
+    fields: userId
+    unique: true

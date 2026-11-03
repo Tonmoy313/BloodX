@@ -6,6 +6,7 @@ fields:
   codeHash: String
   type: OtpType
   attempts: int, defaultModel=0, defaultPersist=0
+  sendCount: int, defaultModel=0, defaultPersist=0
   consumedAt: DateTime?
   installId: UuidValue
   ip: String
@@ -18,3 +19,6 @@ indexes:
     fields: ip, createdAt
   otp_challenge_install_created_at:
     fields: installId, createdAt
+  otp_challenge_phone_type_open:
+    fields: phoneE164, type
+    unique: true

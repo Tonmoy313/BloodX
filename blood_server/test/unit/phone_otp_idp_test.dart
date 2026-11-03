@@ -3,6 +3,15 @@ import 'package:blood_server/src/auth/phone_otp_idp.dart';
 import 'package:test/test.dart';
 
 void main() {
+  group('PhoneOtpIdp.generateOtpCode', () {
+    test('generates random six-digit numeric codes', () {
+      final codes = List.generate(20, (_) => PhoneOtpIdp.generateOtpCode());
+
+      expect(codes, everyElement(matches(RegExp(r'^\d{6}$'))));
+      expect(codes.toSet().length, greaterThan(1));
+    });
+  });
+
   group('PhoneOtpIdp.normalizeBangladeshPhone', () {
     test('normalizes Bangladesh mobile numbers to E.164', () {
       expect(

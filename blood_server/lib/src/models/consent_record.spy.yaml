@@ -10,5 +10,8 @@ fields:
   appVersion: String
   withdrawnAt: DateTime?
 indexes:
+  consent_record_user_type_version:
+    fields: userId, type, version
+    unique: true
   consent_record_user_type_accepted_at:
     fields: userId, type, acceptedAt

@@ -53,7 +53,7 @@ Requester posts a request (group, bags, hospital, needed-by) → eligible volunt
 - D-019 Docs are token-lean: one task reads STATE + one phase file + one spec file.
 - D-020 Agents never wait on questions: use the default, record it, ask in parallel (see AGENTS.md).
 
-Implementation status: P0-8 custom phone OTP/PIN auth is in progress. Twilio credentials are read from secret-backed environment variables; device IDs are generated and stored in secure storage, and client IP is used only for abuse-rate limiting.
+Implementation status: P0-8 custom phone OTP/PIN auth is in progress. Local development prints randomly generated OTPs to the server terminal; staging/production use Twilio from secret-backed environment variables. Device IDs are generated and stored in secure storage, and client IP is used only for abuse-rate limiting.
 
 ## PROPOSED
 - P-001 SMS through a provider adapter; Twilio is the initial provider, with credentials injected from Secret Manager-backed environment variables.
@@ -90,7 +90,12 @@ Implementation status: P0-8 custom phone OTP/PIN auth is in progress. Twilio cre
 | Q-008 | Branding and Bangla copy | Placeholder styling |
 | Q-009 | Standby pledge for 1-bag critical requests | Not in v1 |
 | Q-010 | Does the website expose an API or database for donor claim | Unknown |
-| Q-015 | Should OTP verification require the originating IP to remain unchanged? | No; bind the challenge to its secure install ID and use a keyed IP hash only for abuse rate limits |
+| Q-015 | Should OTP verification require the originating IP to remain unchanged? | User-proposed: IP changes never interrupt verification; bind challenges to secure install IDs and use keyed IP hashes only for persistent OTP-request abuse |
+| Q-016 | Definitions for Organization and Plan referenced by Subscription/Payment | Defer those billing entities until complete specifications are provided |
+| Q-017 | Should direct local development enable Redis when no Redis endpoint is configured? | Redis disabled for the single-instance development server |
+| Q-017 | Donor profile fields and historical donor data | User-proposed: do not import legacy profiles or counts; date of birth, sex, and blood group are required |
+| Q-018 | How to handle legacy donor blood-group values that cannot map to the new enum | User-proposed: no legacy mapping; accept only the current blood-group enum for new profiles |
+| Q-019 | Legacy DonorArea mapping and area-kind cardinality | User-proposed: any legacy area maps to TERTIARY without archiving; one area per kind; HOME/primary is required for new donor profiles |
 ## Deps (one line each: name · why · task)
 flutter_secure_storage · securely persist the signed-in app session · P0-7
 package_info_plus · compare the installed app version with server policy · P0-9
@@ -100,6 +105,7 @@ crypto · keyed IP hashing for OTP abuse limits · P0-8
 serverpod · generated PostgreSQL-compatible application entities and protocol · P0-8
 permission_handler · request foreground location permission · P0 donor flow
 geolocator · check location service state and obtain current foreground location · P0 donor flow
+image_picker · select an optional account profile image from the system photo picker · P0-8
 
 ## Staging verification gate
 Do not connect to or modify staging until the fake-data staging branch is confirmed. After confirmation, verify the deployed partial unique index on `device_push_token` and rehearse migration and rollback with fake data.

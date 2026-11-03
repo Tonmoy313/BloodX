@@ -300,6 +300,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    if (authState.existingAccount)
+                      TextButton(
+                        onPressed: () => AppRoutes.replaceAll(
+                          context,
+                          AppRoutes.login,
+                          arguments: {
+                            'initialPhone': authState.normalizedE164,
+                          },
+                        ),
+                        child: Text(BloodStrings.goToLogin),
+                      ),
                   ],
                   const SizedBox(height: 24),
 

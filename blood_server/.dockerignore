@@ -1,0 +1,10 @@
+**/.dart_tool
+**/build
+**/.idea
+**/.git
+blood_flutter
+blood_server/graphify-out
+blood_client/graphify-out
+graphify-out
+.env
+**/secrets

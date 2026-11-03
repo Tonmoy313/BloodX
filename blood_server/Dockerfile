@@ -6,26 +6,21 @@ FROM dart:3.8.0 AS build
 
 # Create a minimal workspace that preserves locked server dependency versions.
 WORKDIR /app
-COPY pubspec.lock .
+# Use a Docker-specific workspace pubspec (excludes blood_flutter)
+COPY blood_server/docker/pubspec.yaml pubspec.yaml
+COPY blood_client blood_client
 COPY blood_server blood_server
-RUN printf '%s\n' \
-  'name: _' \
-  'environment:' \
-  '  sdk: ^3.8.0' \
-  'workspace:' \
-  '  - blood_server' \
-  > pubspec.yaml
-RUN dart pub get
 
 # Compile the server executable.
 WORKDIR /app/blood_server
+RUN dart pub get
 RUN dart compile exe bin/main.dart -o bin/server
-
 # Add a fallback for the copy of possibly missing directories.
-RUN mkdir -p config web migrations
+RUN mkdir -p config web migrations lib/src/generated
 
 # Final stage
-FROM alpine:latest
+# FROM alpine:latest
+FROM dart:3.8.0
 WORKDIR /app
 
 # Environment variables
@@ -35,7 +30,7 @@ ENV logging=normal
 ENV role=monolith
 
 # Copy runtime dependencies
-COPY --from=build /runtime/ /
+# COPY --from=build /runtime/ /
 
 # Copy compiled server executable
 COPY --from=build /app/blood_server/bin/server server
@@ -54,4 +49,5 @@ EXPOSE 8081
 EXPOSE 8082
 
 # Define the entrypoint command
-ENTRYPOINT ./server --mode=$runmode --server-id=$serverid --logging=$logging --role=$role
+# ENTRYPOINT ./server --mode=$runmode --server-id=$serverid --logging=$logging --role=$role
+ENTRYPOINT ["sh", "-c", "./server --mode=$runmode --server-id=$serverid --logging=$logging --role=$role"]

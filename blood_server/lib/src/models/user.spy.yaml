@@ -5,14 +5,14 @@ fields:
   # Nullable so account deletion can clear this unique identifier.
   phoneE164: String?
   phoneHmac: String?
-  displayName: String
+  imageKey: String?
+  name: String
   # Links the app account to Serverpod authentication without exposing it in DTOs.
   authUserId: UuidValue?
+  tierId: int, relation(parent=tier, onDelete=Restrict)
+  donorPromptPending: bool, defaultModel=false, defaultPersist=false
+  lastDonorPromptAt: DateTime?
   boundInstallId: UuidValue?
-  pinHash: String?
-  pinSetAt: DateTime?
-  pinFailedAttempts: int, defaultModel=0, defaultPersist=0
-  pinLockedUntil: DateTime?
   language: Language, defaultModel=bn, defaultPersist=bn
   status: UserStatus, defaultModel=active, defaultPersist=active
   suspendedReason: String?
@@ -20,13 +20,12 @@ fields:
   updatedAt: DateTime, defaultModel=now, defaultPersist=now
   lastSeenAt: DateTime?
   deletedAt: DateTime?
-  lastDonorPromptAt: DateTime?
-  donorPromptPending: bool, defaultModel=false, defaultPersist=false
 indexes:
   app_user_phone_e164:
     fields: phoneE164
     unique: true
   app_user_status:
     fields: status
-  app_user_auth_user_id:
-    fields: authUserId
+  app_user_tier_id:
+    fields: tierId
+  

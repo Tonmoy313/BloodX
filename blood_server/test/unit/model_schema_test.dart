@@ -6,7 +6,7 @@ void main() {
     for (final table in Protocol.targetTableDefinitions) table.name: table,
   };
 
-  test('registers the six requested application tables', () {
+  test('registers the requested application tables', () {
     expect(
       tables.keys,
       containsAll([
@@ -17,6 +17,7 @@ void main() {
         'feature_flag',
         'app_config',
         'audit_log',
+        'user_credential',
       ]),
     );
   });
@@ -48,5 +49,24 @@ void main() {
     );
 
     expect(phone.isNullable, isTrue);
+  });
+
+  test('stores PIN credentials separately with one row per user', () {
+    final credentials = tables['user_credential']!;
+    expect(
+      credentials.indexes.any(
+        (index) =>
+            index.indexName == 'user_credential_user_id' && index.isUnique,
+      ),
+      isTrue,
+    );
+    expect(
+      credentials.columns.any((column) => column.name == 'pinHash'),
+      isTrue,
+    );
+    expect(
+      tables['app_user']!.columns.any((column) => column.name == 'pinHash'),
+      isFalse,
+    );
   });
 }

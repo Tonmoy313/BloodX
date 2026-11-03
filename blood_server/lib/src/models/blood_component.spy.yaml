@@ -1,0 +1,8 @@
+enum: BloodComponent
+serverOnly: true
+values:
+  - WHOLE_BLOOD
+  - RED_CELLS
+  - PLATELETS
+  - PLASMA
+  - WHITE_CELLS

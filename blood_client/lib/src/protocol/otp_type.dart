@@ -16,7 +16,8 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 enum OtpType implements _i1.SerializableModel {
   newAccount,
   forgetPin,
-  deviceTransfer;
+  deviceTransfer,
+  emailVerification;
 
   static OtpType fromJson(String name) {
     switch (name) {
@@ -26,6 +27,8 @@ enum OtpType implements _i1.SerializableModel {
         return OtpType.forgetPin;
       case 'deviceTransfer':
         return OtpType.deviceTransfer;
+      case 'emailVerification':
+        return OtpType.emailVerification;
       default:
         throw ArgumentError('Value "$name" cannot be converted to "OtpType"');
     }

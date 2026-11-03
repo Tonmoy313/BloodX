@@ -1,0 +1,204 @@
+{
+  "__className__": "serverpod.DatabaseMigration",
+  "actions": [
+    {
+      "__className__": "serverpod.DatabaseMigrationAction",
+      "type": "alterTable",
+      "alterTable": {
+        "__className__": "serverpod.TableMigration",
+        "name": "donor_profile",
+        "schema": "public",
+        "addColumns": [
+          {
+            "__className__": "serverpod.ColumnDefinition",
+            "name": "alertMode",
+            "columnType": 0,
+            "isNullable": false,
+            "columnDefault": "'off'::text",
+            "dartType": "protocol:AlertMode"
+          },
+          {
+            "__className__": "serverpod.ColumnDefinition",
+            "name": "eligibiltyReminder",
+            "columnType": 1,
+            "isNullable": false,
+            "columnDefault": "true",
+            "dartType": "bool"
+          }
+        ],
+        "deleteColumns": [
+          "availabilityMode",
+          "criticalOverride",
+          "remindersOptIn",
+          "promptSnoozeUntil",
+          "notificationPausedUntil"
+        ],
+        "modifyColumns": [
+          {
+            "__className__": "serverpod.ColumnMigration",
+            "columnName": "weightKg",
+            "addNullable": false,
+            "removeNullable": true,
+            "changeDefault": false
+          },
+          {
+            "__className__": "serverpod.ColumnMigration",
+            "columnName": "weightDeclaredAt",
+            "addNullable": false,
+            "removeNullable": true,
+            "changeDefault": false
+          }
+        ],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"availabilityMode\" of table \"donor_profile\" will be dropped.",
+            "table": "donor_profile",
+            "columns": [
+              "availabilityMode"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"criticalOverride\" of table \"donor_profile\" will be dropped.",
+            "table": "donor_profile",
+            "columns": [
+              "criticalOverride"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"remindersOptIn\" of table \"donor_profile\" will be dropped.",
+            "table": "donor_profile",
+            "columns": [
+              "remindersOptIn"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"promptSnoozeUntil\" of table \"donor_profile\" will be dropped.",
+            "table": "donor_profile",
+            "columns": [
+              "promptSnoozeUntil"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"notificationPausedUntil\" of table \"donor_profile\" will be dropped.",
+            "table": "donor_profile",
+            "columns": [
+              "notificationPausedUntil"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "notNullAdded",
+            "message": "Column \"weightKg\" of table \"donor_profile\" is modified to be not null. If there are existing rows with null values, this migration will fail.",
+            "table": "donor_profile",
+            "columns": [
+              "weightKg"
+            ],
+            "destrucive": false
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "notNullAdded",
+            "message": "Column \"weightDeclaredAt\" of table \"donor_profile\" is modified to be not null. If there are existing rows with null values, this migration will fail.",
+            "table": "donor_profile",
+            "columns": [
+              "weightDeclaredAt"
+            ],
+            "destrucive": false
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"availabilityMode\" of table \"donor_profile\" will be dropped.",
+      "table": "donor_profile",
+      "columns": [
+        "availabilityMode"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"criticalOverride\" of table \"donor_profile\" will be dropped.",
+      "table": "donor_profile",
+      "columns": [
+        "criticalOverride"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"remindersOptIn\" of table \"donor_profile\" will be dropped.",
+      "table": "donor_profile",
+      "columns": [
+        "remindersOptIn"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"promptSnoozeUntil\" of table \"donor_profile\" will be dropped.",
+      "table": "donor_profile",
+      "columns": [
+        "promptSnoozeUntil"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"notificationPausedUntil\" of table \"donor_profile\" will be dropped.",
+      "table": "donor_profile",
+      "columns": [
+        "notificationPausedUntil"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "notNullAdded",
+      "message": "Column \"weightKg\" of table \"donor_profile\" is modified to be not null. If there are existing rows with null values, this migration will fail.",
+      "table": "donor_profile",
+      "columns": [
+        "weightKg"
+      ],
+      "destrucive": false
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "notNullAdded",
+      "message": "Column \"weightDeclaredAt\" of table \"donor_profile\" is modified to be not null. If there are existing rows with null values, this migration will fail.",
+      "table": "donor_profile",
+      "columns": [
+        "weightDeclaredAt"
+      ],
+      "destrucive": false
+    }
+  ],
+  "migrationApiVersion": 1
+}

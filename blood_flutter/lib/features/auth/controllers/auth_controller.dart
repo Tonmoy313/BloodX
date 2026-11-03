@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 
+import '../../../core/localization/blood_strings.dart';
 import '../../../core/network/serverpod_client.dart';
 import '../models/auth_state.dart';
 import '../services/device_identity.dart';
+
+const _existingAccountErrorCode = 'ACCOUNT_ALREADY_EXISTS';
 
 /// Business logic controller for BloodX Authentication.
 /// Aligns with spec/auth.md security rules:
@@ -72,6 +76,11 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setProfileName(String value) {
+    _state = _state.copyWith(displayName: value.trim());
+    notifyListeners();
+  }
+
   /// Sets whether the current flow is Forgot PIN.
   void setForgotPinFlow(bool isForgot) {
     _state = _state.copyWith(isForgotPin: isForgot);
@@ -103,11 +112,10 @@ class AuthController extends ChangeNotifier {
       normalizedE164: normalized,
       maskedPhone: maskPhone(normalized),
       isForgotPin: isForgotPin,
+      existingAccount: false,
       errorMessage: null,
     );
     notifyListeners();
-    // TODO: Use a logging framework instead of print.
-    // logger.info('Requesting OTP for $normalized (forgotPin: $isForgotPin)');
     try {
       final installId = await DeviceIdentity.getInstallId();
       final challengeId = await client.authIdp.startLogin(
@@ -181,6 +189,7 @@ class AuthController extends ChangeNotifier {
 
     _state = _state.copyWith(
       status: AuthStatus.verifyingOtp,
+      existingAccount: false,
       errorMessage: null,
     );
     notifyListeners();
@@ -212,10 +221,15 @@ class AuthController extends ChangeNotifier {
       _countdownTimer?.cancel();
       notifyListeners();
       return true;
-    } on ServerpodClientException {
+    } on ServerpodClientException catch (error) {
+      final existingAccount =
+          error.message == _existingAccountErrorCode;
       _state = _state.copyWith(
         status: AuthStatus.error,
-        errorMessage: 'Invalid or expired verification code.',
+        existingAccount: existingAccount,
+        errorMessage: existingAccount
+            ? BloodStrings.accountAlreadyRegistered
+            : 'Invalid or expired verification code.',
       );
     } on TimeoutException {
       _state = _state.copyWith(
@@ -238,7 +252,11 @@ class AuthController extends ChangeNotifier {
   }
 
   /// Sets up a 5-digit PIN (S5 per spec/auth.md).
-  Future<bool> setupPin(String pin) async {
+  Future<bool> setupPin(
+    String pin, {
+    Uint8List? profileImageBytes,
+    String? profileImageExtension,
+  }) async {
     if (pin.length != 5 || !RegExp(r'^\d{5}$').hasMatch(pin)) {
       _state = _state.copyWith(
         status: AuthStatus.error,
@@ -258,7 +276,33 @@ class AuthController extends ChangeNotifier {
     }
 
     try {
-      await client.auth.setPin(pin: pin);
+      if (profileImageBytes != null) {
+        final extension = profileImageExtension;
+        if (extension == null ||
+            !{'jpg', 'jpeg', 'png', 'webp'}.contains(extension)) {
+          throw const FormatException('Unsupported profile image.');
+        }
+        final response = await client.profile
+            .createMyProfileImageUploadDescription(extension: extension);
+        final uploadInfo = jsonDecode(response) as Map<String, dynamic>;
+        final imageKey = uploadInfo['imageKey'] as String;
+        final uploadDescription = uploadInfo['uploadDescription'] as String;
+        final uploader = FileUploader(uploadDescription);
+        final uploaded = await uploader.uploadByteData(
+          ByteData.view(
+            profileImageBytes.buffer,
+            profileImageBytes.offsetInBytes,
+            profileImageBytes.lengthInBytes,
+          ),
+        );
+        if (!uploaded) throw StateError('Profile image upload failed.');
+        await client.profile.confirmMyProfileImage(imageKey: imageKey);
+      }
+
+      await client.auth.setPin(
+        pin: pin,
+        name: _state.isForgotPin ? null : _state.displayName,
+      );
       await FlutterAuthSessionManagerExtension(
         client,
       ).authSessionManager.updateSignedInUser(null);
@@ -283,6 +327,16 @@ class AuthController extends ChangeNotifier {
       _state = _state.copyWith(
         status: AuthStatus.error,
         errorMessage: 'Unable to access secure session storage. Try again.',
+      );
+    } on StateError {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: BloodStrings.profileImageUploadError,
+      );
+    } on FormatException {
+      _state = _state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: BloodStrings.profileImageUploadError,
       );
     }
     notifyListeners();

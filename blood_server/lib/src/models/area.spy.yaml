@@ -1,0 +1,15 @@
+class: Area
+table: app_area
+fields:
+  type: AreaType
+  district: String
+  name: String
+  centroidCell: BigInt?
+indexes:
+  app_area_type:
+    fields: type
+  app_area_district:
+    fields: district
+  app_area_district_name:
+    fields: district, name
+    unique: true

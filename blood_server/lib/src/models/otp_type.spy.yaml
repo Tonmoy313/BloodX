@@ -4,3 +4,4 @@ values:
   - newAccount
   - forgetPin
   - deviceTransfer
+  - emailVerification

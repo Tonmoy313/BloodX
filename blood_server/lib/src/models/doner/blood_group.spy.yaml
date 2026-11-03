@@ -1,0 +1,11 @@
+enum: BloodGroup
+serialized: byName
+values:
+  - aPositive
+  - aNegative
+  - bPositive
+  - bNegative
+  - oPositive
+  - oNegative
+  - abPositive
+  - abNegative

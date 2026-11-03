@@ -1,0 +1,15 @@
+class: UserEmail
+serverOnly: true
+table: user_email
+fields:
+  user: User?, relation(onDelete=Cascade)
+  email: String
+  verifiedAt: DateTime?
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  user_email_user_id:
+    fields: userId
+    unique: true
+  user_email_email:
+    fields: email
+    unique: true

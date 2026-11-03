@@ -1,3 +1,7 @@
+area:
+  - getDistricts:
+  - getUpazilas:
+  - getAllLocations:
 accountDeletion:
   - deleteMyAccount:
   - deleteAccountAfterReview:
@@ -24,9 +28,12 @@ r2:
   - signedDownloadUrl:
 donorProfile:
   - saveMyProfile:
+  - submitReadinessCheck:
 donorPrompt:
   - claimDonorPrompt:
 greeting:
   - hello:
 profile:
   - getMyProfile:
+  - createMyProfileImageUploadDescription:
+  - confirmMyProfileImage:

@@ -1,0 +1,7 @@
+enum: AlertMode
+serialized: byName
+default: off
+values:
+  - off
+  - criticalOnly
+  - all

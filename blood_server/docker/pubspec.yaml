@@ -1,0 +1,9 @@
+name: blood_workspace
+publish_to: none
+
+environment:
+  sdk: '^3.8.0'
+
+workspace:
+  - blood_client
+  - blood_server

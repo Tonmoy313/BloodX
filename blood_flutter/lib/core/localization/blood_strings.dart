@@ -65,6 +65,106 @@ class BloodStrings {
       ? 'আপনার একাউন্ট যাচাই করতে আমরা একটি ৬ সংখ্যার ওটিপি কোড পাঠাবো'
       : 'We will send a 6-digit OTP code to verify your account';
   static String get phoneFieldLabel => _bn ? 'মোবাইল নম্বর' : 'Phone Number';
+  static String get profileNameLabel => _bn ? 'পূর্ণ নাম' : 'Full name';
+  static String get profileNameHint =>
+      _bn ? 'আপনার নাম লিখুন' : 'Enter your name';
+  static String get profileNameError =>
+      _bn ? 'আপনার পূর্ণ নাম লিখুন' : 'Enter a name up to 100 characters';
+  static String get profileImageAdd =>
+      _bn ? 'প্রোফাইল ছবি যোগ করুন (ঐচ্ছিক)' : 'Add a profile photo (optional)';
+  static String get profileImageRemove => _bn ? 'ছবি সরান' : 'Remove photo';
+  static String get profileImageUploadError => _bn
+      ? 'ছবি আপলোড হয়নি। আবার চেষ্টা করুন।'
+      : 'The photo could not be uploaded. Try again.';
+  static String get profileImageInvalid => _bn
+      ? 'JPG, PNG বা WebP ছবি নির্বাচন করুন (সর্বোচ্চ ১০ MB)।'
+      : 'Choose a JPG, PNG, or WebP image up to 10 MB.';
+  static String get donorDateOfBirthLabel =>
+      _bn ? 'জন্মতারিখ' : 'Date of birth';
+  static String get donorSexLabel => _bn ? 'লিঙ্গ' : 'Sex';
+  static String get donorSexMale => _bn ? 'পুরুষ' : 'Male';
+  static String get donorSexFemale => _bn ? 'নারী' : 'Female';
+  static String get donorBloodGroupSourceLabel =>
+      _bn ? 'রক্তের গ্রুপের উৎস' : 'Blood group source';
+  static String get donorBloodGroupSelf => _bn ? 'নিজের জানা' : 'Self-reported';
+  static String get donorBloodGroupLab =>
+      _bn ? 'ল্যাব / ব্লাড ব্যাংক' : 'Lab or blood bank';
+  static String get donorLastDonationLabel =>
+      _bn ? 'শেষ রক্তদানের তারিখ (ঐচ্ছিক)' : 'Last donation date (optional)';
+  static String get donorApheresisLabel => _bn
+      ? 'প্লেটলেট বা প্লাজমা দিতে আগ্রহী'
+      : 'Willing to donate platelets or plasma';
+  static String get donorStepOneTitle =>
+      _bn ? 'দাতা প্রোফাইল' : 'Donor profile';
+  static String get donorStepTwoTitle =>
+      _bn ? 'প্রস্তুতি যাচাই' : 'Readiness check';
+  static String get donorContinue => _bn ? 'পরবর্তী ধাপ' : 'Continue';
+  static String get donorSubmitReadiness => _bn ? 'জমা দিন' : 'Submit check';
+  static String get donorBack => _bn ? 'পেছনে' : 'Back';
+  static String get selectDate => _bn ? 'তারিখ নির্বাচন করুন' : 'Select date';
+  static String get addressLabel => _bn ? 'ঠিকানা' : 'Address';
+  static String get addressHint =>
+      _bn ? 'আপনার এলাকার ঠিকানা' : 'Your local address';
+  static String get donorProfileRequired => _bn
+      ? 'জন্মতারিখ এবং লিঙ্গ নির্বাচন করুন'
+      : 'Select your date of birth and sex';
+  static String get donorLocationsRequired => _bn
+      ? 'প্রাথমিক ও মাধ্যমিক উভয় এলাকার জেলা এবং উপজেলা নির্বাচন আবশ্যক'
+      : 'Both Primary and Secondary district and upazila selections are required';
+  static String get donorRealtimeLocationRequired => _bn
+      ? 'অনুগ্রহ করে বর্তমান জিপিএস লোকেশন সনাক্ত করুন'
+      : 'Please fetch your current GPS location for emergency matching';
+  static String get primaryAreaTitle =>
+      _bn ? '১. প্রাথমিক এলাকা (আবশ্যক)' : '1. Primary Area (Required)';
+  static String get secondaryAreaTitle =>
+      _bn ? '২. মাধ্যমিক এলাকা (আবশ্যক)' : '2. Secondary Area (Required)';
+  static String get tertiaryAreaTitle =>
+      _bn ? '৩. তৃতীয় এলাকা (ঐচ্ছিক)' : '3. Tertiary Area (Optional)';
+  static String get selectDistrictLabel =>
+      _bn ? 'জেলা নির্বাচন করুন' : 'Select District';
+  static String get selectUpazilaLabel =>
+      _bn ? 'উপজেলা / থানা নির্বাচন করুন' : 'Select Upazila / Thana';
+  static String get realtimeLocationSectionTitle =>
+      _bn ? 'রিয়েলটাইম লোকেশন (জিপিএস)' : 'Realtime GPS Location';
+  static String get realtimeLocationDesc => _bn
+      ? 'জরুরি প্রয়োজনে নিকটস্থ হাসপাতালের রক্তের অনুরোধ মেলাতে আপনার বর্তমান অবস্থান নেওয়া হয়।'
+      : 'Your current location is used to coordinate emergency blood requests nearby.';
+  static String get getRealtimeLocationButton =>
+      _bn ? 'বর্তমান জিপিএস লোকেশন নিন' : 'Get Current GPS Location';
+  static String get locationAcquiredBadge =>
+      _bn ? 'জিপিএস অবস্থান সনাক্ত হয়েছে' : 'GPS Location Acquired';
+  static String get donorWeightRequired =>
+      _bn ? 'সঠিক ওজন লিখুন' : 'Enter a valid weight';
+  static String get donorReadinessWeight =>
+      _bn ? 'বর্তমান ওজন (কেজি)' : 'Current weight (kg)';
+  static String get donorReadinessDraftNote => _bn
+      ? 'এগুলো নমুনা প্রশ্ন। চূড়ান্ত প্রশ্ন চিকিৎসা পরামর্শ অনুযায়ী ঠিক হবে।'
+      : 'These are sample questions. Final wording will be confirmed with medical guidance.';
+  static String get donorQuestionAge => _bn
+      ? 'আমি দানের জন্য নির্ধারিত বয়সসীমার মধ্যে আছি'
+      : 'I am within the eligible age range';
+  static String get donorQuestionWeight => _bn
+      ? 'আমার ওজন স্থানীয় ব্লাড ব্যাংকের ন্যূনতম শর্ত পূরণ করে'
+      : 'My weight meets the local blood bank minimum';
+  static String get donorQuestionWell =>
+      _bn ? 'আমি আজ সুস্থ বোধ করছি' : 'I feel well today';
+  static String get donorQuestionFever => _bn
+      ? 'আমার এখন জ্বর বা সংক্রমণ নেই'
+      : 'I do not have a fever or infection now';
+  static String get donorQuestionMedication => _bn
+      ? 'নতুন ওষুধ বা সাম্প্রতিক চিকিৎসা পদ্ধতি নেই যা দানে বাধা দেয়'
+      : 'I have no new medicine or recent procedure that prevents donation';
+  static String get donorQuestionHydrated => _bn
+      ? 'আমি খাবার খেয়েছি এবং পর্যাপ্ত পানি পান করেছি'
+      : 'I have eaten and had enough water';
+  static String get donorQuestionCooldown => _bn
+      ? 'শেষ দানের পর প্রয়োজনীয় বিরতির সময় পার হয়েছে'
+      : 'The required time since my last donation has passed';
+  static String get donorReadinessYes => _bn ? 'হ্যাঁ' : 'Yes';
+  static String get donorReadinessNo => _bn ? 'না' : 'No';
+  static String get donorReadinessDeferredMessage => _bn
+      ? 'এখন দাতা সেটআপ সম্পন্ন হয়নি। পরে আবার চেষ্টা করতে পারেন।'
+      : 'Donor setup is not complete right now. You can try again later.';
   static String get phoneFieldHint => '017XXXXXXXX';
   static String get phoneErrorInvalid => _bn
       ? 'সঠিক বাংলাদেশী মোবাইল নম্বর দিন (১১ সংখ্যা)'
@@ -87,9 +187,8 @@ class BloodStrings {
       : 'Yes, I want to become a volunteer donor';
   static String get maybeLater => _bn ? 'পরে সিদ্ধান্ত নেব' : 'Maybe later';
   static String get continueLabel => _bn ? 'চালিয়ে যান' : 'Continue';
-  static String get locationFallbackHeadline => _bn
-      ? 'আপনার সঠিক অবস্থান প্রয়োজন'
-      : 'We require your precise location';
+  static String get locationFallbackHeadline =>
+      _bn ? 'আপনার সঠিক অবস্থান প্রয়োজন' : 'We require your precise location';
   static String get locationFallbackBody => _bn
       ? 'নিকটস্থ রক্তদাতা ও জরুরি অনুরোধের সঙ্গে আপনাকে সহজে যুক্ত করতে আপনার সঠিক অবস্থান প্রয়োজন। অনুগ্রহ করে ডিভাইসের অবস্থান চালু করুন।'
       : 'We require your precise location to seamlessly connect you to nearby donors and emergency requests. Please turn on device location.';
@@ -131,6 +230,10 @@ class BloodStrings {
   static String get invalidOtpError => _bn
       ? 'ভুল ওটিপি কোড! অনুগ্রহ করে আবার চেষ্টা করুন'
       : 'Invalid OTP code! Please try again';
+  static String get accountAlreadyRegistered => _bn
+      ? 'এই নম্বরে একটি অ্যাকাউন্ট আছে। আপনার পিন দিয়ে লগইন করুন।'
+      : 'An account already uses this number. Log in with your PIN.';
+  static String get goToLogin => _bn ? 'লগইনে যান' : 'Go to login';
 
   // Passwordless explanation note
   static String get passwordlessNoteTitle =>
@@ -265,10 +368,12 @@ class BloodStrings {
       : 'Final donor medical eligibility and screening are always determined by qualified hospital blood bank personnel.';
   static String get understandAndAgree =>
       _bn ? 'আমি পড়েছি এবং একমত' : 'I Understand & Agree';
-  static String get termsCheckboxText =>
-      _bn ? 'আমি শর্তাবলী ও গোপনীয়তা নীতি পড়েছি এবং সম্মত' : 'I have read and agree to the Terms of Use & Privacy Policy';
-  static String get termsConfirmPrompt =>
-      _bn ? 'আমি নিশ্চিত করছি যে আমি শর্তাবলী এবং গোপনীয়তা নীতি পড়েছি এবং এতে সম্মত।' : 'I confirm that I have read and agree to the terms and privacy policy';
+  static String get termsCheckboxText => _bn
+      ? 'আমি শর্তাবলী ও গোপনীয়তা নীতি পড়েছি এবং সম্মত'
+      : 'I have read and agree to the Terms of Use & Privacy Policy';
+  static String get termsConfirmPrompt => _bn
+      ? 'আমি নিশ্চিত করছি যে আমি শর্তাবলী এবং গোপনীয়তা নীতি পড়েছি এবং এতে সম্মত।'
+      : 'I confirm that I have read and agree to the terms and privacy policy';
   static String get agree => _bn ? 'সম্মত' : 'Agree';
 
   // S8 Donor Health Details

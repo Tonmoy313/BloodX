@@ -21,6 +21,38 @@ import 'package:blood_client/src/protocol/greetings/greeting.dart' as _i5;
 import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
+class EndpointArea extends _i1.EndpointRef {
+  EndpointArea(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'area';
+
+  /// Returns the distinct list of all 64 districts in Bangladesh.
+  _i2.Future<List<String>> getDistricts() =>
+      caller.callServerEndpoint<List<String>>(
+        'area',
+        'getDistricts',
+        {},
+      );
+
+  /// Returns upazilas for a given district.
+  _i2.Future<List<String>> getUpazilas({required String district}) =>
+      caller.callServerEndpoint<List<String>>(
+        'area',
+        'getUpazilas',
+        {'district': district},
+      );
+
+  /// Returns a map of District -> List of Upazilas.
+  _i2.Future<Map<String, List<String>>> getAllLocations() =>
+      caller.callServerEndpoint<Map<String, List<String>>>(
+        'area',
+        'getAllLocations',
+        {},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointAccountDeletion extends _i1.EndpointRef {
   EndpointAccountDeletion(_i1.EndpointCaller caller) : super(caller);
 
@@ -53,12 +85,17 @@ class EndpointAuth extends _i1.EndpointRef {
   @override
   String get name => 'auth';
 
-  _i2.Future<void> setPin({required String pin}) =>
-      caller.callServerEndpoint<void>(
-        'auth',
-        'setPin',
-        {'pin': pin},
-      );
+  _i2.Future<void> setPin({
+    required String pin,
+    String? name,
+  }) => caller.callServerEndpoint<void>(
+    'auth',
+    'setPin',
+    {
+      'pin': pin,
+      'name': name,
+    },
+  );
 
   _i2.Future<_i3.AuthSuccess> loginWithPin({
     required String phone,
@@ -365,8 +402,16 @@ class EndpointDonorProfile extends _i1.EndpointRef {
   String get name => 'donorProfile';
 
   _i2.Future<void> saveMyProfile({
+    required DateTime dateOfBirth,
+    required String sex,
     required String bloodGroup,
-    required String area,
+    required String bloodGroupSource,
+    required double weightKg,
+    DateTime? lastDonatedAt,
+    required bool apheresisWilling,
+    required List<String> primaryArea,
+    required List<String> secondaryAreas,
+    List<String>? tertiaryAreas,
     required String address,
     required double latitude,
     required double longitude,
@@ -375,12 +420,37 @@ class EndpointDonorProfile extends _i1.EndpointRef {
     'donorProfile',
     'saveMyProfile',
     {
+      'dateOfBirth': dateOfBirth,
+      'sex': sex,
       'bloodGroup': bloodGroup,
-      'area': area,
+      'bloodGroupSource': bloodGroupSource,
+      'weightKg': weightKg,
+      'lastDonatedAt': lastDonatedAt,
+      'apheresisWilling': apheresisWilling,
+      'primaryArea': primaryArea,
+      'secondaryAreas': secondaryAreas,
+      'tertiaryAreas': tertiaryAreas,
       'address': address,
       'latitude': latitude,
       'longitude': longitude,
       'preferredCenters': preferredCenters,
+    },
+  );
+
+  /// Stores only a readiness result and declared weight, never raw answers.
+  _i2.Future<bool> submitReadinessCheck({
+    required double weightKg,
+    required List<bool> answers,
+    required String locale,
+    required String appVersion,
+  }) => caller.callServerEndpoint<bool>(
+    'donorProfile',
+    'submitReadinessCheck',
+    {
+      'weightKg': weightKg,
+      'answers': answers,
+      'locale': locale,
+      'appVersion': appVersion,
     },
   );
 }
@@ -430,6 +500,21 @@ class EndpointProfile extends _i1.EndpointRef {
         'getMyProfile',
         {},
       );
+
+  _i2.Future<String> createMyProfileImageUploadDescription({
+    required String extension,
+  }) => caller.callServerEndpoint<String>(
+    'profile',
+    'createMyProfileImageUploadDescription',
+    {'extension': extension},
+  );
+
+  _i2.Future<void> confirmMyProfileImage({required String imageKey}) =>
+      caller.callServerEndpoint<void>(
+        'profile',
+        'confirmMyProfileImage',
+        {'imageKey': imageKey},
+      );
 }
 
 class Modules {
@@ -472,6 +557,7 @@ class Client extends _i1.ServerpodClientShared {
          disconnectStreamsOnLostInternetConnection:
              disconnectStreamsOnLostInternetConnection,
        ) {
+    area = EndpointArea(this);
     accountDeletion = EndpointAccountDeletion(this);
     auth = EndpointAuth(this);
     authIdp = EndpointAuthIdp(this);
@@ -484,6 +570,8 @@ class Client extends _i1.ServerpodClientShared {
     profile = EndpointProfile(this);
     modules = Modules(this);
   }
+
+  late final EndpointArea area;
 
   late final EndpointAccountDeletion accountDeletion;
 
@@ -509,6 +597,7 @@ class Client extends _i1.ServerpodClientShared {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
+    'area': area,
     'accountDeletion': accountDeletion,
     'auth': auth,
     'authIdp': authIdp,

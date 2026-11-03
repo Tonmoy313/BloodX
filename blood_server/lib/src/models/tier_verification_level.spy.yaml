@@ -1,0 +1,5 @@
+enum: VerificationLevel
+serverOnly: true
+values:
+  - phone
+  - nid

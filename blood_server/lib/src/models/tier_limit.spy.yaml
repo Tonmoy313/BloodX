@@ -1,0 +1,13 @@
+class: TierLimit
+serverOnly: true
+table: tier_limit
+fields:
+  tierId: int, relation(parent=tier, onDelete=Restrict)
+  component: BloodComponent
+  maxOpenBags: int
+  maxBagsPerWindow: int?
+  windowDays: int?
+indexes:
+  tier_limit_tier_component:
+    fields: tierId, component
+    unique: true

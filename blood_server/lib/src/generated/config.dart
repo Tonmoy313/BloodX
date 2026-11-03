@@ -21,6 +21,7 @@ abstract class Config implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     required this.key,
     required this.value,
     bool? enabled,
+    this.description,
     required this.updatedById,
     this.updatedBy,
     DateTime? updatedAt,
@@ -32,6 +33,7 @@ abstract class Config implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     required String key,
     required Map<String, String> value,
     bool? enabled,
+    String? description,
     required int updatedById,
     _i2.User? updatedBy,
     DateTime? updatedAt,
@@ -47,6 +49,7 @@ abstract class Config implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       enabled: jsonSerialization['enabled'] == null
           ? null
           : _i1.BoolJsonExtension.fromJson(jsonSerialization['enabled']),
+      description: jsonSerialization['description'] as String?,
       updatedById: jsonSerialization['updatedById'] as int,
       updatedBy: jsonSerialization['updatedBy'] == null
           ? null
@@ -72,6 +75,8 @@ abstract class Config implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   bool enabled;
 
+  String? description;
+
   int updatedById;
 
   _i2.User? updatedBy;
@@ -89,6 +94,7 @@ abstract class Config implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? key,
     Map<String, String>? value,
     bool? enabled,
+    String? description,
     int? updatedById,
     _i2.User? updatedBy,
     DateTime? updatedAt,
@@ -101,6 +107,7 @@ abstract class Config implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       'key': key,
       'value': value.toJson(),
       'enabled': enabled,
+      if (description != null) 'description': description,
       'updatedById': updatedById,
       if (updatedBy != null) 'updatedBy': updatedBy?.toJson(),
       'updatedAt': updatedAt.toJson(),
@@ -150,6 +157,7 @@ class _ConfigImpl extends Config {
     required String key,
     required Map<String, String> value,
     bool? enabled,
+    String? description,
     required int updatedById,
     _i2.User? updatedBy,
     DateTime? updatedAt,
@@ -158,6 +166,7 @@ class _ConfigImpl extends Config {
          key: key,
          value: value,
          enabled: enabled,
+         description: description,
          updatedById: updatedById,
          updatedBy: updatedBy,
          updatedAt: updatedAt,
@@ -172,6 +181,7 @@ class _ConfigImpl extends Config {
     String? key,
     Map<String, String>? value,
     bool? enabled,
+    Object? description = _Undefined,
     int? updatedById,
     Object? updatedBy = _Undefined,
     DateTime? updatedAt,
@@ -191,6 +201,7 @@ class _ConfigImpl extends Config {
             ),
           ),
       enabled: enabled ?? this.enabled,
+      description: description is String? ? description : this.description,
       updatedById: updatedById ?? this.updatedById,
       updatedBy: updatedBy is _i2.User?
           ? updatedBy
@@ -217,6 +228,11 @@ class ConfigUpdateTable extends _i1.UpdateTable<ConfigTable> {
 
   _i1.ColumnValue<bool, bool> enabled(bool value) => _i1.ColumnValue(
     table.enabled,
+    value,
+  );
+
+  _i1.ColumnValue<String, String> description(String? value) => _i1.ColumnValue(
+    table.description,
     value,
   );
 
@@ -248,6 +264,10 @@ class ConfigTable extends _i1.Table<int?> {
       this,
       hasDefault: true,
     );
+    description = _i1.ColumnString(
+      'description',
+      this,
+    );
     updatedById = _i1.ColumnInt(
       'updatedById',
       this,
@@ -266,6 +286,8 @@ class ConfigTable extends _i1.Table<int?> {
   late final _i1.ColumnSerializable<Map<String, String>> value;
 
   late final _i1.ColumnBool enabled;
+
+  late final _i1.ColumnString description;
 
   late final _i1.ColumnInt updatedById;
 
@@ -292,6 +314,7 @@ class ConfigTable extends _i1.Table<int?> {
     key,
     value,
     enabled,
+    description,
     updatedById,
     updatedAt,
   ];

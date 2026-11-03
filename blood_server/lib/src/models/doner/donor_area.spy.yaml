@@ -1,0 +1,19 @@
+class: DonorArea
+serverOnly: true
+table: donor_area
+fields:
+  donorProfile: DonorProfile?, relation(onDelete=Cascade)
+  kind: DonorAreaKind
+  area: Area?, relation(onDelete=Restrict)
+  gpsCell: int?
+  confirmedAt: DateTime, defaultModel=now, defaultPersist=now
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+  updatedAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  donor_area_profile_kind:
+    fields: donorProfileId, kind
+    unique: true
+  donor_area_area:
+    fields: areaId
+  donor_area_gps_cell:
+    fields: gpsCell

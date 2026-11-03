@@ -1,0 +1,5 @@
+enum: DeferralSource
+values:
+  - selfCheck
+  - bloodBank
+  - staff

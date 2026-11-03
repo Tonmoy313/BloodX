@@ -8,6 +8,7 @@ import 'package:serverpod/protocol.dart' show AccessDeniedException;
 import 'package:serverpod_auth_idp_server/core.dart';
 
 import '../generated/protocol.dart';
+import 'tier_service.dart';
 
 typedef SendPhoneOtp =
     Future<void> Function(
@@ -36,7 +37,7 @@ class PhoneOtpIdpConfig extends IdentityProviderBuilder<PhoneOtpIdp> {
     required this.sendOtp,
     required this.ipRateLimitHmacKey,
     String? secretHashPepper,
-    this.codeGenerator = _generateOtp,
+    this.codeGenerator = PhoneOtpIdp.generateOtpCode,
     this.clock = DateTime.now,
     this.otpLifetime = const Duration(minutes: 5),
     this.resendDelay = const Duration(seconds: 60),
@@ -71,6 +72,10 @@ class PhoneOtpIdp {
   static const String _genericOtpError =
       'Invalid or expired verification code.';
   static const String _genericPinError = 'Invalid mobile number or PIN.';
+  static const String existingAccountErrorCode = 'ACCOUNT_ALREADY_EXISTS';
+
+  static String generateOtpCode() =>
+      Random.secure().nextInt(1000000).toString().padLeft(6, '0');
 
   final PhoneOtpIdpConfig config;
   final TokenManager _tokenManager;
@@ -92,7 +97,7 @@ class PhoneOtpIdp {
          hashSaltLength: 16,
          parameters: Argon2HashParameters(memory: 19456),
        );
-  
+
   Future<bool> hasAccount(Session session) async {
     final authUserId = session.authenticated?.authUserId;
     if (authUserId == null) return false;
@@ -240,7 +245,7 @@ class PhoneOtpIdp {
     final deviceId = _parseInstallId(installId);
     final now = config.clock().toUtc();
 
-    final authSuccess = await DatabaseUtil.runInTransactionOrSavepoint(
+    final result = await DatabaseUtil.runInTransactionOrSavepoint(
       session.db,
       null,
       (transaction) async {
@@ -255,7 +260,7 @@ class PhoneOtpIdp {
             challenge.consumedAt != null ||
             !challenge.expiresAt.isAfter(now) ||
             challenge.attempts >= config.maxOtpAttempts) {
-          return null;
+          return (success: null, accountExists: false);
         }
 
         final codeMatches =
@@ -274,7 +279,7 @@ class PhoneOtpIdp {
             ),
             transaction: transaction,
           );
-          return null;
+          return (success: null, accountExists: false);
         }
 
         await OtpChallenge.db.updateRow(
@@ -283,23 +288,39 @@ class PhoneOtpIdp {
           transaction: transaction,
         );
 
+        await session.db.unsafeQuery(
+          'SELECT pg_advisory_xact_lock(hashtext(@key))',
+          transaction: transaction,
+          parameters: QueryParameters.named({
+            'key': 'phone:${challenge.phoneE164}',
+          }),
+        );
+
         var user = await User.db.findFirstRow(
           session,
           where: (row) => row.phoneE164.equals(challenge.phoneE164),
           transaction: transaction,
           lockMode: LockMode.forUpdate,
         );
+        final credential = user == null
+            ? null
+            : await UserCredential.db.findFirstRow(
+                session,
+                where: (row) => row.userId.equals(user!.id!),
+                transaction: transaction,
+                lockMode: LockMode.forUpdate,
+              );
         if (challenge.type == OtpType.newAccount &&
             user != null &&
-            user.pinHash != null) {
-          return null;
+            credential != null) {
+          return (success: null, accountExists: true);
         }
         if (challenge.type != OtpType.newAccount && user == null) {
-          return null;
+          return (success: null, accountExists: false);
         }
         if (user != null &&
             (user.status != UserStatus.active || user.deletedAt != null)) {
-          return null;
+          return (success: null, accountExists: false);
         }
 
         if (user == null) {
@@ -307,14 +328,18 @@ class PhoneOtpIdp {
             session,
             transaction: transaction,
           );
+          final freeTier = await TierService.getOrCreateFreeTier(
+            session,
+            transaction: transaction,
+          );
           user = await User.db.insertRow(
             session,
             User(
               phoneE164: challenge.phoneE164,
-              displayName: '',
+              name: '',
               authUserId: authUser.id,
               boundInstallId: deviceId,
-              pinFailedAttempts: 0,
+              tierId: freeTier.id!,
               createdAt: now,
               updatedAt: now,
             ),
@@ -340,12 +365,21 @@ class PhoneOtpIdp {
             authUserId: user.authUserId,
             transaction: transaction,
           );
+          if (credential != null) {
+            await UserCredential.db.updateRow(
+              session,
+              credential.copyWith(
+                failedAttempts: 0,
+                lockedUntil: null,
+                updatedAt: now,
+              ),
+              transaction: transaction,
+            );
+          }
           user = await User.db.updateRow(
             session,
             user.copyWith(
               boundInstallId: deviceId,
-              pinFailedAttempts: 0,
-              pinLockedUntil: null,
               updatedAt: now,
             ),
             transaction: transaction,
@@ -356,23 +390,38 @@ class PhoneOtpIdp {
         if (authUserId == null) {
           throw StateError('The phone account has no linked auth user.');
         }
-        return _issueToken(
-          session,
-          authUserId: authUserId,
-          transaction: transaction,
+        return (
+          success: await _issueToken(
+            session,
+            authUserId: authUserId,
+            transaction: transaction,
+          ),
+          accountExists: false,
         );
       },
     );
 
-    if (authSuccess == null) {
+    if (result.success == null) {
+      if (result.accountExists) {
+        throw AccessDeniedException(message: existingAccountErrorCode);
+      }
       throw AccessDeniedException(message: _genericOtpError);
     }
-    return authSuccess;
+    return result.success!;
   }
 
-  Future<void> setPin(Session session, {required String pin}) async {
+  Future<void> setPin(
+    Session session, {
+    required String pin,
+    String? name,
+  }) async {
     if (!isValidPin(pin)) {
       throw AccessDeniedException(message: 'PIN must be five digits.');
+    }
+    final normalizedName = name?.trim();
+    if (normalizedName != null &&
+        (normalizedName.isEmpty || normalizedName.length > 100)) {
+      throw ArgumentError('Name must be between 1 and 100 characters.');
     }
     final authUserId = session.authenticated?.authUserId;
     if (authUserId == null) {
@@ -396,17 +445,47 @@ class PhoneOtpIdp {
             user.deletedAt != null) {
           throw AccessDeniedException(message: 'Authentication is required.');
         }
-        await User.db.updateRow(
+        if (normalizedName != null) {
+          await User.db.updateRow(
+            session,
+            user.copyWith(
+              name: normalizedName,
+              updatedAt: now,
+            ),
+            transaction: transaction,
+          );
+        }
+        final credential = await UserCredential.db.findFirstRow(
           session,
-          user.copyWith(
-            pinHash: pinHash,
-            pinSetAt: now,
-            pinFailedAttempts: 0,
-            pinLockedUntil: null,
-            updatedAt: now,
-          ),
+          where: (row) => row.userId.equals(user.id!),
           transaction: transaction,
+          lockMode: LockMode.forUpdate,
         );
+        if (credential == null) {
+          await UserCredential.db.insertRow(
+            session,
+            UserCredential(
+              userId: user.id!,
+              pinHash: pinHash,
+              failedAttempts: 0,
+              pinChangedAt: now,
+              updatedAt: now,
+            ),
+            transaction: transaction,
+          );
+        } else {
+          await UserCredential.db.updateRow(
+            session,
+            credential.copyWith(
+              pinHash: pinHash,
+              failedAttempts: 0,
+              lockedUntil: null,
+              pinChangedAt: now,
+              updatedAt: now,
+            ),
+            transaction: transaction,
+          );
+        }
       },
     );
   }
@@ -434,13 +513,22 @@ class PhoneOtpIdp {
           transaction: transaction,
           lockMode: LockMode.forUpdate,
         );
-        final pinHash = user?.pinHash ?? await _dummyPinHash;
+        final credential = user == null
+            ? null
+            : await UserCredential.db.findFirstRow(
+                session,
+                where: (row) => row.userId.equals(user.id!),
+                transaction: transaction,
+                lockMode: LockMode.forUpdate,
+              );
+        final pinHash = credential?.pinHash ?? await _dummyPinHash;
         final pinMatches = await _hashUtil.validateHashFromString(
           secret: pin,
           hashString: pinHash,
         );
         final isLocked =
-            user?.pinLockedUntil != null && user!.pinLockedUntil!.isAfter(now);
+            credential?.lockedUntil != null &&
+            credential!.lockedUntil!.isAfter(now);
         final deviceMatches = matchesInstallBinding(
           boundInstallId: user?.boundInstallId,
           presentedInstallId: deviceId,
@@ -450,7 +538,7 @@ class PhoneOtpIdp {
             user.status != UserStatus.active ||
             user.deletedAt != null ||
             user.authUserId == null ||
-            user.pinHash == null ||
+            credential == null ||
             isLocked ||
             !deviceMatches ||
             !pinMatches) {
@@ -459,22 +547,23 @@ class PhoneOtpIdp {
               user.status == UserStatus.active &&
               user.deletedAt == null &&
               user.authUserId != null &&
-              user.pinHash != null &&
+              credential != null &&
               !isLocked) {
             final failedAttempts =
-                user.pinLockedUntil != null &&
-                    !user.pinLockedUntil!.isAfter(now)
+                credential.lockedUntil != null &&
+                    !credential.lockedUntil!.isAfter(now)
                 ? 1
-                : user.pinFailedAttempts + 1;
-            await User.db.updateRow(
+                : credential.failedAttempts + 1;
+            await UserCredential.db.updateRow(
               session,
-              user.copyWith(
-                pinFailedAttempts: failedAttempts >= config.maxPinAttempts
+              credential.copyWith(
+                failedAttempts: failedAttempts >= config.maxPinAttempts
                     ? config.maxPinAttempts
                     : failedAttempts,
-                pinLockedUntil: failedAttempts >= config.maxPinAttempts
+                lockedUntil: failedAttempts >= config.maxPinAttempts
                     ? now.add(config.pinLockoutDuration)
                     : null,
+                updatedAt: now,
               ),
               transaction: transaction,
             );
@@ -482,12 +571,19 @@ class PhoneOtpIdp {
           return null;
         }
 
+        await UserCredential.db.updateRow(
+          session,
+          credential.copyWith(
+            failedAttempts: 0,
+            lockedUntil: null,
+            updatedAt: now,
+          ),
+          transaction: transaction,
+        );
         await User.db.updateRow(
           session,
           user.copyWith(
             boundInstallId: deviceId,
-            pinFailedAttempts: 0,
-            pinLockedUntil: null,
             updatedAt: now,
           ),
           transaction: transaction,
@@ -615,6 +711,3 @@ extension PhoneOtpIdpGetter on AuthServices {
   PhoneOtpIdp get phoneOtpIdp =>
       AuthServices.getIdentityProvider<PhoneOtpIdp>();
 }
-
-String _generateOtp() =>
-    Random.secure().nextInt(1000000).toString().padLeft(6, '0');

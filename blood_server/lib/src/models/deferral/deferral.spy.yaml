@@ -1,0 +1,19 @@
+class: Deferral
+serverOnly: true
+table: deferral
+fields:
+  # Nullable so permanent deferrals survive account deletion (set null then).
+  user: User?, relation(optional, onDelete=SetNull)
+  phoneHmac: String?
+  type: DeferralType
+  reason: DeferralReason
+  source: DeferralSource
+  readinessCheck: ReadinessCheck?, relation(optional, onDelete=SetNull)
+  startsAt: DateTime, defaultModel=now, defaultPersist=now
+  endsAt: DateTime?
+  liftedAt: DateTime?
+  liftedBy: int?
+  createdAt: DateTime, defaultModel=now, defaultPersist=now
+indexes:
+  deferral_user_id_active_idx:
+    fields: userId

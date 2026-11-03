@@ -3,11 +3,19 @@ import 'package:serverpod/protocol.dart' show AccessDeniedException;
 import 'package:serverpod_auth_idp_server/core.dart';
 
 import 'phone_otp_idp.dart';
+
 class AuthEndpoint extends Endpoint {
   PhoneOtpIdp get phoneOtpIdp => AuthServices.instance.phoneOtpIdp;
 
-  Future<void> setPin(Session session, {required String pin}) =>
-      phoneOtpIdp.setPin(session, pin: pin);
+  Future<void> setPin(
+    Session session, {
+    required String pin,
+    String? name,
+  }) => phoneOtpIdp.setPin(
+    session,
+    pin: pin,
+    name: name,
+  );
 
   @unauthenticatedClientCall
   Future<AuthSuccess> loginWithPin(

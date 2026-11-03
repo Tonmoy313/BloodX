@@ -1,0 +1,6 @@
+enum: DonorAreaKind
+serialized: byName
+values:
+  - home
+  - secondary
+  - tertiary

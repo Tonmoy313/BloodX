@@ -1,0 +1,6 @@
+enum: BloodGroupSource
+serialized: byName
+default: self
+values:
+  - self
+  - lab

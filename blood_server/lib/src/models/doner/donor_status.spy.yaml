@@ -1,0 +1,7 @@
+enum: DonorStatus
+serialized: byName
+default: setupIncomplete
+values:
+  - setupIncomplete
+  - active
+  - disable

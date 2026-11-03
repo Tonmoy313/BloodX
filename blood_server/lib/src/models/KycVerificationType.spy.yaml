@@ -1,0 +1,5 @@
+enum: KycVerificationType
+serialized: byName
+values:
+  - nid
+  - passport

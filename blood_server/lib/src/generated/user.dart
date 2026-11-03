@@ -12,7 +12,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:serverpod/serverpod.dart' as _i1;
-import 'language.dart' as _i2;
+import 'user_lagnuage.dart' as _i2;
 import 'user_status.dart' as _i3;
 
 abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
@@ -20,13 +20,13 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     this.id,
     this.phoneE164,
     this.phoneHmac,
-    required this.displayName,
+    this.imageKey,
+    required this.name,
     this.authUserId,
+    required this.tierId,
+    bool? donorPromptPending,
+    this.lastDonorPromptAt,
     this.boundInstallId,
-    this.pinHash,
-    this.pinSetAt,
-    int? pinFailedAttempts,
-    this.pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     this.suspendedReason,
@@ -34,26 +34,23 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     DateTime? updatedAt,
     this.lastSeenAt,
     this.deletedAt,
-    this.lastDonorPromptAt,
-    bool? donorPromptPending,
-  }) : pinFailedAttempts = pinFailedAttempts ?? 0,
+  }) : donorPromptPending = donorPromptPending ?? false,
        language = language ?? _i2.Language.bn,
        status = status ?? _i3.UserStatus.active,
        createdAt = createdAt ?? DateTime.now(),
-       updatedAt = updatedAt ?? DateTime.now(),
-       donorPromptPending = donorPromptPending ?? false;
+       updatedAt = updatedAt ?? DateTime.now();
 
   factory User({
     int? id,
     String? phoneE164,
     String? phoneHmac,
-    required String displayName,
+    String? imageKey,
+    required String name,
     _i1.UuidValue? authUserId,
+    required int tierId,
+    bool? donorPromptPending,
+    DateTime? lastDonorPromptAt,
     _i1.UuidValue? boundInstallId,
-    String? pinHash,
-    DateTime? pinSetAt,
-    int? pinFailedAttempts,
-    DateTime? pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     String? suspendedReason,
@@ -61,8 +58,6 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     DateTime? updatedAt,
     DateTime? lastSeenAt,
     DateTime? deletedAt,
-    DateTime? lastDonorPromptAt,
-    bool? donorPromptPending,
   }) = _UserImpl;
 
   factory User.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -70,26 +65,28 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       id: jsonSerialization['id'] as int?,
       phoneE164: jsonSerialization['phoneE164'] as String?,
       phoneHmac: jsonSerialization['phoneHmac'] as String?,
-      displayName: jsonSerialization['displayName'] as String,
+      imageKey: jsonSerialization['imageKey'] as String?,
+      name: jsonSerialization['name'] as String,
       authUserId: jsonSerialization['authUserId'] == null
           ? null
           : _i1.UuidValueJsonExtension.fromJson(
               jsonSerialization['authUserId'],
             ),
+      tierId: jsonSerialization['tierId'] as int,
+      donorPromptPending: jsonSerialization['donorPromptPending'] == null
+          ? null
+          : _i1.BoolJsonExtension.fromJson(
+              jsonSerialization['donorPromptPending'],
+            ),
+      lastDonorPromptAt: jsonSerialization['lastDonorPromptAt'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(
+              jsonSerialization['lastDonorPromptAt'],
+            ),
       boundInstallId: jsonSerialization['boundInstallId'] == null
           ? null
           : _i1.UuidValueJsonExtension.fromJson(
               jsonSerialization['boundInstallId'],
-            ),
-      pinHash: jsonSerialization['pinHash'] as String?,
-      pinSetAt: jsonSerialization['pinSetAt'] == null
-          ? null
-          : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['pinSetAt']),
-      pinFailedAttempts: jsonSerialization['pinFailedAttempts'] as int?,
-      pinLockedUntil: jsonSerialization['pinLockedUntil'] == null
-          ? null
-          : _i1.DateTimeJsonExtension.fromJson(
-              jsonSerialization['pinLockedUntil'],
             ),
       language: jsonSerialization['language'] == null
           ? null
@@ -110,16 +107,6 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       deletedAt: jsonSerialization['deletedAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['deletedAt']),
-      lastDonorPromptAt: jsonSerialization['lastDonorPromptAt'] == null
-          ? null
-          : _i1.DateTimeJsonExtension.fromJson(
-              jsonSerialization['lastDonorPromptAt'],
-            ),
-      donorPromptPending: jsonSerialization['donorPromptPending'] == null
-          ? null
-          : _i1.BoolJsonExtension.fromJson(
-              jsonSerialization['donorPromptPending'],
-            ),
     );
   }
 
@@ -134,19 +121,19 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   String? phoneHmac;
 
-  String displayName;
+  String? imageKey;
+
+  String name;
 
   _i1.UuidValue? authUserId;
 
+  int tierId;
+
+  bool donorPromptPending;
+
+  DateTime? lastDonorPromptAt;
+
   _i1.UuidValue? boundInstallId;
-
-  String? pinHash;
-
-  DateTime? pinSetAt;
-
-  int pinFailedAttempts;
-
-  DateTime? pinLockedUntil;
 
   _i2.Language language;
 
@@ -162,10 +149,6 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   DateTime? deletedAt;
 
-  DateTime? lastDonorPromptAt;
-
-  bool donorPromptPending;
-
   @override
   _i1.Table<int?> get table => t;
 
@@ -176,13 +159,13 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     int? id,
     String? phoneE164,
     String? phoneHmac,
-    String? displayName,
+    String? imageKey,
+    String? name,
     _i1.UuidValue? authUserId,
+    int? tierId,
+    bool? donorPromptPending,
+    DateTime? lastDonorPromptAt,
     _i1.UuidValue? boundInstallId,
-    String? pinHash,
-    DateTime? pinSetAt,
-    int? pinFailedAttempts,
-    DateTime? pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     String? suspendedReason,
@@ -190,8 +173,6 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     DateTime? updatedAt,
     DateTime? lastSeenAt,
     DateTime? deletedAt,
-    DateTime? lastDonorPromptAt,
-    bool? donorPromptPending,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -200,13 +181,14 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       if (id != null) 'id': id,
       if (phoneE164 != null) 'phoneE164': phoneE164,
       if (phoneHmac != null) 'phoneHmac': phoneHmac,
-      'displayName': displayName,
+      if (imageKey != null) 'imageKey': imageKey,
+      'name': name,
       if (authUserId != null) 'authUserId': authUserId?.toJson(),
+      'tierId': tierId,
+      'donorPromptPending': donorPromptPending,
+      if (lastDonorPromptAt != null)
+        'lastDonorPromptAt': lastDonorPromptAt?.toJson(),
       if (boundInstallId != null) 'boundInstallId': boundInstallId?.toJson(),
-      if (pinHash != null) 'pinHash': pinHash,
-      if (pinSetAt != null) 'pinSetAt': pinSetAt?.toJson(),
-      'pinFailedAttempts': pinFailedAttempts,
-      if (pinLockedUntil != null) 'pinLockedUntil': pinLockedUntil?.toJson(),
       'language': language.toJson(),
       'status': status.toJson(),
       if (suspendedReason != null) 'suspendedReason': suspendedReason,
@@ -214,9 +196,6 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       'updatedAt': updatedAt.toJson(),
       if (lastSeenAt != null) 'lastSeenAt': lastSeenAt?.toJson(),
       if (deletedAt != null) 'deletedAt': deletedAt?.toJson(),
-      if (lastDonorPromptAt != null)
-        'lastDonorPromptAt': lastDonorPromptAt?.toJson(),
-      'donorPromptPending': donorPromptPending,
     };
   }
 
@@ -262,13 +241,13 @@ class _UserImpl extends User {
     int? id,
     String? phoneE164,
     String? phoneHmac,
-    required String displayName,
+    String? imageKey,
+    required String name,
     _i1.UuidValue? authUserId,
+    required int tierId,
+    bool? donorPromptPending,
+    DateTime? lastDonorPromptAt,
     _i1.UuidValue? boundInstallId,
-    String? pinHash,
-    DateTime? pinSetAt,
-    int? pinFailedAttempts,
-    DateTime? pinLockedUntil,
     _i2.Language? language,
     _i3.UserStatus? status,
     String? suspendedReason,
@@ -276,19 +255,17 @@ class _UserImpl extends User {
     DateTime? updatedAt,
     DateTime? lastSeenAt,
     DateTime? deletedAt,
-    DateTime? lastDonorPromptAt,
-    bool? donorPromptPending,
   }) : super._(
          id: id,
          phoneE164: phoneE164,
          phoneHmac: phoneHmac,
-         displayName: displayName,
+         imageKey: imageKey,
+         name: name,
          authUserId: authUserId,
+         tierId: tierId,
+         donorPromptPending: donorPromptPending,
+         lastDonorPromptAt: lastDonorPromptAt,
          boundInstallId: boundInstallId,
-         pinHash: pinHash,
-         pinSetAt: pinSetAt,
-         pinFailedAttempts: pinFailedAttempts,
-         pinLockedUntil: pinLockedUntil,
          language: language,
          status: status,
          suspendedReason: suspendedReason,
@@ -296,8 +273,6 @@ class _UserImpl extends User {
          updatedAt: updatedAt,
          lastSeenAt: lastSeenAt,
          deletedAt: deletedAt,
-         lastDonorPromptAt: lastDonorPromptAt,
-         donorPromptPending: donorPromptPending,
        );
 
   /// Returns a shallow copy of this [User]
@@ -308,13 +283,13 @@ class _UserImpl extends User {
     Object? id = _Undefined,
     Object? phoneE164 = _Undefined,
     Object? phoneHmac = _Undefined,
-    String? displayName,
+    Object? imageKey = _Undefined,
+    String? name,
     Object? authUserId = _Undefined,
+    int? tierId,
+    bool? donorPromptPending,
+    Object? lastDonorPromptAt = _Undefined,
     Object? boundInstallId = _Undefined,
-    Object? pinHash = _Undefined,
-    Object? pinSetAt = _Undefined,
-    int? pinFailedAttempts,
-    Object? pinLockedUntil = _Undefined,
     _i2.Language? language,
     _i3.UserStatus? status,
     Object? suspendedReason = _Undefined,
@@ -322,24 +297,22 @@ class _UserImpl extends User {
     DateTime? updatedAt,
     Object? lastSeenAt = _Undefined,
     Object? deletedAt = _Undefined,
-    Object? lastDonorPromptAt = _Undefined,
-    bool? donorPromptPending,
   }) {
     return User(
       id: id is int? ? id : this.id,
       phoneE164: phoneE164 is String? ? phoneE164 : this.phoneE164,
       phoneHmac: phoneHmac is String? ? phoneHmac : this.phoneHmac,
-      displayName: displayName ?? this.displayName,
+      imageKey: imageKey is String? ? imageKey : this.imageKey,
+      name: name ?? this.name,
       authUserId: authUserId is _i1.UuidValue? ? authUserId : this.authUserId,
+      tierId: tierId ?? this.tierId,
+      donorPromptPending: donorPromptPending ?? this.donorPromptPending,
+      lastDonorPromptAt: lastDonorPromptAt is DateTime?
+          ? lastDonorPromptAt
+          : this.lastDonorPromptAt,
       boundInstallId: boundInstallId is _i1.UuidValue?
           ? boundInstallId
           : this.boundInstallId,
-      pinHash: pinHash is String? ? pinHash : this.pinHash,
-      pinSetAt: pinSetAt is DateTime? ? pinSetAt : this.pinSetAt,
-      pinFailedAttempts: pinFailedAttempts ?? this.pinFailedAttempts,
-      pinLockedUntil: pinLockedUntil is DateTime?
-          ? pinLockedUntil
-          : this.pinLockedUntil,
       language: language ?? this.language,
       status: status ?? this.status,
       suspendedReason: suspendedReason is String?
@@ -349,10 +322,6 @@ class _UserImpl extends User {
       updatedAt: updatedAt ?? this.updatedAt,
       lastSeenAt: lastSeenAt is DateTime? ? lastSeenAt : this.lastSeenAt,
       deletedAt: deletedAt is DateTime? ? deletedAt : this.deletedAt,
-      lastDonorPromptAt: lastDonorPromptAt is DateTime?
-          ? lastDonorPromptAt
-          : this.lastDonorPromptAt,
-      donorPromptPending: donorPromptPending ?? this.donorPromptPending,
     );
   }
 }
@@ -370,8 +339,13 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
     value,
   );
 
-  _i1.ColumnValue<String, String> displayName(String value) => _i1.ColumnValue(
-    table.displayName,
+  _i1.ColumnValue<String, String> imageKey(String? value) => _i1.ColumnValue(
+    table.imageKey,
+    value,
+  );
+
+  _i1.ColumnValue<String, String> name(String value) => _i1.ColumnValue(
+    table.name,
     value,
   );
 
@@ -382,34 +356,28 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
     value,
   );
 
+  _i1.ColumnValue<int, int> tierId(int value) => _i1.ColumnValue(
+    table.tierId,
+    value,
+  );
+
+  _i1.ColumnValue<bool, bool> donorPromptPending(bool value) => _i1.ColumnValue(
+    table.donorPromptPending,
+    value,
+  );
+
+  _i1.ColumnValue<DateTime, DateTime> lastDonorPromptAt(DateTime? value) =>
+      _i1.ColumnValue(
+        table.lastDonorPromptAt,
+        value,
+      );
+
   _i1.ColumnValue<_i1.UuidValue, _i1.UuidValue> boundInstallId(
     _i1.UuidValue? value,
   ) => _i1.ColumnValue(
     table.boundInstallId,
     value,
   );
-
-  _i1.ColumnValue<String, String> pinHash(String? value) => _i1.ColumnValue(
-    table.pinHash,
-    value,
-  );
-
-  _i1.ColumnValue<DateTime, DateTime> pinSetAt(DateTime? value) =>
-      _i1.ColumnValue(
-        table.pinSetAt,
-        value,
-      );
-
-  _i1.ColumnValue<int, int> pinFailedAttempts(int value) => _i1.ColumnValue(
-    table.pinFailedAttempts,
-    value,
-  );
-
-  _i1.ColumnValue<DateTime, DateTime> pinLockedUntil(DateTime? value) =>
-      _i1.ColumnValue(
-        table.pinLockedUntil,
-        value,
-      );
 
   _i1.ColumnValue<_i2.Language, _i2.Language> language(_i2.Language value) =>
       _i1.ColumnValue(
@@ -453,17 +421,6 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
         table.deletedAt,
         value,
       );
-
-  _i1.ColumnValue<DateTime, DateTime> lastDonorPromptAt(DateTime? value) =>
-      _i1.ColumnValue(
-        table.lastDonorPromptAt,
-        value,
-      );
-
-  _i1.ColumnValue<bool, bool> donorPromptPending(bool value) => _i1.ColumnValue(
-    table.donorPromptPending,
-    value,
-  );
 }
 
 class UserTable extends _i1.Table<int?> {
@@ -477,33 +434,33 @@ class UserTable extends _i1.Table<int?> {
       'phoneHmac',
       this,
     );
-    displayName = _i1.ColumnString(
-      'displayName',
+    imageKey = _i1.ColumnString(
+      'imageKey',
+      this,
+    );
+    name = _i1.ColumnString(
+      'name',
       this,
     );
     authUserId = _i1.ColumnUuid(
       'authUserId',
       this,
     );
-    boundInstallId = _i1.ColumnUuid(
-      'boundInstallId',
+    tierId = _i1.ColumnInt(
+      'tierId',
       this,
     );
-    pinHash = _i1.ColumnString(
-      'pinHash',
-      this,
-    );
-    pinSetAt = _i1.ColumnDateTime(
-      'pinSetAt',
-      this,
-    );
-    pinFailedAttempts = _i1.ColumnInt(
-      'pinFailedAttempts',
+    donorPromptPending = _i1.ColumnBool(
+      'donorPromptPending',
       this,
       hasDefault: true,
     );
-    pinLockedUntil = _i1.ColumnDateTime(
-      'pinLockedUntil',
+    lastDonorPromptAt = _i1.ColumnDateTime(
+      'lastDonorPromptAt',
+      this,
+    );
+    boundInstallId = _i1.ColumnUuid(
+      'boundInstallId',
       this,
     );
     language = _i1.ColumnEnum(
@@ -540,15 +497,6 @@ class UserTable extends _i1.Table<int?> {
       'deletedAt',
       this,
     );
-    lastDonorPromptAt = _i1.ColumnDateTime(
-      'lastDonorPromptAt',
-      this,
-    );
-    donorPromptPending = _i1.ColumnBool(
-      'donorPromptPending',
-      this,
-      hasDefault: true,
-    );
   }
 
   late final UserUpdateTable updateTable;
@@ -557,19 +505,19 @@ class UserTable extends _i1.Table<int?> {
 
   late final _i1.ColumnString phoneHmac;
 
-  late final _i1.ColumnString displayName;
+  late final _i1.ColumnString imageKey;
+
+  late final _i1.ColumnString name;
 
   late final _i1.ColumnUuid authUserId;
 
+  late final _i1.ColumnInt tierId;
+
+  late final _i1.ColumnBool donorPromptPending;
+
+  late final _i1.ColumnDateTime lastDonorPromptAt;
+
   late final _i1.ColumnUuid boundInstallId;
-
-  late final _i1.ColumnString pinHash;
-
-  late final _i1.ColumnDateTime pinSetAt;
-
-  late final _i1.ColumnInt pinFailedAttempts;
-
-  late final _i1.ColumnDateTime pinLockedUntil;
 
   late final _i1.ColumnEnum<_i2.Language> language;
 
@@ -585,22 +533,18 @@ class UserTable extends _i1.Table<int?> {
 
   late final _i1.ColumnDateTime deletedAt;
 
-  late final _i1.ColumnDateTime lastDonorPromptAt;
-
-  late final _i1.ColumnBool donorPromptPending;
-
   @override
   List<_i1.Column> get columns => [
     id,
     phoneE164,
     phoneHmac,
-    displayName,
+    imageKey,
+    name,
     authUserId,
+    tierId,
+    donorPromptPending,
+    lastDonorPromptAt,
     boundInstallId,
-    pinHash,
-    pinSetAt,
-    pinFailedAttempts,
-    pinLockedUntil,
     language,
     status,
     suspendedReason,
@@ -608,8 +552,6 @@ class UserTable extends _i1.Table<int?> {
     updatedAt,
     lastSeenAt,
     deletedAt,
-    lastDonorPromptAt,
-    donorPromptPending,
   ];
 }
 
