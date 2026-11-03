@@ -126,9 +126,9 @@
     "semantic_hash": ""
   },
   "blood_flutter/lib/features/auth/controllers/auth_controller.dart": {
-    "mtime": 1793544544.055223,
-    "seen": 1793545942.4465234,
-    "ast_hash": "644b5d44edbc3dfe004d107bb0115ecb",
+    "mtime": 1793715156.7905824,
+    "seen": 1793715240.5386188,
+    "ast_hash": "232917684082740d92cd6a8d77efb44a",
     "semantic_hash": ""
   },
   "blood_flutter/lib/features/auth/models/auth_state.dart": {
@@ -1020,9 +1020,9 @@
     "semantic_hash": ""
   },
   "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart": {
-    "mtime": 1793000248.6684334,
-    "seen": 1793000304.8644764,
-    "ast_hash": "4d32227e9f06bd62c1bf4ca220ca7469",
+    "mtime": 1793715212.4117672,
+    "seen": 1793715240.540619,
+    "ast_hash": "888d076dc70151b682c7225a270a1a55",
     "semantic_hash": ""
   },
   "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart": {

@@ -1,15 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../../core/localization/blood_strings.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/blood_colors.dart';
 // import '../../../core/widgets/blood_button.dart';
 import '../controllers/auth_controller.dart';
 
-/// S5: PIN Setup Screen per spec/auth.md.
 /// Two-phase setup: Create 5-digit PIN -> Confirm 5-digit PIN (verify_pin).
 /// On success: stores secure hash and routes to S6 (Login).
 class PinSetupScreen extends StatefulWidget {
@@ -31,84 +28,83 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
   String _currentInput = '';
   bool _isConfirming = false;
   String? _errorMessage;
-  Uint8List? _profileImageBytes;
-  String? _profileImageExtension;
+  // Uint8List? _profileImageBytes;
+  // String? _profileImageExtension;
 
   @override
   void initState() {
     super.initState();
-    if (!widget.isForgotPin) unawaited(_restorePickedImage());
   }
 
-  Future<void> _restorePickedImage() async {
-    try {
-      final response = await ImagePicker().retrieveLostData();
-      final files = response.files;
-      if (files != null && files.isNotEmpty) {
-        await _usePickedImage(files.first);
-      }
-    } on PlatformException {
-      // The photo is optional; account and PIN setup can continue without it.
-    }
-  }
+  // Future<void> _restorePickedImage() async {
+  //   try {
+  //     final response = await ImagePicker().retrieveLostData();
+  //     final files = response.files;
+  //     if (files != null && files.isNotEmpty) {
+  //       await _usePickedImage(files.first);
+  //     }
+  //   } on PlatformException {
+  //     // The photo is optional; account and PIN setup can continue without it.
+  //   }
+  // }
 
-  Future<void> _pickProfileImage() async {
-    try {
-      final file = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        requestFullMetadata: false,
-        imageQuality: 85,
-        maxWidth: 1024,
-        maxHeight: 1024,
-      );
-      if (file != null) await _usePickedImage(file);
-    } on PlatformException {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(BloodStrings.profileImageInvalid)),
-      );
-    }
-  }
+  // Future<void> _pickProfileImage() async {
+  //   try {
+  //     final file = await ImagePicker().pickImage(
+  //       source: ImageSource.gallery,
+  //       requestFullMetadata: false,
+  //       imageQuality: 85,
+  //       maxWidth: 1024,
+  //       maxHeight: 1024,
+  //     );
+  //     if (file != null) await _usePickedImage(file);
+  //   } on PlatformException {
+  //     if (!mounted) return;
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(BloodStrings.profileImageInvalid)),
+  //     );
+  //   }
+  // }
 
-  Future<void> _usePickedImage(XFile file) async {
-    final bytes = await file.readAsBytes();
-    final extension = _imageExtension(bytes);
-    if (bytes.lengthInBytes > 10 * 1024 * 1024 || extension == null) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(BloodStrings.profileImageInvalid)),
-        );
-      }
-      return;
-    }
-    if (!mounted) return;
-    setState(() {
-      _profileImageBytes = bytes;
-      _profileImageExtension = extension;
-    });
-  }
+  // Future<void> _usePickedImage(XFile file) async {
+  //   final bytes = await file.readAsBytes();
+  //   final extension = _imageExtension(bytes);
+  //   if (bytes.lengthInBytes > 10 * 1024 * 1024 || extension == null) {
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text(BloodStrings.profileImageInvalid)),
+  //       );
+  //     }
+  //     return;
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _profileImageBytes = bytes;
+  //     _profileImageExtension = extension;
+  //   });
+  // }
 
-  String? _imageExtension(Uint8List bytes) {
-    if (bytes.length >= 8 &&
-        bytes[0] == 0x89 &&
-        bytes[1] == 0x50 &&
-        bytes[2] == 0x4e &&
-        bytes[3] == 0x47) {
-      return 'png';
-    }
-    if (bytes.length >= 3 &&
-        bytes[0] == 0xff &&
-        bytes[1] == 0xd8 &&
-        bytes[2] == 0xff) {
-      return 'jpg';
-    }
-    if (bytes.length >= 12 &&
-        String.fromCharCodes(bytes.sublist(0, 4)) == 'RIFF' &&
-        String.fromCharCodes(bytes.sublist(8, 12)) == 'WEBP') {
-      return 'webp';
-    }
-    return null;
-  }
+  // String? _imageExtension(Uint8List bytes) {
+  //   if (bytes.length >= 8 &&
+  //       bytes[0] == 0x89 &&
+  //       bytes[1] == 0x50 &&
+  //       bytes[2] == 0x4e &&
+  //       bytes[3] == 0x47) {
+  //     return 'png';
+  //   }
+  //   if (bytes.length >= 3 &&
+  //       bytes[0] == 0xff &&
+  //       bytes[1] == 0xd8 &&
+  //       bytes[2] == 0xff) {
+  //     return 'jpg';
+  //   }
+  //   if (bytes.length >= 12 &&
+  //       String.fromCharCodes(bytes.sublist(0, 4)) == 'RIFF' &&
+  //       String.fromCharCodes(bytes.sublist(8, 12)) == 'WEBP') {
+  //     return 'webp';
+  //   }
+  //   return null;
+  // }
 
   void _onDigitPressed(String digit) {
     if (_currentInput.length >= 5) return;
@@ -155,8 +151,6 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
       // PIN matched -> Save PIN
       final success = await AuthController.instance.setupPin(
         _currentInput,
-        profileImageBytes: _profileImageBytes,
-        profileImageExtension: _profileImageExtension,
       );
       if (!mounted) return;
 
@@ -273,36 +267,6 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
               ),
             ),
             const SizedBox(height: 32),
-
-            if (!widget.isForgotPin)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    OutlinedButton.icon(
-                      onPressed: _pickProfileImage,
-                      icon: _profileImageBytes == null
-                          ? const Icon(Icons.add_a_photo_outlined)
-                          : CircleAvatar(
-                              radius: 14,
-                              backgroundImage: MemoryImage(
-                                _profileImageBytes!,
-                              ),
-                            ),
-                      label: Text(BloodStrings.profileImageAdd),
-                    ),
-                    if (_profileImageBytes != null)
-                      TextButton(
-                        onPressed: () => setState(() {
-                          _profileImageBytes = null;
-                          _profileImageExtension = null;
-                        }),
-                        child: Text(BloodStrings.profileImageRemove),
-                      ),
-                  ],
-                ),
-              ),
-            if (!widget.isForgotPin) const SizedBox(height: 16),
 
             // 5 PIN Dots Display
             Row(

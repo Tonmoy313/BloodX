@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -253,10 +252,8 @@ class AuthController extends ChangeNotifier {
 
   /// Sets up a 5-digit PIN (S5 per spec/auth.md).
   Future<bool> setupPin(
-    String pin, {
-    Uint8List? profileImageBytes,
-    String? profileImageExtension,
-  }) async {
+    String pin, 
+  ) async {
     if (pin.length != 5 || !RegExp(r'^\d{5}$').hasMatch(pin)) {
       _state = _state.copyWith(
         status: AuthStatus.error,
@@ -266,7 +263,7 @@ class AuthController extends ChangeNotifier {
       return false;
     }
 
-    if (pin == '00000') {
+    if (pin == '00000' || pin == '12345' || pin == '11111') {
       _state = _state.copyWith(
         status: AuthStatus.error,
         errorMessage: 'Insecure PIN (00000) is rejected.',
@@ -276,28 +273,6 @@ class AuthController extends ChangeNotifier {
     }
 
     try {
-      if (profileImageBytes != null) {
-        final extension = profileImageExtension;
-        if (extension == null ||
-            !{'jpg', 'jpeg', 'png', 'webp'}.contains(extension)) {
-          throw const FormatException('Unsupported profile image.');
-        }
-        final response = await client.profile
-            .createMyProfileImageUploadDescription(extension: extension);
-        final uploadInfo = jsonDecode(response) as Map<String, dynamic>;
-        final imageKey = uploadInfo['imageKey'] as String;
-        final uploadDescription = uploadInfo['uploadDescription'] as String;
-        final uploader = FileUploader(uploadDescription);
-        final uploaded = await uploader.uploadByteData(
-          ByteData.view(
-            profileImageBytes.buffer,
-            profileImageBytes.offsetInBytes,
-            profileImageBytes.lengthInBytes,
-          ),
-        );
-        if (!uploaded) throw StateError('Profile image upload failed.');
-        await client.profile.confirmMyProfileImage(imageKey: imageKey);
-      }
 
       await client.auth.setPin(
         pin: pin,
@@ -322,21 +297,6 @@ class AuthController extends ChangeNotifier {
       _state = _state.copyWith(
         status: AuthStatus.error,
         errorMessage: 'The request timed out. Check your connection and retry.',
-      );
-    } on PlatformException {
-      _state = _state.copyWith(
-        status: AuthStatus.error,
-        errorMessage: 'Unable to access secure session storage. Try again.',
-      );
-    } on StateError {
-      _state = _state.copyWith(
-        status: AuthStatus.error,
-        errorMessage: BloodStrings.profileImageUploadError,
-      );
-    } on FormatException {
-      _state = _state.copyWith(
-        status: AuthStatus.error,
-        errorMessage: BloodStrings.profileImageUploadError,
       );
     }
     notifyListeners();

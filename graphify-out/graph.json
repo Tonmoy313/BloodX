@@ -744,233 +744,310 @@
       "source_location": "L44"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field",
-      "label": "blood_text_field.dart",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog",
+      "label": "delete_account_dialog.dart",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "blood_text_field.dart",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "norm_label": "delete_account_dialog.dart",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
       "source_location": null
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_autofocus",
-      "label": "autofocus",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "blood_text_field.dart",
-      "file_type": "code",
-      "norm_label": "autofocus",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L20"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_build",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_build",
       "label": "build",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
       "norm_label": "build",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L44"
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L82"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_controller",
-      "label": "controller",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_candelete",
+      "label": "_canDelete",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "controller",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L8"
+      "norm_label": "_candelete",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L28"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_errortext",
-      "label": "errorText",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_createstate",
+      "label": "createState",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "errortext",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L9"
+      "norm_label": "createstate",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L23"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_focusnode",
-      "label": "focusNode",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_dispose",
+      "label": "dispose",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "focusnode",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L19"
+      "norm_label": "dispose",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L45"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_hinttext",
-      "label": "hintText",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_handledelete",
+      "label": "_handleDelete",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "hinttext",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L7"
+      "norm_label": "_handledelete",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L50"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_inputformatters",
-      "label": "inputFormatters",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_initstate",
+      "label": "initState",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "inputformatters",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L11"
+      "norm_label": "initstate",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L32"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_keyboardtype",
-      "label": "keyboardType",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_inputcontroller",
+      "label": "_inputController",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "keyboardtype",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L10"
+      "norm_label": "_inputcontroller",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L27"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_label",
-      "label": "label",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_isdeleting",
+      "label": "_isDeleting",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "label",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L6"
+      "norm_label": "_isdeleting",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L29"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_maxlength",
-      "label": "maxLength",
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_show",
+      "label": "show",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "maxlength",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L12"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_obscuretext",
-      "label": "obscureText",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "blood_text_field.dart",
-      "file_type": "code",
-      "norm_label": "obscuretext",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L15"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_onchanged",
-      "label": "onChanged",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "blood_text_field.dart",
-      "file_type": "code",
-      "norm_label": "onchanged",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L17"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_ontap",
-      "label": "onTap",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "blood_text_field.dart",
-      "file_type": "code",
-      "norm_label": "ontap",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L18"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_prefix",
-      "label": "prefix",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "blood_text_field.dart",
-      "file_type": "code",
-      "norm_label": "prefix",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L13"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_readonly",
-      "label": "readOnly",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "blood_text_field.dart",
-      "file_type": "code",
-      "norm_label": "readonly",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
-      "source_location": "L16"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_suffix",
-      "label": "suffix",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "blood_text_field.dart",
-      "file_type": "code",
-      "norm_label": "suffix",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "norm_label": "show",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
       "source_location": "L14"
     },
     {
-      "id": "blood_flutter_lib_core_widgets_blood_text_field_textcapitalization",
-      "label": "textCapitalization",
+      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog",
+      "label": "terms_privacy_dialog.dart",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "textcapitalization",
-      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "norm_label": "terms_privacy_dialog.dart",
+      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_build",
+      "label": "build",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "build",
+      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
       "source_location": "L21"
     },
     {
-      "id": "textcapitalization",
-      "label": "TextCapitalization",
+      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_buildpoint",
+      "label": "_buildPoint",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "textcapitalization",
+      "norm_label": "_buildpoint",
+      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
+      "source_location": "L139"
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_show",
+      "label": "show",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "show",
+      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
+      "source_location": "L12"
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_termsprivacydialog",
+      "label": "TermsPrivacyDialog",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "termsprivacydialog",
+      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
+      "source_location": "L9"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_update_required_screen",
+      "label": "update_required_screen.dart",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "update_required_screen.dart",
+      "source_file": "blood_flutter/lib/features/splash/presentation/update_required_screen.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_update_required_screen_build",
+      "label": "build",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "build",
+      "source_file": "blood_flutter/lib/features/splash/presentation/update_required_screen.dart",
+      "source_location": "L13"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_update_required_screen_updaterequiredscreen",
+      "label": "UpdateRequiredScreen",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "updaterequiredscreen",
+      "source_file": "blood_flutter/lib/features/splash/presentation/update_required_screen.dart",
+      "source_location": "L9"
+    },
+    {
+      "id": "blood_flutter_test_core_widgets_location_permission_fallback_dialog_test",
+      "label": "location_permission_fallback_dialog_test.dart",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "location_permission_fallback_dialog_test.dart",
+      "source_file": "blood_flutter/test/core/widgets/location_permission_fallback_dialog_test.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_flutter_test_core_widgets_location_permission_fallback_dialog_test_main",
+      "label": "main",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "main",
+      "source_file": "blood_flutter/test/core/widgets/location_permission_fallback_dialog_test.dart",
+      "source_location": "L6"
+    },
+    {
+      "id": "core_localization_blood_strings_dart",
+      "label": "../../../core/localization/blood_strings.dart",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "../../../core/localization/blood_strings.dart",
       "source_file": null,
       "source_location": null
     },
     {
-      "id": "textinputtype",
-      "label": "TextInputType",
+      "id": "core_theme_blood_colors_dart",
+      "label": "../../../core/theme/blood_colors.dart",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "textinputtype",
+      "norm_label": "../../../core/theme/blood_colors.dart",
       "source_file": null,
       "source_location": null
     },
     {
-      "id": "valuechanged",
-      "label": "ValueChanged",
+      "id": "core_widgets_blood_button_dart",
+      "label": "../../../core/widgets/blood_button.dart",
       "_origin": "ast",
       "community": 0,
-      "community_name": "blood_text_field.dart",
+      "community_name": "package:flutter/material.dart",
       "file_type": "code",
-      "norm_label": "valuechanged",
+      "norm_label": "../../../core/widgets/blood_button.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "core_widgets_blood_drop_logo_dart",
+      "label": "../../../core/widgets/blood_drop_logo.dart",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "../../../core/widgets/blood_drop_logo.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "core_widgets_blood_text_field_dart",
+      "label": "../../../core/widgets/blood_text_field.dart",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "../../../core/widgets/blood_text_field.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "package_blood_flutter_core_widgets_permission_dialogs_dart",
+      "label": "package:blood_flutter/core/widgets/permission_dialogs.dart",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "package:blood_flutter/core/widgets/permission_dialogs.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "package_flutter_material_dart",
+      "label": "package:flutter/material.dart",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "package:flutter/material.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "texteditingcontroller",
+      "label": "TextEditingController",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "package:flutter/material.dart",
+      "file_type": "code",
+      "norm_label": "texteditingcontroller",
       "source_file": null,
       "source_location": null
     },
@@ -4000,35 +4077,13 @@
       "source_location": null
     },
     {
-      "id": "columnenum",
-      "label": "ColumnEnum",
+      "id": "columnstring",
+      "label": "ColumnString",
       "_origin": "ast",
       "community": 100,
       "community_name": "_",
       "file_type": "code",
-      "norm_label": "columnenum",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "otp_type_dart",
-      "label": "otp_type.dart",
-      "_origin": "ast",
-      "community": 100,
-      "community_name": "_",
-      "file_type": "code",
-      "norm_label": "otp_type.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "otptype",
-      "label": "OtpType",
-      "_origin": "ast",
-      "community": 100,
-      "community_name": "_",
-      "file_type": "code",
-      "norm_label": "otptype",
+      "norm_label": "columnstring",
       "source_file": null,
       "source_location": null
     },
@@ -4660,13 +4715,13 @@
       "source_location": "L88"
     },
     {
-      "id": "user_dart",
-      "label": "user.dart",
+      "id": "table",
+      "label": "Table",
       "_origin": "ast",
       "community": 102,
       "community_name": "_",
       "file_type": "code",
-      "norm_label": "user.dart",
+      "norm_label": "table",
       "source_file": null,
       "source_location": null
     },
@@ -5111,13 +5166,24 @@
       "source_location": "L560"
     },
     {
-      "id": "columnint",
-      "label": "ColumnInt",
+      "id": "columnenum",
+      "label": "ColumnEnum",
       "_origin": "ast",
       "community": 103,
       "community_name": "_",
       "file_type": "code",
-      "norm_label": "columnint",
+      "norm_label": "columnenum",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "flag_scope_dart",
+      "label": "flag_scope.dart",
+      "_origin": "ast",
+      "community": 103,
+      "community_name": "_",
+      "file_type": "code",
+      "norm_label": "flag_scope.dart",
       "source_file": null,
       "source_location": null
     },
@@ -5573,13 +5639,24 @@
       "source_location": null
     },
     {
-      "id": "columnstring",
-      "label": "ColumnString",
+      "id": "columnserializable",
+      "label": "ColumnSerializable",
       "_origin": "ast",
       "community": 104,
       "community_name": "_",
       "file_type": "code",
-      "norm_label": "columnstring",
+      "norm_label": "columnserializable",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "user_dart",
+      "label": "user.dart",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "_",
+      "file_type": "code",
+      "norm_label": "user.dart",
       "source_file": null,
       "source_location": null
     },
@@ -6552,24 +6629,46 @@
       "source_location": "L585"
     },
     {
-      "id": "columnserializable",
-      "label": "ColumnSerializable",
+      "id": "columnint",
+      "label": "ColumnInt",
       "_origin": "ast",
       "community": 106,
       "community_name": "_",
       "file_type": "code",
-      "norm_label": "columnserializable",
+      "norm_label": "columnint",
       "source_file": null,
       "source_location": null
     },
     {
-      "id": "table",
-      "label": "Table",
+      "id": "animation",
+      "label": "Animation",
       "_origin": "ast",
-      "community": 106,
-      "community_name": "_",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
       "file_type": "code",
-      "norm_label": "table",
+      "norm_label": "animation",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "animationcontroller",
+      "label": "AnimationController",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "animationcontroller",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "auth_controllers_auth_controller_dart",
+      "label": "../../auth/controllers/auth_controller.dart",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "../../auth/controllers/auth_controller.dart",
       "source_file": null,
       "source_location": null
     },
@@ -6594,28 +6693,6 @@
       "norm_label": "animated",
       "source_file": "blood_flutter/lib/core/widgets/blood_drop_logo.dart",
       "source_location": "L6"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_drop_logo_blooddroplogo",
-      "label": "BloodDropLogo",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "blood_drop_logo.dart",
-      "file_type": "code",
-      "norm_label": "blooddroplogo",
-      "source_file": "blood_flutter/lib/core/widgets/blood_drop_logo.dart",
-      "source_location": "L4"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_drop_logo_blooddroplogostate",
-      "label": "_BloodDropLogoState",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "blood_drop_logo.dart",
-      "file_type": "code",
-      "norm_label": "_blooddroplogostate",
-      "source_file": "blood_flutter/lib/core/widgets/blood_drop_logo.dart",
-      "source_location": "L20"
     },
     {
       "id": "blood_flutter_lib_core_widgets_blood_drop_logo_blooddroppainter",
@@ -6781,6 +6858,105 @@
       "norm_label": "_mapgridpainter",
       "source_file": "blood_flutter/lib/features/auth/presentation/location_picker_screen.dart",
       "source_location": "L415"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen",
+      "label": "splash_screen.dart",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "splash_screen.dart",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_build",
+      "label": "build",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "build",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L79"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_checknavigation",
+      "label": "_checkNavigation",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "_checknavigation",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L46"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_createstate",
+      "label": "createState",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "createstate",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L19"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_dispose",
+      "label": "dispose",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "dispose",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L73"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_fadeanimation",
+      "label": "_fadeAnimation",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "_fadeanimation",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L25"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_fadecontroller",
+      "label": "_fadeController",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "_fadecontroller",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L24"
+    },
+    {
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_initstate",
+      "label": "initState",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "initstate",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L28"
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "blood_drop_logo.dart",
+      "file_type": "code",
+      "norm_label": "color",
+      "source_file": null,
+      "source_location": null
     },
     {
       "id": "custompainter",
@@ -6985,7 +7161,7 @@
       "label": "bangladesh_locations_test.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "bangladesh_locations_test.dart",
       "source_file": "blood_flutter/test/core/data/bangladesh_locations_test.dart",
@@ -6996,40 +7172,18 @@
       "label": "main",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "main",
       "source_file": "blood_flutter/test/core/data/bangladesh_locations_test.dart",
       "source_location": "L4"
     },
     {
-      "id": "blood_flutter_test_core_widgets_location_permission_fallback_dialog_test",
-      "label": "location_permission_fallback_dialog_test.dart",
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "package:flutter/material.dart",
-      "file_type": "code",
-      "norm_label": "location_permission_fallback_dialog_test.dart",
-      "source_file": "blood_flutter/test/core/widgets/location_permission_fallback_dialog_test.dart",
-      "source_location": null
-    },
-    {
-      "id": "blood_flutter_test_core_widgets_location_permission_fallback_dialog_test_main",
-      "label": "main",
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "package:flutter/material.dart",
-      "file_type": "code",
-      "norm_label": "main",
-      "source_file": "blood_flutter/test/core/widgets/location_permission_fallback_dialog_test.dart",
-      "source_location": "L6"
-    },
-    {
       "id": "blood_flutter_test_features_auth_presentation_donor_opt_in_dialog_test",
       "label": "donor_opt_in_dialog_test.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "donor_opt_in_dialog_test.dart",
       "source_file": "blood_flutter/test/features/auth/presentation/donor_opt_in_dialog_test.dart",
@@ -7040,7 +7194,7 @@
       "label": "main",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "main",
       "source_file": "blood_flutter/test/features/auth/presentation/donor_opt_in_dialog_test.dart",
@@ -7051,7 +7205,7 @@
       "label": "phone_input_screen_test.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "phone_input_screen_test.dart",
       "source_file": "blood_flutter/test/features/auth/presentation/phone_input_screen_test.dart",
@@ -7062,7 +7216,7 @@
       "label": "main",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "main",
       "source_file": "blood_flutter/test/features/auth/presentation/phone_input_screen_test.dart",
@@ -7073,7 +7227,7 @@
       "label": "Checkbox",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "checkbox",
       "source_file": null,
@@ -7084,7 +7238,7 @@
       "label": "CheckboxListTile",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "checkboxlisttile",
       "source_file": null,
@@ -7095,7 +7249,7 @@
       "label": "package:blood_flutter/core/data/bangladesh_locations.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "package:blood_flutter/core/data/bangladesh_locations.dart",
       "source_file": null,
@@ -7106,20 +7260,9 @@
       "label": "package:blood_flutter/core/localization/blood_strings.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "package:blood_flutter/core/localization/blood_strings.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "package_blood_flutter_core_widgets_permission_dialogs_dart",
-      "label": "package:blood_flutter/core/widgets/permission_dialogs.dart",
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "package:flutter/material.dart",
-      "file_type": "code",
-      "norm_label": "package:blood_flutter/core/widgets/permission_dialogs.dart",
       "source_file": null,
       "source_location": null
     },
@@ -7128,7 +7271,7 @@
       "label": "package:blood_flutter/features/auth/presentation/donor_opt_in_dialog.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "package:blood_flutter/features/auth/presentation/donor_opt_in_dialog.dart",
       "source_file": null,
@@ -7139,20 +7282,9 @@
       "label": "package:blood_flutter/features/auth/presentation/phone_input_screen.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "package:blood_flutter/features/auth/presentation/phone_input_screen.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "package_flutter_material_dart",
-      "label": "package:flutter/material.dart",
-      "_origin": "ast",
-      "community": 109,
-      "community_name": "package:flutter/material.dart",
-      "file_type": "code",
-      "norm_label": "package:flutter/material.dart",
       "source_file": null,
       "source_location": null
     },
@@ -7161,7 +7293,7 @@
       "label": "package:flutter_test/flutter_test.dart",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "package:flutter_test/flutter_test.dart",
       "source_file": null,
@@ -7172,7 +7304,7 @@
       "label": "ScrollableState",
       "_origin": "ast",
       "community": 109,
-      "community_name": "package:flutter/material.dart",
+      "community_name": "phone_input_screen_test.dart",
       "file_type": "code",
       "norm_label": "scrollablestate",
       "source_file": null,
@@ -8301,72 +8433,6 @@
       "source_location": "L17"
     },
     {
-      "id": "blood_client_lib_src_protocol_kycverificationtype",
-      "label": "KycVerificationType.dart",
-      "_origin": "ast",
-      "community": 114,
-      "community_name": "_i1.SerializableModel",
-      "file_type": "code",
-      "norm_label": "kycverificationtype.dart",
-      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
-      "source_location": null
-    },
-    {
-      "id": "blood_client_lib_src_protocol_kycverificationtype_fromjson",
-      "label": "fromJson",
-      "_origin": "ast",
-      "community": 114,
-      "community_name": "_i1.SerializableModel",
-      "file_type": "code",
-      "norm_label": "fromjson",
-      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
-      "source_location": "L20"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_kycverificationtype_kycverificationtype",
-      "label": "KycVerificationType",
-      "_origin": "ast",
-      "community": 114,
-      "community_name": "_i1.SerializableModel",
-      "file_type": "code",
-      "norm_label": "kycverificationtype",
-      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
-      "source_location": "L16"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_kycverificationtype_passport",
-      "label": "passport",
-      "_origin": "ast",
-      "community": 114,
-      "community_name": "_i1.SerializableModel",
-      "file_type": "code",
-      "norm_label": "passport",
-      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
-      "source_location": "L18"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_kycverificationtype_tojson",
-      "label": "toJson",
-      "_origin": "ast",
-      "community": 114,
-      "community_name": "_i1.SerializableModel",
-      "file_type": "code",
-      "norm_label": "tojson",
-      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
-      "source_location": "L34"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_kycverificationtype_tostring",
-      "label": "toString",
-      "_origin": "ast",
-      "community": 114,
-      "community_name": "_i1.SerializableModel",
-      "file_type": "code",
-      "norm_label": "tostring",
-      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
-      "source_location": "L37"
-    },
-    {
       "id": "blood_server_lib_src_generated_consent_type",
       "label": "generated/consent_type.dart",
       "_origin": "ast",
@@ -8444,17 +8510,6 @@
       "source_location": null
     },
     {
-      "id": "nid",
-      "label": "nid,",
-      "_origin": "ast",
-      "community": 114,
-      "community_name": "_i1.SerializableModel",
-      "file_type": "code",
-      "norm_label": "nid,",
-      "source_file": null,
-      "source_location": null
-    },
-    {
       "id": "termsofservice_privacypolicy_donorlocationsharing_donordatasharing",
       "label": "termsOfService,\n  privacyPolicy,\n  donorLocationSharing,\n  donorDataSharing,",
       "_origin": "ast",
@@ -8462,6 +8517,17 @@
       "community_name": "_i1.SerializableModel",
       "file_type": "code",
       "norm_label": "termsofservice,\n  privacypolicy,\n  donorlocationsharing,\n  donordatasharing,",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "agelimit_recentdonation_temporaryhealth_travel",
+      "label": "ageLimit,\n  recentDonation,\n  temporaryHealth,\n  travel,",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "package:serverpod_client/serverpod_client.dart",
+      "file_type": "code",
+      "norm_label": "agelimit,\n  recentdonation,\n  temporaryhealth,\n  travel,",
       "source_file": null,
       "source_location": null
     },
@@ -8475,6 +8541,72 @@
       "norm_label": "blood_client.dart",
       "source_file": "blood_client/lib/blood_client.dart",
       "source_location": null
+    },
+    {
+      "id": "blood_client_lib_src_protocol_deferral_deferral_reason",
+      "label": "deferral_reason.dart",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "package:serverpod_client/serverpod_client.dart",
+      "file_type": "code",
+      "norm_label": "deferral_reason.dart",
+      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_deferralreason",
+      "label": "DeferralReason",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "package:serverpod_client/serverpod_client.dart",
+      "file_type": "code",
+      "norm_label": "deferralreason",
+      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
+      "source_location": "L16"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_fromjson",
+      "label": "fromJson",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "package:serverpod_client/serverpod_client.dart",
+      "file_type": "code",
+      "norm_label": "fromjson",
+      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
+      "source_location": "L24"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_medicalreview",
+      "label": "medicalReview",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "package:serverpod_client/serverpod_client.dart",
+      "file_type": "code",
+      "norm_label": "medicalreview",
+      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
+      "source_location": "L22"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_tojson",
+      "label": "toJson",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "package:serverpod_client/serverpod_client.dart",
+      "file_type": "code",
+      "norm_label": "tojson",
+      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
+      "source_location": "L46"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_tostring",
+      "label": "toString",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "package:serverpod_client/serverpod_client.dart",
+      "file_type": "code",
+      "norm_label": "tostring",
+      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
+      "source_location": "L49"
     },
     {
       "id": "blood_client_lib_src_protocol_doner_alert_mode",
@@ -8541,83 +8673,6 @@
       "norm_label": "tostring",
       "source_file": "blood_client/lib/src/protocol/doner/alert_mode.dart",
       "source_location": "L38"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_doner_blood_group",
-      "label": "blood_group.dart",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "package:serverpod_client/serverpod_client.dart",
-      "file_type": "code",
-      "norm_label": "blood_group.dart",
-      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
-      "source_location": null
-    },
-    {
-      "id": "blood_client_lib_src_protocol_doner_blood_group_abnegative",
-      "label": "abNegative",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "package:serverpod_client/serverpod_client.dart",
-      "file_type": "code",
-      "norm_label": "abnegative",
-      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
-      "source_location": "L24"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_doner_blood_group_bloodgroup",
-      "label": "BloodGroup",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "package:serverpod_client/serverpod_client.dart",
-      "file_type": "code",
-      "norm_label": "bloodgroup",
-      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
-      "source_location": "L16"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_doner_blood_group_fromjson",
-      "label": "fromJson",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "package:serverpod_client/serverpod_client.dart",
-      "file_type": "code",
-      "norm_label": "fromjson",
-      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
-      "source_location": "L26"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_doner_blood_group_tojson",
-      "label": "toJson",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "package:serverpod_client/serverpod_client.dart",
-      "file_type": "code",
-      "norm_label": "tojson",
-      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
-      "source_location": "L52"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_doner_blood_group_tostring",
-      "label": "toString",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "package:serverpod_client/serverpod_client.dart",
-      "file_type": "code",
-      "norm_label": "tostring",
-      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
-      "source_location": "L55"
-    },
-    {
-      "id": "bnegative_opositive_onegative_abpositive",
-      "label": "bNegative,\n  oPositive,\n  oNegative,\n  abPositive,",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "package:serverpod_client/serverpod_client.dart",
-      "file_type": "code",
-      "norm_label": "bnegative,\n  opositive,\n  onegative,\n  abpositive,",
-      "source_file": null,
-      "source_location": null
     },
     {
       "id": "off_criticalonly",
@@ -10689,6 +10744,18 @@
       "source_location": "L230"
     },
     {
+      "id": "agents_skills_dart_build_cli_app_skill_1_core_architecture_process_lifecycle",
+      "label": "1. Core Architecture & Process Lifecycle",
+      "_origin": "ast",
+      "community": 124,
+      "community_name": "Building Dart CLI Applications",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. core architecture & process lifecycle",
+      "source_file": ".agents/skills/dart-build-cli-app/SKILL.md",
+      "source_location": "L24"
+    },
+    {
       "id": "agents_skills_dart_build_cli_app_skill_2_output_diagnostics_formatting",
       "label": "2. Output, Diagnostics & Formatting",
       "_origin": "ast",
@@ -10785,6 +10852,18 @@
       "source_location": "L218"
     },
     {
+      "id": "agents_skills_dart_build_cli_app_skill_avoid_destructive_exits_exit_n",
+      "label": "Avoid Destructive Exits (`exit(N)`)",
+      "_origin": "ast",
+      "community": 124,
+      "community_name": "Building Dart CLI Applications",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "avoid destructive exits (`exit(n)`)",
+      "source_file": ".agents/skills/dart-build-cli-app/SKILL.md",
+      "source_location": "L26"
+    },
+    {
       "id": "agents_skills_dart_build_cli_app_skill_building_dart_cli_applications",
       "label": "Building Dart CLI Applications",
       "_origin": "ast",
@@ -10867,6 +10946,18 @@
       "norm_label": "single-source versioning (`package:build_version`)",
       "source_file": ".agents/skills/dart-build-cli-app/SKILL.md",
       "source_location": "L120"
+    },
+    {
+      "id": "agents_skills_dart_build_cli_app_skill_the_thin_entrypoint_pattern_bin_vs_lib_src",
+      "label": "The Thin Entrypoint Pattern (`bin/` vs. `lib/src/`)",
+      "_origin": "ast",
+      "community": 124,
+      "community_name": "Building Dart CLI Applications",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "the thin entrypoint pattern (`bin/` vs. `lib/src/`)",
+      "source_file": ".agents/skills/dart-build-cli-app/SKILL.md",
+      "source_location": "L66"
     },
     {
       "id": "blood_client_lib_src_protocol_client_endpointauthidp",
@@ -13061,7 +13152,7 @@
       "file_type": "code",
       "norm_label": "completeprofile",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L433"
+      "source_location": "L393"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_countdowntimer",
@@ -13072,7 +13163,7 @@
       "file_type": "code",
       "norm_label": "_countdowntimer",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L23"
+      "source_location": "L22"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_deleteaccount",
@@ -13083,7 +13174,7 @@
       "file_type": "code",
       "norm_label": "deleteaccount",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L469"
+      "source_location": "L429"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_dispose",
@@ -13094,7 +13185,7 @@
       "file_type": "code",
       "norm_label": "dispose",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L494"
+      "source_location": "L454"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_existingaccounterrorcode",
@@ -13105,7 +13196,7 @@
       "file_type": "code",
       "norm_label": "_existingaccounterrorcode",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L13"
+      "source_location": "L12"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_instance",
@@ -13116,7 +13207,7 @@
       "file_type": "code",
       "norm_label": "instance",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L19"
+      "source_location": "L18"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_loginwithpin",
@@ -13127,7 +13218,7 @@
       "file_type": "code",
       "norm_label": "loginwithpin",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L348"
+      "source_location": "L308"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_maskphone",
@@ -13138,7 +13229,7 @@
       "file_type": "code",
       "norm_label": "maskphone",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L66"
+      "source_location": "L65"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_normalizebangladeshphone",
@@ -13149,7 +13240,7 @@
       "file_type": "code",
       "norm_label": "normalizebangladeshphone",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L46"
+      "source_location": "L45"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_requestotp",
@@ -13160,7 +13251,7 @@
       "file_type": "code",
       "norm_label": "requestotp",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L97"
+      "source_location": "L96"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_resendotp",
@@ -13171,7 +13262,7 @@
       "file_type": "code",
       "norm_label": "resendotp",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L174"
+      "source_location": "L173"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_restorecachedsession",
@@ -13182,7 +13273,7 @@
       "file_type": "code",
       "norm_label": "restorecachedsession",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L27"
+      "source_location": "L26"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_savedonorhealthdetails",
@@ -13193,7 +13284,7 @@
       "file_type": "code",
       "norm_label": "savedonorhealthdetails",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L450"
+      "source_location": "L410"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_setappversionsupported",
@@ -13204,7 +13295,7 @@
       "file_type": "code",
       "norm_label": "setappversionsupported",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L91"
+      "source_location": "L90"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_setdonoroptin",
@@ -13215,7 +13306,7 @@
       "file_type": "code",
       "norm_label": "setdonoroptin",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L74"
+      "source_location": "L73"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_setforgotpinflow",
@@ -13226,7 +13317,7 @@
       "file_type": "code",
       "norm_label": "setforgotpinflow",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L85"
+      "source_location": "L84"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_setprofilename",
@@ -13237,7 +13328,7 @@
       "file_type": "code",
       "norm_label": "setprofilename",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L79"
+      "source_location": "L78"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_setuppin",
@@ -13248,7 +13339,7 @@
       "file_type": "code",
       "norm_label": "setuppin",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L255"
+      "source_location": "L254"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_signout",
@@ -13259,7 +13350,7 @@
       "file_type": "code",
       "norm_label": "signout",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L484"
+      "source_location": "L444"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_startcountdowntimer",
@@ -13270,7 +13361,7 @@
       "file_type": "code",
       "norm_label": "_startcountdowntimer",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L159"
+      "source_location": "L158"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_state",
@@ -13281,7 +13372,7 @@
       "file_type": "code",
       "norm_label": "_state",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L22"
+      "source_location": "L21"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_updatecachedprofile",
@@ -13292,7 +13383,7 @@
       "file_type": "code",
       "norm_label": "updatecachedprofile",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L39"
+      "source_location": "L38"
     },
     {
       "id": "blood_flutter_lib_features_auth_controllers_auth_controller_verifyotp",
@@ -13303,7 +13394,7 @@
       "file_type": "code",
       "norm_label": "verifyotp",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L180"
+      "source_location": "L179"
     },
     {
       "id": "models_auth_state_dart",
@@ -17516,6 +17607,28 @@
       "source_location": "L301"
     },
     {
+      "id": "blood_flutter_lib_features_onboarding_presentation_onboarding_screen_onboardingscreen",
+      "label": "OnboardingScreen",
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "onboarding_screen.dart",
+      "file_type": "code",
+      "norm_label": "onboardingscreen",
+      "source_file": "blood_flutter/lib/features/onboarding/presentation/onboarding_screen.dart",
+      "source_location": "L10"
+    },
+    {
+      "id": "blood_flutter_lib_features_onboarding_presentation_onboarding_screen_onboardingscreenstate",
+      "label": "_OnboardingScreenState",
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "onboarding_screen.dart",
+      "file_type": "code",
+      "norm_label": "_onboardingscreenstate",
+      "source_file": "blood_flutter/lib/features/onboarding/presentation/onboarding_screen.dart",
+      "source_location": "L17"
+    },
+    {
       "id": "blood_flutter_lib_features_onboarding_presentation_onboarding_screen_onpagechanged",
       "label": "_onPageChanged",
       "_origin": "ast",
@@ -17547,61 +17660,6 @@
       "norm_label": "title",
       "source_file": "blood_flutter/lib/features/onboarding/presentation/onboarding_screen.dart",
       "source_location": "L303"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_update_required_screen",
-      "label": "update_required_screen.dart",
-      "_origin": "ast",
-      "community": 16,
-      "community_name": "onboarding_screen.dart",
-      "file_type": "code",
-      "norm_label": "update_required_screen.dart",
-      "source_file": "blood_flutter/lib/features/splash/presentation/update_required_screen.dart",
-      "source_location": null
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_update_required_screen_build",
-      "label": "build",
-      "_origin": "ast",
-      "community": 16,
-      "community_name": "onboarding_screen.dart",
-      "file_type": "code",
-      "norm_label": "build",
-      "source_file": "blood_flutter/lib/features/splash/presentation/update_required_screen.dart",
-      "source_location": "L13"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_update_required_screen_updaterequiredscreen",
-      "label": "UpdateRequiredScreen",
-      "_origin": "ast",
-      "community": 16,
-      "community_name": "onboarding_screen.dart",
-      "file_type": "code",
-      "norm_label": "updaterequiredscreen",
-      "source_file": "blood_flutter/lib/features/splash/presentation/update_required_screen.dart",
-      "source_location": "L9"
-    },
-    {
-      "id": "core_widgets_blood_button_dart",
-      "label": "../../../core/widgets/blood_button.dart",
-      "_origin": "ast",
-      "community": 16,
-      "community_name": "onboarding_screen.dart",
-      "file_type": "code",
-      "norm_label": "../../../core/widgets/blood_button.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "core_widgets_blood_drop_logo_dart",
-      "label": "../../../core/widgets/blood_drop_logo.dart",
-      "_origin": "ast",
-      "community": 16,
-      "community_name": "onboarding_screen.dart",
-      "file_type": "code",
-      "norm_label": "../../../core/widgets/blood_drop_logo.dart",
-      "source_file": null,
-      "source_location": null
     },
     {
       "id": "pagecontroller",
@@ -18576,13 +18634,13 @@
       "source_location": "L20"
     },
     {
-      "id": "core_localization_app_language_dart",
-      "label": "core/localization/app_language.dart",
+      "id": "core_router_app_routes_dart",
+      "label": "core/router/app_routes.dart",
       "_origin": "ast",
       "community": 17,
       "community_name": "otp_verification_screen.dart",
       "file_type": "code",
-      "norm_label": "core/localization/app_language.dart",
+      "norm_label": "core/router/app_routes.dart",
       "source_file": null,
       "source_location": null
     },
@@ -19014,13 +19072,13 @@
       "source_location": "L26"
     },
     {
-      "id": "core_router_app_routes_dart",
-      "label": "core/router/app_routes.dart",
+      "id": "core_localization_app_language_dart",
+      "label": "core/localization/app_language.dart",
       "_origin": "ast",
       "community": 176,
       "community_name": "home_placeholder_screen.dart",
       "file_type": "code",
-      "norm_label": "core/router/app_routes.dart",
+      "norm_label": "core/localization/app_language.dart",
       "source_file": null,
       "source_location": null
     },
@@ -19483,81 +19541,81 @@
       "source_location": null
     },
     {
-      "id": "agelimit_recentdonation_temporaryhealth_travel",
-      "label": "ageLimit,\n  recentDonation,\n  temporaryHealth,\n  travel,",
+      "id": "blood_client_lib_src_protocol_kycverificationtype",
+      "label": "KycVerificationType.dart",
       "_origin": "ast",
       "community": 184,
-      "community_name": "deferral_reason.dart",
+      "community_name": "KycVerificationType.dart",
       "file_type": "code",
-      "norm_label": "agelimit,\n  recentdonation,\n  temporaryhealth,\n  travel,",
-      "source_file": null,
+      "norm_label": "kycverificationtype.dart",
+      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
       "source_location": null
     },
     {
-      "id": "blood_client_lib_src_protocol_deferral_deferral_reason",
-      "label": "deferral_reason.dart",
-      "_origin": "ast",
-      "community": 184,
-      "community_name": "deferral_reason.dart",
-      "file_type": "code",
-      "norm_label": "deferral_reason.dart",
-      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
-      "source_location": null
-    },
-    {
-      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_deferralreason",
-      "label": "DeferralReason",
-      "_origin": "ast",
-      "community": 184,
-      "community_name": "deferral_reason.dart",
-      "file_type": "code",
-      "norm_label": "deferralreason",
-      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
-      "source_location": "L16"
-    },
-    {
-      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_fromjson",
+      "id": "blood_client_lib_src_protocol_kycverificationtype_fromjson",
       "label": "fromJson",
       "_origin": "ast",
       "community": 184,
-      "community_name": "deferral_reason.dart",
+      "community_name": "KycVerificationType.dart",
       "file_type": "code",
       "norm_label": "fromjson",
-      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
-      "source_location": "L24"
+      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
+      "source_location": "L20"
     },
     {
-      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_medicalreview",
-      "label": "medicalReview",
+      "id": "blood_client_lib_src_protocol_kycverificationtype_kycverificationtype",
+      "label": "KycVerificationType",
       "_origin": "ast",
       "community": 184,
-      "community_name": "deferral_reason.dart",
+      "community_name": "KycVerificationType.dart",
       "file_type": "code",
-      "norm_label": "medicalreview",
-      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
-      "source_location": "L22"
+      "norm_label": "kycverificationtype",
+      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
+      "source_location": "L16"
     },
     {
-      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_tojson",
+      "id": "blood_client_lib_src_protocol_kycverificationtype_passport",
+      "label": "passport",
+      "_origin": "ast",
+      "community": 184,
+      "community_name": "KycVerificationType.dart",
+      "file_type": "code",
+      "norm_label": "passport",
+      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
+      "source_location": "L18"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_kycverificationtype_tojson",
       "label": "toJson",
       "_origin": "ast",
       "community": 184,
-      "community_name": "deferral_reason.dart",
+      "community_name": "KycVerificationType.dart",
       "file_type": "code",
       "norm_label": "tojson",
-      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
-      "source_location": "L46"
+      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
+      "source_location": "L34"
     },
     {
-      "id": "blood_client_lib_src_protocol_deferral_deferral_reason_tostring",
+      "id": "blood_client_lib_src_protocol_kycverificationtype_tostring",
       "label": "toString",
       "_origin": "ast",
       "community": 184,
-      "community_name": "deferral_reason.dart",
+      "community_name": "KycVerificationType.dart",
       "file_type": "code",
       "norm_label": "tostring",
-      "source_file": "blood_client/lib/src/protocol/deferral/deferral_reason.dart",
-      "source_location": "L49"
+      "source_file": "blood_client/lib/src/protocol/KycVerificationType.dart",
+      "source_location": "L37"
+    },
+    {
+      "id": "nid",
+      "label": "nid,",
+      "_origin": "ast",
+      "community": 184,
+      "community_name": "KycVerificationType.dart",
+      "file_type": "code",
+      "norm_label": "nid,",
+      "source_file": null,
+      "source_location": null
     },
     {
       "id": "blood_flutter_lib_core_network_serverpod_client",
@@ -19667,7 +19725,7 @@
       "file_type": "code",
       "norm_label": "authcontroller",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L18"
+      "source_location": "L17"
     },
     {
       "id": "changenotifier",
@@ -19681,90 +19739,24 @@
       "source_location": null
     },
     {
-      "id": "blood_flutter_lib_core_location_foreground_location_service",
-      "label": "foreground_location_service.dart",
+      "id": "blood_client_lib_src_protocol_protocol_protocol",
+      "label": "Protocol",
       "_origin": "ast",
       "community": 187,
-      "community_name": "foreground_location_service.dart",
+      "community_name": "Protocol",
       "file_type": "code",
-      "norm_label": "foreground_location_service.dart",
-      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
-      "source_location": null
+      "norm_label": "protocol",
+      "source_file": "blood_client/lib/src/protocol/protocol.dart",
+      "source_location": "L63"
     },
     {
-      "id": "blood_flutter_lib_core_location_foreground_location_service_failure",
-      "label": "failure",
+      "id": "i1_serializationmanager",
+      "label": "_i1.SerializationManager",
       "_origin": "ast",
       "community": 187,
-      "community_name": "foreground_location_service.dart",
+      "community_name": "Protocol",
       "file_type": "code",
-      "norm_label": "failure",
-      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
-      "source_location": "L14"
-    },
-    {
-      "id": "blood_flutter_lib_core_location_foreground_location_service_foregroundlocationfailure",
-      "label": "ForegroundLocationFailure",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "foreground_location_service.dart",
-      "file_type": "code",
-      "norm_label": "foregroundlocationfailure",
-      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
-      "source_location": "L4"
-    },
-    {
-      "id": "blood_flutter_lib_core_location_foreground_location_service_foregroundlocationservice",
-      "label": "ForegroundLocationService",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "foreground_location_service.dart",
-      "file_type": "code",
-      "norm_label": "foregroundlocationservice",
-      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
-      "source_location": "L17"
-    },
-    {
-      "id": "blood_flutter_lib_core_location_foreground_location_service_getpreciseposition",
-      "label": "getPrecisePosition",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "foreground_location_service.dart",
-      "file_type": "code",
-      "norm_label": "getpreciseposition",
-      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
-      "source_location": "L20"
-    },
-    {
-      "id": "blood_flutter_lib_core_location_foreground_location_service_openrelevantsettings",
-      "label": "openRelevantSettings",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "foreground_location_service.dart",
-      "file_type": "code",
-      "norm_label": "openrelevantsettings",
-      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
-      "source_location": "L61"
-    },
-    {
-      "id": "package_geolocator_geolocator_dart",
-      "label": "package:geolocator/geolocator.dart",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "foreground_location_service.dart",
-      "file_type": "code",
-      "norm_label": "package:geolocator/geolocator.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "package_permission_handler_permission_handler_dart",
-      "label": "package:permission_handler/permission_handler.dart",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "foreground_location_service.dart",
-      "file_type": "code",
-      "norm_label": "package:permission_handler/permission_handler.dart",
+      "norm_label": "_i1.serializationmanager",
       "source_file": null,
       "source_location": null
     },
@@ -19921,138 +19913,6 @@
       "norm_label": "temporary,",
       "source_file": null,
       "source_location": null
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog",
-      "label": "delete_account_dialog.dart",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "delete_account_dialog.dart",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": null
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_build",
-      "label": "build",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "build",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L82"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_candelete",
-      "label": "_canDelete",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "_candelete",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L28"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_createstate",
-      "label": "createState",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "createstate",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L23"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_deleteaccountdialog",
-      "label": "DeleteAccountDialog",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "deleteaccountdialog",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L11"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_deleteaccountdialogstate",
-      "label": "_DeleteAccountDialogState",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "_deleteaccountdialogstate",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L26"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_dispose",
-      "label": "dispose",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "dispose",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L45"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_handledelete",
-      "label": "_handleDelete",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "_handledelete",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L50"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_initstate",
-      "label": "initState",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "initstate",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L32"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_inputcontroller",
-      "label": "_inputController",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "_inputcontroller",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L27"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_isdeleting",
-      "label": "_isDeleting",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "_isdeleting",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L29"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_show",
-      "label": "show",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "show",
-      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
-      "source_location": "L14"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_phone_input_screen",
@@ -20253,28 +20113,6 @@
       "source_location": "L31"
     },
     {
-      "id": "controllers_auth_controller_dart",
-      "label": "../controllers/auth_controller.dart",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "../controllers/auth_controller.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "core_widgets_blood_text_field_dart",
-      "label": "../../../core/widgets/blood_text_field.dart",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "../../../core/widgets/blood_text_field.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
       "id": "package_blood_flutter_core_router_app_routes_dart",
       "label": "package:blood_flutter/core/router/app_routes.dart",
       "_origin": "ast",
@@ -20293,17 +20131,6 @@
       "community_name": "phone_input_screen.dart",
       "file_type": "code",
       "norm_label": "terms_privacy_dialog.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "texteditingcontroller",
-      "label": "TextEditingController",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "phone_input_screen.dart",
-      "file_type": "code",
-      "norm_label": "texteditingcontroller",
       "source_file": null,
       "source_location": null
     },
@@ -20471,6 +20298,28 @@
       "norm_label": "width",
       "source_file": "blood_flutter/windows/runner/win32_window.h",
       "source_location": "L22"
+    },
+    {
+      "id": "blood_server_lib_src_generated_protocol_protocol",
+      "label": "Protocol",
+      "_origin": "ast",
+      "community": 195,
+      "community_name": "Protocol",
+      "file_type": "code",
+      "norm_label": "protocol",
+      "source_file": "blood_server/lib/src/generated/protocol.dart",
+      "source_location": "L101"
+    },
+    {
+      "id": "i1_serializationmanagerserver",
+      "label": "_i1.SerializationManagerServer",
+      "_origin": "ast",
+      "community": 195,
+      "community_name": "Protocol",
+      "file_type": "code",
+      "norm_label": "_i1.serializationmanagerserver",
+      "source_file": null,
+      "source_location": null
     },
     {
       "id": "blood_server_lib_src_auth_phone_otp_idp_phoneotpidp",
@@ -21045,6 +20894,17 @@
       "source_location": null
     },
     {
+      "id": "package_serverpod_auth_idp_client_serverpod_auth_idp_client_dart",
+      "label": "package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "client.dart",
+      "file_type": "code",
+      "norm_label": "package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
       "id": "protocol_dart",
       "label": "protocol.dart",
       "_origin": "ast",
@@ -21054,6 +20914,72 @@
       "norm_label": "protocol.dart",
       "source_file": null,
       "source_location": null
+    },
+    {
+      "id": "blood_flutter_lib_core_location_foreground_location_service",
+      "label": "foreground_location_service.dart",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "foreground_location_service.dart",
+      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_flutter_lib_core_location_foreground_location_service_failure",
+      "label": "failure",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "failure",
+      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
+      "source_location": "L14"
+    },
+    {
+      "id": "blood_flutter_lib_core_location_foreground_location_service_foregroundlocationfailure",
+      "label": "ForegroundLocationFailure",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "foregroundlocationfailure",
+      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
+      "source_location": "L4"
+    },
+    {
+      "id": "blood_flutter_lib_core_location_foreground_location_service_foregroundlocationservice",
+      "label": "ForegroundLocationService",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "foregroundlocationservice",
+      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
+      "source_location": "L17"
+    },
+    {
+      "id": "blood_flutter_lib_core_location_foreground_location_service_getpreciseposition",
+      "label": "getPrecisePosition",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "getpreciseposition",
+      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
+      "source_location": "L20"
+    },
+    {
+      "id": "blood_flutter_lib_core_location_foreground_location_service_openrelevantsettings",
+      "label": "openRelevantSettings",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "openrelevantsettings",
+      "source_file": "blood_flutter/lib/core/location/foreground_location_service.dart",
+      "source_location": "L61"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_location_picker_screen",
@@ -21305,6 +21231,28 @@
       "community_name": "location_picker_screen.dart",
       "file_type": "code",
       "norm_label": "../../../core/widgets/permission_dialogs.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "package_geolocator_geolocator_dart",
+      "label": "package:geolocator/geolocator.dart",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "package:geolocator/geolocator.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "package_permission_handler_permission_handler_dart",
+      "label": "package:permission_handler/permission_handler.dart",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "location_picker_screen.dart",
+      "file_type": "code",
+      "norm_label": "package:permission_handler/permission_handler.dart",
       "source_file": null,
       "source_location": null
     },
@@ -25058,17 +25006,6 @@
       "source_location": "L428"
     },
     {
-      "id": "blood_client_lib_src_protocol_protocol_protocol",
-      "label": "Protocol",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "generated/protocol.dart",
-      "file_type": "code",
-      "norm_label": "protocol",
-      "source_file": "blood_client/lib/src/protocol/protocol.dart",
-      "source_location": "L63"
-    },
-    {
       "id": "blood_component_dart",
       "label": "blood_component.dart",
       "_origin": "ast",
@@ -25188,17 +25125,6 @@
       "norm_label": "maprecordtojson",
       "source_file": "blood_server/lib/src/generated/protocol.dart",
       "source_location": "L3074"
-    },
-    {
-      "id": "blood_server_lib_src_generated_protocol_protocol",
-      "label": "Protocol",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "generated/protocol.dart",
-      "file_type": "code",
-      "norm_label": "protocol",
-      "source_file": "blood_server/lib/src/generated/protocol.dart",
-      "source_location": "L101"
     },
     {
       "id": "blood_server_lib_src_generated_protocol_targettabledefinitions",
@@ -25465,17 +25391,6 @@
       "source_location": null
     },
     {
-      "id": "flag_scope_dart",
-      "label": "flag_scope.dart",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "generated/protocol.dart",
-      "file_type": "code",
-      "norm_label": "flag_scope.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
       "id": "flagscope",
       "label": "FlagScope",
       "_origin": "ast",
@@ -25494,28 +25409,6 @@
       "community_name": "generated/protocol.dart",
       "file_type": "code",
       "norm_label": "greetings/greeting.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "i1_serializationmanager",
-      "label": "_i1.SerializationManager",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "generated/protocol.dart",
-      "file_type": "code",
-      "norm_label": "_i1.serializationmanager",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "i1_serializationmanagerserver",
-      "label": "_i1.SerializationManagerServer",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "generated/protocol.dart",
-      "file_type": "code",
-      "norm_label": "_i1.serializationmanagerserver",
       "source_file": null,
       "source_location": null
     },
@@ -25575,13 +25468,24 @@
       "source_location": null
     },
     {
-      "id": "package_serverpod_auth_idp_client_serverpod_auth_idp_client_dart",
-      "label": "package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart",
+      "id": "otp_type_dart",
+      "label": "otp_type.dart",
       "_origin": "ast",
       "community": 5,
       "community_name": "generated/protocol.dart",
       "file_type": "code",
-      "norm_label": "package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart",
+      "norm_label": "otp_type.dart",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "otptype",
+      "label": "OtpType",
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "generated/protocol.dart",
+      "file_type": "code",
+      "norm_label": "otptype",
       "source_file": null,
       "source_location": null
     },
@@ -26165,39 +26069,6 @@
       "source_location": "L1"
     },
     {
-      "id": "animation",
-      "label": "Animation",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "animation",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "animationcontroller",
-      "label": "AnimationController",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "animationcontroller",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "auth_controllers_auth_controller_dart",
-      "label": "../../auth/controllers/auth_controller.dart",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "../../auth/controllers/auth_controller.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
       "id": "blood_flutter_lib_core_widgets_blood_button",
       "label": "blood_button.dart",
       "_origin": "ast",
@@ -26218,28 +26089,6 @@
       "norm_label": "backgroundcolor",
       "source_file": "blood_flutter/lib/core/widgets/blood_button.dart",
       "source_location": "L15"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_button_bloodbutton",
-      "label": "BloodButton",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "bloodbutton",
-      "source_file": "blood_flutter/lib/core/widgets/blood_button.dart",
-      "source_location": "L6"
-    },
-    {
-      "id": "blood_flutter_lib_core_widgets_blood_button_bloodbuttonstate",
-      "label": "_BloodButtonState",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "_bloodbuttonstate",
-      "source_file": "blood_flutter/lib/core/widgets/blood_button.dart",
-      "source_location": "L34"
     },
     {
       "id": "blood_flutter_lib_core_widgets_blood_button_bloodbuttonstyle",
@@ -26440,127 +26289,6 @@
       "source_location": "L12"
     },
     {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen",
-      "label": "splash_screen.dart",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "splash_screen.dart",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": null
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_build",
-      "label": "build",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "build",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L79"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_checknavigation",
-      "label": "_checkNavigation",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "_checknavigation",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L46"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_createstate",
-      "label": "createState",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "createstate",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L19"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_dispose",
-      "label": "dispose",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "dispose",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L73"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_fadeanimation",
-      "label": "_fadeAnimation",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "_fadeanimation",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L25"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_fadecontroller",
-      "label": "_fadeController",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "_fadecontroller",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L24"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_initstate",
-      "label": "initState",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "initstate",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L28"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_splashscreen",
-      "label": "SplashScreen",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "splashscreen",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L15"
-    },
-    {
-      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_splashscreenstate",
-      "label": "_SplashScreenState",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "_splashscreenstate",
-      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
-      "source_location": "L22"
-    },
-    {
-      "id": "color",
-      "label": "Color",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "color",
-      "source_file": null,
-      "source_location": null
-    },
-    {
       "id": "double",
       "label": "double?",
       "_origin": "ast",
@@ -26568,17 +26296,6 @@
       "community_name": "blood_button.dart",
       "file_type": "code",
       "norm_label": "double?",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "singletickerproviderstatemixin",
-      "label": "SingleTickerProviderStateMixin",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "blood_button.dart",
-      "file_type": "code",
-      "norm_label": "singletickerproviderstatemixin",
       "source_file": null,
       "source_location": null
     },
@@ -27443,7 +27160,7 @@
       "file_type": "code",
       "norm_label": "build",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L194"
+      "source_location": "L188"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_buildkeypadbutton",
@@ -27454,7 +27171,7 @@
       "file_type": "code",
       "norm_label": "_buildkeypadbutton",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L391"
+      "source_location": "L355"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_buildkeypadrow",
@@ -27465,7 +27182,7 @@
       "file_type": "code",
       "norm_label": "_buildkeypadrow",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L384"
+      "source_location": "L348"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_createstate",
@@ -27476,7 +27193,7 @@
       "file_type": "code",
       "norm_label": "createstate",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L26"
+      "source_location": "L23"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_currentinput",
@@ -27487,7 +27204,7 @@
       "file_type": "code",
       "norm_label": "_currentinput",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L31"
+      "source_location": "L28"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_donoroptin",
@@ -27498,7 +27215,7 @@
       "file_type": "code",
       "norm_label": "donoroptin",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L17"
+      "source_location": "L14"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_errormessage",
@@ -27509,7 +27226,7 @@
       "file_type": "code",
       "norm_label": "_errormessage",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L33"
+      "source_location": "L30"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_firstpin",
@@ -27520,18 +27237,7 @@
       "file_type": "code",
       "norm_label": "_firstpin",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L30"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_imageextension",
-      "label": "_imageExtension",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "pin_setup_screen.dart",
-      "file_type": "code",
-      "norm_label": "_imageextension",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L91"
+      "source_location": "L27"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_initstate",
@@ -27542,7 +27248,7 @@
       "file_type": "code",
       "norm_label": "initstate",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L38"
+      "source_location": "L35"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_isconfirming",
@@ -27553,7 +27259,7 @@
       "file_type": "code",
       "norm_label": "_isconfirming",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L32"
+      "source_location": "L29"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_isforgotpin",
@@ -27564,7 +27270,7 @@
       "file_type": "code",
       "norm_label": "isforgotpin",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L16"
+      "source_location": "L13"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_onbackspacepressed",
@@ -27575,7 +27281,7 @@
       "file_type": "code",
       "norm_label": "_onbackspacepressed",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L126"
+      "source_location": "L122"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_ondigitpressed",
@@ -27586,18 +27292,29 @@
       "file_type": "code",
       "norm_label": "_ondigitpressed",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L113"
+      "source_location": "L109"
     },
     {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_pickprofileimage",
-      "label": "_pickProfileImage",
+      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_pinsetupscreen",
+      "label": "PinSetupScreen",
       "_origin": "ast",
       "community": 78,
       "community_name": "pin_setup_screen.dart",
       "file_type": "code",
-      "norm_label": "_pickprofileimage",
+      "norm_label": "pinsetupscreen",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L55"
+      "source_location": "L12"
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_pinsetupscreenstate",
+      "label": "_PinSetupScreenState",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "pin_setup_screen.dart",
+      "file_type": "code",
+      "norm_label": "_pinsetupscreenstate",
+      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
+      "source_location": "L26"
     },
     {
       "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_processfivedigits",
@@ -27608,71 +27325,16 @@
       "file_type": "code",
       "norm_label": "_processfivedigits",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L135"
+      "source_location": "L131"
     },
     {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_profileimagebytes",
-      "label": "_profileImageBytes",
+      "id": "controllers_auth_controller_dart",
+      "label": "../controllers/auth_controller.dart",
       "_origin": "ast",
       "community": 78,
       "community_name": "pin_setup_screen.dart",
       "file_type": "code",
-      "norm_label": "_profileimagebytes",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L34"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_profileimageextension",
-      "label": "_profileImageExtension",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "pin_setup_screen.dart",
-      "file_type": "code",
-      "norm_label": "_profileimageextension",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L35"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_restorepickedimage",
-      "label": "_restorePickedImage",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "pin_setup_screen.dart",
-      "file_type": "code",
-      "norm_label": "_restorepickedimage",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L43"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_usepickedimage",
-      "label": "_usePickedImage",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "pin_setup_screen.dart",
-      "file_type": "code",
-      "norm_label": "_usepickedimage",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L73"
-    },
-    {
-      "id": "package_image_picker_image_picker_dart",
-      "label": "package:image_picker/image_picker.dart",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "pin_setup_screen.dart",
-      "file_type": "code",
-      "norm_label": "package:image_picker/image_picker.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "uint8list",
-      "label": "Uint8List?",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "pin_setup_screen.dart",
-      "file_type": "code",
-      "norm_label": "uint8list?",
+      "norm_label": "../controllers/auth_controller.dart",
       "source_file": null,
       "source_location": null
     },
@@ -29645,25 +29307,91 @@
       "source_location": ""
     },
     {
+      "id": "blood_client_lib_src_protocol_doner_blood_group",
+      "label": "blood_group.dart",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "blood_group.dart",
+      "file_type": "code",
+      "norm_label": "blood_group.dart",
+      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_client_lib_src_protocol_doner_blood_group_abnegative",
+      "label": "abNegative",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "blood_group.dart",
+      "file_type": "code",
+      "norm_label": "abnegative",
+      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
+      "source_location": "L24"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_doner_blood_group_bloodgroup",
+      "label": "BloodGroup",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "blood_group.dart",
+      "file_type": "code",
+      "norm_label": "bloodgroup",
+      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
+      "source_location": "L16"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_doner_blood_group_fromjson",
+      "label": "fromJson",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "blood_group.dart",
+      "file_type": "code",
+      "norm_label": "fromjson",
+      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
+      "source_location": "L26"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_doner_blood_group_tojson",
+      "label": "toJson",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "blood_group.dart",
+      "file_type": "code",
+      "norm_label": "tojson",
+      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
+      "source_location": "L52"
+    },
+    {
+      "id": "blood_client_lib_src_protocol_doner_blood_group_tostring",
+      "label": "toString",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "blood_group.dart",
+      "file_type": "code",
+      "norm_label": "tostring",
+      "source_file": "blood_client/lib/src/protocol/doner/blood_group.dart",
+      "source_location": "L55"
+    },
+    {
+      "id": "bnegative_opositive_onegative_abpositive",
+      "label": "bNegative,\n  oPositive,\n  oNegative,\n  abPositive,",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "blood_group.dart",
+      "file_type": "code",
+      "norm_label": "bnegative,\n  opositive,\n  onegative,\n  abpositive,",
+      "source_file": null,
+      "source_location": null
+    },
+    {
       "id": "blood_flutter_linux_flutter_generated_plugin_registrant_cc_blood_flutter_linux_flutter_generated_plugin_registrant",
       "label": "linux/flutter/generated_plugin_registrant.cc",
       "_origin": "ast",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
+      "community": 87,
+      "community_name": "windows/flutter/generated_plugin_registrant.cc",
       "file_type": "code",
       "norm_label": "linux/flutter/generated_plugin_registrant.cc",
       "source_file": "blood_flutter/linux/flutter/generated_plugin_registrant.cc",
-      "source_location": "L1"
-    },
-    {
-      "id": "blood_flutter_linux_flutter_generated_plugin_registrant_h_blood_flutter_linux_flutter_generated_plugin_registrant",
-      "label": "linux/flutter/generated_plugin_registrant.h",
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "file_type": "code",
-      "norm_label": "linux/flutter/generated_plugin_registrant.h",
-      "source_file": "blood_flutter/linux/flutter/generated_plugin_registrant.h",
       "source_location": "L1"
     },
     {
@@ -29806,42 +29534,6 @@
       "source_location": "L4"
     },
     {
-      "id": "agents_skills_dart_build_cli_app_skill_1_core_architecture_process_lifecycle",
-      "label": "1. Core Architecture & Process Lifecycle",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "AGENTS.md \u2014 BloodX",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "1. core architecture & process lifecycle",
-      "source_file": ".agents/skills/dart-build-cli-app/SKILL.md",
-      "source_location": "L24"
-    },
-    {
-      "id": "agents_skills_dart_build_cli_app_skill_avoid_destructive_exits_exit_n",
-      "label": "Avoid Destructive Exits (`exit(N)`)",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "AGENTS.md \u2014 BloodX",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "avoid destructive exits (`exit(n)`)",
-      "source_file": ".agents/skills/dart-build-cli-app/SKILL.md",
-      "source_location": "L26"
-    },
-    {
-      "id": "agents_skills_dart_build_cli_app_skill_the_thin_entrypoint_pattern_bin_vs_lib_src",
-      "label": "The Thin Entrypoint Pattern (`bin/` vs. `lib/src/`)",
-      "_origin": "ast",
-      "community": 88,
-      "community_name": "AGENTS.md \u2014 BloodX",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "the thin entrypoint pattern (`bin/` vs. `lib/src/`)",
-      "source_file": ".agents/skills/dart-build-cli-app/SKILL.md",
-      "source_location": "L66"
-    },
-    {
       "id": "agents_token_rules",
       "label": "Token rules",
       "_origin": "ast",
@@ -29852,6 +29544,17 @@
       "norm_label": "token rules",
       "source_file": "AGENTS.md",
       "source_location": "L10"
+    },
+    {
+      "id": "blood_flutter_linux_flutter_generated_plugin_registrant_h_blood_flutter_linux_flutter_generated_plugin_registrant",
+      "label": "linux/flutter/generated_plugin_registrant.h",
+      "_origin": "ast",
+      "community": 89,
+      "community_name": "my_application.cc",
+      "file_type": "code",
+      "norm_label": "linux/flutter/generated_plugin_registrant.h",
+      "source_file": "blood_flutter/linux/flutter/generated_plugin_registrant.h",
+      "source_location": "L1"
     },
     {
       "id": "blood_flutter_linux_runner_my_application_cc_blood_flutter_linux_runner_my_application",
@@ -30734,11 +30437,121 @@
       "source_location": null
     },
     {
+      "id": "blood_flutter_lib_core_session_session_profile_guard_sessionprofileguard",
+      "label": "SessionProfileGuard",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "sessionprofileguard",
+      "source_file": "blood_flutter/lib/core/session/session_profile_guard.dart",
+      "source_location": "L16"
+    },
+    {
+      "id": "blood_flutter_lib_core_session_session_profile_guard_sessionprofileguardstate",
+      "label": "_SessionProfileGuardState",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "_sessionprofileguardstate",
+      "source_file": "blood_flutter/lib/core/session/session_profile_guard.dart",
+      "source_location": "L25"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_button_bloodbutton",
+      "label": "BloodButton",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "bloodbutton",
+      "source_file": "blood_flutter/lib/core/widgets/blood_button.dart",
+      "source_location": "L6"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_button_bloodbuttonstate",
+      "label": "_BloodButtonState",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "_bloodbuttonstate",
+      "source_file": "blood_flutter/lib/core/widgets/blood_button.dart",
+      "source_location": "L34"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_drop_logo_blooddroplogo",
+      "label": "BloodDropLogo",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "blooddroplogo",
+      "source_file": "blood_flutter/lib/core/widgets/blood_drop_logo.dart",
+      "source_location": "L4"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_drop_logo_blooddroplogostate",
+      "label": "_BloodDropLogoState",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "_blooddroplogostate",
+      "source_file": "blood_flutter/lib/core/widgets/blood_drop_logo.dart",
+      "source_location": "L20"
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_deleteaccountdialog",
+      "label": "DeleteAccountDialog",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "deleteaccountdialog",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L11"
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_delete_account_dialog_deleteaccountdialogstate",
+      "label": "_DeleteAccountDialogState",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "_deleteaccountdialogstate",
+      "source_file": "blood_flutter/lib/features/auth/presentation/delete_account_dialog.dart",
+      "source_location": "L26"
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_donor_health_details_screen_donorhealthdetailsscreen",
+      "label": "DonorHealthDetailsScreen",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "donorhealthdetailsscreen",
+      "source_file": "blood_flutter/lib/features/auth/presentation/donor_health_details_screen.dart",
+      "source_location": "L23"
+    },
+    {
+      "id": "blood_flutter_lib_features_auth_presentation_donor_health_details_screen_donorhealthdetailsscreenstate",
+      "label": "_DonorHealthDetailsScreenState",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "_donorhealthdetailsscreenstate",
+      "source_file": "blood_flutter/lib/features/auth/presentation/donor_health_details_screen.dart",
+      "source_location": "L31"
+    },
+    {
       "id": "blood_flutter_lib_features_auth_presentation_donor_opt_in_dialog",
       "label": "donor_opt_in_dialog.dart",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "donor_opt_in_dialog.dart",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
@@ -30749,7 +30562,7 @@
       "label": "build",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "build",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
@@ -30760,7 +30573,7 @@
       "label": "createState",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "createstate",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
@@ -30771,7 +30584,7 @@
       "label": "DonorOptInDialog",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "donoroptindialog",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
@@ -30782,7 +30595,7 @@
       "label": "_DonorOptInDialogState",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "_donoroptindialogstate",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
@@ -30793,7 +30606,7 @@
       "label": "initialValue",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "initialvalue",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
@@ -30804,7 +30617,7 @@
       "label": "_optedIn",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "_optedin",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
@@ -30815,86 +30628,86 @@
       "label": "show",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
       "norm_label": "show",
       "source_file": "blood_flutter/lib/features/auth/presentation/donor_opt_in_dialog.dart",
       "source_location": "L10"
     },
     {
-      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog",
-      "label": "terms_privacy_dialog.dart",
+      "id": "blood_flutter_lib_features_auth_presentation_location_picker_screen_locationpickerscreen",
+      "label": "LocationPickerScreen",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
-      "norm_label": "terms_privacy_dialog.dart",
-      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
-      "source_location": null
+      "norm_label": "locationpickerscreen",
+      "source_file": "blood_flutter/lib/features/auth/presentation/location_picker_screen.dart",
+      "source_location": "L11"
     },
     {
-      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_build",
-      "label": "build",
+      "id": "blood_flutter_lib_features_auth_presentation_location_picker_screen_locationpickerscreenstate",
+      "label": "_LocationPickerScreenState",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
-      "norm_label": "build",
-      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
-      "source_location": "L21"
+      "norm_label": "_locationpickerscreenstate",
+      "source_file": "blood_flutter/lib/features/auth/presentation/location_picker_screen.dart",
+      "source_location": "L19"
     },
     {
-      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_buildpoint",
-      "label": "_buildPoint",
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_splashscreen",
+      "label": "SplashScreen",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
-      "norm_label": "_buildpoint",
-      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
-      "source_location": "L139"
+      "norm_label": "splashscreen",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L15"
     },
     {
-      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_show",
-      "label": "show",
+      "id": "blood_flutter_lib_features_splash_presentation_splash_screen_splashscreenstate",
+      "label": "_SplashScreenState",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
-      "norm_label": "show",
-      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
-      "source_location": "L12"
+      "norm_label": "_splashscreenstate",
+      "source_file": "blood_flutter/lib/features/splash/presentation/splash_screen.dart",
+      "source_location": "L22"
     },
     {
-      "id": "blood_flutter_lib_features_auth_presentation_terms_privacy_dialog_termsprivacydialog",
-      "label": "TermsPrivacyDialog",
+      "id": "singletickerproviderstatemixin",
+      "label": "SingleTickerProviderStateMixin",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
-      "norm_label": "termsprivacydialog",
-      "source_file": "blood_flutter/lib/features/auth/presentation/terms_privacy_dialog.dart",
-      "source_location": "L9"
-    },
-    {
-      "id": "core_localization_blood_strings_dart",
-      "label": "../../../core/localization/blood_strings.dart",
-      "_origin": "ast",
-      "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
-      "file_type": "code",
-      "norm_label": "../../../core/localization/blood_strings.dart",
+      "norm_label": "singletickerproviderstatemixin",
       "source_file": null,
       "source_location": null
     },
     {
-      "id": "core_theme_blood_colors_dart",
-      "label": "../../../core/theme/blood_colors.dart",
+      "id": "state",
+      "label": "State",
       "_origin": "ast",
       "community": 91,
-      "community_name": "../../../core/localization/blood_strings.dart",
+      "community_name": "State",
       "file_type": "code",
-      "norm_label": "../../../core/theme/blood_colors.dart",
+      "norm_label": "state",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "statefulwidget",
+      "label": "StatefulWidget",
+      "_origin": "ast",
+      "community": 91,
+      "community_name": "State",
+      "file_type": "code",
+      "norm_label": "statefulwidget",
       "source_file": null,
       "source_location": null
     },
@@ -30903,29 +30716,227 @@
       "label": "blood_button.dart",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "blood_button.dart",
       "source_file": null,
       "source_location": null
     },
     {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field",
+      "label": "blood_text_field.dart",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "blood_text_field.dart",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": null
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_autofocus",
+      "label": "autofocus",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "autofocus",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L20"
+    },
+    {
       "id": "blood_flutter_lib_core_widgets_blood_text_field_bloodtextfield",
       "label": "BloodTextField",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "bloodtextfield",
       "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
       "source_location": "L5"
     },
     {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_build",
+      "label": "build",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "build",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L44"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_controller",
+      "label": "controller",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "controller",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L8"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_errortext",
+      "label": "errorText",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "errortext",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L9"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_focusnode",
+      "label": "focusNode",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "focusnode",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L19"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_hinttext",
+      "label": "hintText",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "hinttext",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L7"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_inputformatters",
+      "label": "inputFormatters",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "inputformatters",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L11"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_keyboardtype",
+      "label": "keyboardType",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "keyboardtype",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L10"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_label",
+      "label": "label",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "label",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L6"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_maxlength",
+      "label": "maxLength",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "maxlength",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L12"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_obscuretext",
+      "label": "obscureText",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "obscuretext",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L15"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_onchanged",
+      "label": "onChanged",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "onchanged",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L17"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_ontap",
+      "label": "onTap",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "ontap",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L18"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_prefix",
+      "label": "prefix",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "prefix",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L13"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_readonly",
+      "label": "readOnly",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "readonly",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L16"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_suffix",
+      "label": "suffix",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "suffix",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L14"
+    },
+    {
+      "id": "blood_flutter_lib_core_widgets_blood_text_field_textcapitalization",
+      "label": "textCapitalization",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "textcapitalization",
+      "source_file": "blood_flutter/lib/core/widgets/blood_text_field.dart",
+      "source_location": "L21"
+    },
+    {
       "id": "blood_flutter_lib_core_widgets_permission_dialogs",
       "label": "permission_dialogs.dart",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "permission_dialogs.dart",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -30936,7 +30947,7 @@
       "label": "_BasePermissionDialog",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "_basepermissiondialog",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -30947,7 +30958,7 @@
       "label": "build",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "build",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -30958,7 +30969,7 @@
       "label": "description",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "description",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -30969,7 +30980,7 @@
       "label": "icon",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "icon",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -30980,7 +30991,7 @@
       "label": "iconColor",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "iconcolor",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -30991,7 +31002,7 @@
       "label": "LocationPermissionDialog",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "locationpermissiondialog",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31002,7 +31013,7 @@
       "label": "LocationPermissionFallbackDialog",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "locationpermissionfallbackdialog",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31013,7 +31024,7 @@
       "label": "negativeLabel",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "negativelabel",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31024,7 +31035,7 @@
       "label": "NotificationPermissionDialog",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "notificationpermissiondialog",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31035,7 +31046,7 @@
       "label": "onCancel",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "oncancel",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31046,7 +31057,7 @@
       "label": "onConfirm",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "onconfirm",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31057,7 +31068,7 @@
       "label": "positiveLabel",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "positivelabel",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31068,7 +31079,7 @@
       "label": "show",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "show",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31079,7 +31090,7 @@
       "label": "StoragePermissionDialog",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "storagepermissiondialog",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31090,7 +31101,7 @@
       "label": "title",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "title",
       "source_file": "blood_flutter/lib/core/widgets/permission_dialogs.dart",
@@ -31101,7 +31112,7 @@
       "label": "HomePlaceholderScreen",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "homeplaceholderscreen",
       "source_file": "blood_flutter/lib/features/home/presentation/home_placeholder_screen.dart",
@@ -31112,18 +31123,29 @@
       "label": "BloodApp",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "bloodapp",
       "source_file": "blood_flutter/lib/main.dart",
       "source_location": "L62"
     },
     {
+      "id": "blood_flutter_lib_screens_greetings_screen_resultdisplay",
+      "label": "ResultDisplay",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "resultdisplay",
+      "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
+      "source_location": "L79"
+    },
+    {
       "id": "icondata",
       "label": "IconData",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "icondata",
       "source_file": null,
@@ -31134,7 +31156,7 @@
       "label": "../localization/blood_strings.dart",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "../localization/blood_strings.dart",
       "source_file": null,
@@ -31145,9 +31167,42 @@
       "label": "StatelessWidget",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "statelesswidget",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "textcapitalization",
+      "label": "TextCapitalization",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "textcapitalization",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "textinputtype",
+      "label": "TextInputType",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "textinputtype",
+      "source_file": null,
+      "source_location": null
+    },
+    {
+      "id": "valuechanged",
+      "label": "ValueChanged",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "blood_text_field.dart",
+      "file_type": "code",
+      "norm_label": "valuechanged",
       "source_file": null,
       "source_location": null
     },
@@ -31156,7 +31211,7 @@
       "label": "VoidCallback",
       "_origin": "ast",
       "community": 92,
-      "community_name": "permission_dialogs.dart",
+      "community_name": "blood_text_field.dart",
       "file_type": "code",
       "norm_label": "voidcallback",
       "source_file": null,
@@ -31218,121 +31273,11 @@
       "source_location": ""
     },
     {
-      "id": "blood_flutter_lib_core_session_session_profile_guard_sessionprofileguard",
-      "label": "SessionProfileGuard",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "sessionprofileguard",
-      "source_file": "blood_flutter/lib/core/session/session_profile_guard.dart",
-      "source_location": "L16"
-    },
-    {
-      "id": "blood_flutter_lib_core_session_session_profile_guard_sessionprofileguardstate",
-      "label": "_SessionProfileGuardState",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "_sessionprofileguardstate",
-      "source_file": "blood_flutter/lib/core/session/session_profile_guard.dart",
-      "source_location": "L25"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_donor_health_details_screen_donorhealthdetailsscreen",
-      "label": "DonorHealthDetailsScreen",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "donorhealthdetailsscreen",
-      "source_file": "blood_flutter/lib/features/auth/presentation/donor_health_details_screen.dart",
-      "source_location": "L23"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_donor_health_details_screen_donorhealthdetailsscreenstate",
-      "label": "_DonorHealthDetailsScreenState",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "_donorhealthdetailsscreenstate",
-      "source_file": "blood_flutter/lib/features/auth/presentation/donor_health_details_screen.dart",
-      "source_location": "L31"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_location_picker_screen_locationpickerscreen",
-      "label": "LocationPickerScreen",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "locationpickerscreen",
-      "source_file": "blood_flutter/lib/features/auth/presentation/location_picker_screen.dart",
-      "source_location": "L11"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_location_picker_screen_locationpickerscreenstate",
-      "label": "_LocationPickerScreenState",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "_locationpickerscreenstate",
-      "source_file": "blood_flutter/lib/features/auth/presentation/location_picker_screen.dart",
-      "source_location": "L19"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_pinsetupscreen",
-      "label": "PinSetupScreen",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "pinsetupscreen",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L15"
-    },
-    {
-      "id": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_pinsetupscreenstate",
-      "label": "_PinSetupScreenState",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "_pinsetupscreenstate",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L29"
-    },
-    {
-      "id": "blood_flutter_lib_features_onboarding_presentation_onboarding_screen_onboardingscreen",
-      "label": "OnboardingScreen",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "onboardingscreen",
-      "source_file": "blood_flutter/lib/features/onboarding/presentation/onboarding_screen.dart",
-      "source_location": "L10"
-    },
-    {
-      "id": "blood_flutter_lib_features_onboarding_presentation_onboarding_screen_onboardingscreenstate",
-      "label": "_OnboardingScreenState",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "_onboardingscreenstate",
-      "source_file": "blood_flutter/lib/features/onboarding/presentation/onboarding_screen.dart",
-      "source_location": "L17"
-    },
-    {
       "id": "blood_flutter_lib_screens_greetings_screen",
       "label": "greetings_screen.dart",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "greetings_screen.dart",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31343,7 +31288,7 @@
       "label": "build",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "build",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31354,7 +31299,7 @@
       "label": "_callHello",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "_callhello",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31365,7 +31310,7 @@
       "label": "createState",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "createstate",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31376,7 +31321,7 @@
       "label": "_errorMessage",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "_errormessage",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31387,7 +31332,7 @@
       "label": "GreetingsScreen",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "greetingsscreen",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31398,29 +31343,18 @@
       "label": "_GreetingsScreenState",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "_greetingsscreenstate",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
       "source_location": "L13"
     },
     {
-      "id": "blood_flutter_lib_screens_greetings_screen_resultdisplay",
-      "label": "ResultDisplay",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "resultdisplay",
-      "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
-      "source_location": "L79"
-    },
-    {
       "id": "blood_flutter_lib_screens_greetings_screen_resultmessage",
       "label": "_resultMessage",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "_resultmessage",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31431,7 +31365,7 @@
       "label": "_textEditingController",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "_texteditingcontroller",
       "source_file": "blood_flutter/lib/screens/greetings_screen.dart",
@@ -31442,31 +31376,9 @@
       "label": "../core/network/serverpod_client.dart",
       "_origin": "ast",
       "community": 94,
-      "community_name": "State",
+      "community_name": "greetings_screen.dart",
       "file_type": "code",
       "norm_label": "../core/network/serverpod_client.dart",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "state",
-      "label": "State",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "state",
-      "source_file": null,
-      "source_location": null
-    },
-    {
-      "id": "statefulwidget",
-      "label": "StatefulWidget",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "State",
-      "file_type": "code",
-      "norm_label": "statefulwidget",
       "source_file": null,
       "source_location": null
     },
@@ -32506,90 +32418,6 @@
       "type": "external"
     },
     {
-      "id": "desktop_webview_window_plugin",
-      "label": "desktop_webview_window_plugin",
-      "_origin": "semantic",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "desktop_webview_window_plugin",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "file_selector_plugin",
-      "label": "file_selector_plugin",
-      "_origin": "semantic",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "file_selector_plugin",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "flutter_linux",
-      "label": "flutter_linux",
-      "_origin": "semantic",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "flutter_linux",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "flutter_secure_storage_linux_plugin",
-      "label": "flutter_secure_storage_linux_plugin",
-      "_origin": "semantic",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "flutter_secure_storage_linux_plugin",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "sentry_flutter_plugin",
-      "label": "sentry_flutter_plugin",
-      "_origin": "semantic",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "sentry_flutter_plugin",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "url_launcher_plugin",
-      "label": "url_launcher_plugin",
-      "_origin": "semantic",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "url_launcher_plugin",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "window_to_front_plugin",
-      "label": "window_to_front_plugin",
-      "_origin": "semantic",
-      "community": 86,
-      "community_name": "linux/flutter/generated_plugin_registrant.cc",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "window_to_front_plugin",
-      "source_file": "",
-      "type": "external"
-    },
-    {
       "id": "connectivity_plus_windows_plugin",
       "label": "connectivity_plus_windows_plugin",
       "_origin": "semantic",
@@ -32602,6 +32430,30 @@
       "type": "external"
     },
     {
+      "id": "desktop_webview_window_plugin",
+      "label": "desktop_webview_window_plugin",
+      "_origin": "semantic",
+      "community": 87,
+      "community_name": "windows/flutter/generated_plugin_registrant.cc",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "desktop_webview_window_plugin",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "file_selector_plugin",
+      "label": "file_selector_plugin",
+      "_origin": "semantic",
+      "community": 87,
+      "community_name": "windows/flutter/generated_plugin_registrant.cc",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "file_selector_plugin",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "file_selector_windows",
       "label": "file_selector_windows",
       "_origin": "semantic",
@@ -32610,6 +32462,18 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "file_selector_windows",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "flutter_secure_storage_linux_plugin",
+      "label": "flutter_secure_storage_linux_plugin",
+      "_origin": "semantic",
+      "community": 87,
+      "community_name": "windows/flutter/generated_plugin_registrant.cc",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "flutter_secure_storage_linux_plugin",
       "source_file": "",
       "type": "external"
     },
@@ -32662,6 +32526,30 @@
       "type": "external"
     },
     {
+      "id": "sentry_flutter_plugin",
+      "label": "sentry_flutter_plugin",
+      "_origin": "semantic",
+      "community": 87,
+      "community_name": "windows/flutter/generated_plugin_registrant.cc",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "sentry_flutter_plugin",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "url_launcher_plugin",
+      "label": "url_launcher_plugin",
+      "_origin": "semantic",
+      "community": 87,
+      "community_name": "windows/flutter/generated_plugin_registrant.cc",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "url_launcher_plugin",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "url_launcher_windows",
       "label": "url_launcher_windows",
       "_origin": "semantic",
@@ -32674,6 +32562,18 @@
       "type": "external"
     },
     {
+      "id": "window_to_front_plugin",
+      "label": "window_to_front_plugin",
+      "_origin": "semantic",
+      "community": 87,
+      "community_name": "windows/flutter/generated_plugin_registrant.cc",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "window_to_front_plugin",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "gtk",
       "label": "gtk",
       "_origin": "semantic",
@@ -32682,6 +32582,18 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "gtk",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "flutter_linux",
+      "label": "flutter_linux",
+      "_origin": "semantic",
+      "community": 89,
+      "community_name": "my_application.cc",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "flutter_linux",
       "source_file": "",
       "type": "external"
     },
@@ -37520,7 +37432,7 @@
       "confidence_score": 1.0,
       "context": "variable_type",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L19",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -37532,7 +37444,7 @@
       "confidence_score": 1.0,
       "context": "variable_type",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L22",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -37544,7 +37456,7 @@
       "confidence_score": 1.0,
       "context": "variable_type",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L23",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -37556,7 +37468,7 @@
       "confidence_score": 1.0,
       "context": "variable_type",
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L25",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -37916,19 +37828,7 @@
       "confidence_score": 1.0,
       "context": "variable_type",
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L33",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "uint8list",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "variable_type",
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L34",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -53277,7 +53177,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -53288,18 +53188,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L159",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
-      "target": "blood_flutter_lib_features_auth_controllers_auth_controller_resendotp",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L174",
+      "source_location": "L158",
       "weight": 1.0
     },
     {
@@ -53310,7 +53199,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L18",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
+      "target": "blood_flutter_lib_features_auth_controllers_auth_controller_resendotp",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -53321,7 +53221,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L180",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
@@ -53332,7 +53232,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L19",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -53343,7 +53243,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L22",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -53354,7 +53254,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L23",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -53365,7 +53265,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L255",
+      "source_location": "L254",
       "weight": 1.0
     },
     {
@@ -53376,7 +53276,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L27",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -53387,7 +53287,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L348",
+      "source_location": "L308",
       "weight": 1.0
     },
     {
@@ -53398,7 +53298,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L39",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -53409,7 +53309,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L433",
+      "source_location": "L393",
       "weight": 1.0
     },
     {
@@ -53420,18 +53320,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L450",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
-      "target": "blood_flutter_lib_features_auth_controllers_auth_controller_normalizebangladeshphone",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L46",
+      "source_location": "L410",
       "weight": 1.0
     },
     {
@@ -53442,7 +53331,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L469",
+      "source_location": "L429",
       "weight": 1.0
     },
     {
@@ -53453,7 +53342,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L484",
+      "source_location": "L444",
+      "weight": 1.0
+    },
+    {
+      "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
+      "target": "blood_flutter_lib_features_auth_controllers_auth_controller_normalizebangladeshphone",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -53464,7 +53364,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L494",
+      "source_location": "L454",
       "weight": 1.0
     },
     {
@@ -53475,7 +53375,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L66",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -53486,7 +53386,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L74",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -53497,7 +53397,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L79",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -53508,7 +53408,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L85",
+      "source_location": "L84",
       "weight": 1.0
     },
     {
@@ -53519,7 +53419,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L91",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -53530,7 +53430,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L97",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -55356,29 +55256,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L113",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_onbackspacepressed",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L126",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_processfivedigits",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L135",
+      "source_location": "L109",
       "weight": 1.0
     },
     {
@@ -55389,7 +55267,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L15",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
+      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_onbackspacepressed",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -55400,7 +55289,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L16",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
+      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_processfivedigits",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
+      "source_location": "L131",
       "weight": 1.0
     },
     {
@@ -55411,7 +55311,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L17",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -55422,7 +55322,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L194",
+      "source_location": "L188",
       "weight": 1.0
     },
     {
@@ -55433,7 +55333,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L26",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -55444,7 +55344,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L29",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -55455,7 +55355,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L30",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -55466,7 +55366,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L31",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -55477,7 +55377,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L32",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -55488,40 +55388,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L33",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_profileimagebytes",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L34",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_profileimageextension",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L35",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_initstate",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L38",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -55532,7 +55399,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L384",
+      "source_location": "L348",
+      "weight": 1.0
+    },
+    {
+      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
+      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_initstate",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -55543,51 +55421,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L391",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_restorepickedimage",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L43",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_pickprofileimage",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L55",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_usepickedimage",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L73",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "blood_flutter_lib_features_auth_presentation_pin_setup_screen_imageextension",
-      "relation": "defines",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L91",
+      "source_location": "L355",
       "weight": 1.0
     },
     {
@@ -66559,7 +66393,7 @@
     },
     {
       "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
-      "target": "models_auth_state_dart",
+      "target": "services_device_identity_dart",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -66570,35 +66404,13 @@
     },
     {
       "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
-      "target": "services_device_identity_dart",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
-      "target": "dart_convert",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
       "target": "package_flutter_foundation_dart",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -66609,7 +66421,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L5",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -66620,7 +66432,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -66631,12 +66443,23 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L8",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
       "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
       "target": "core_network_serverpod_client_dart",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "blood_flutter_lib_features_auth_controllers_auth_controller",
+      "target": "models_auth_state_dart",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -67340,17 +67163,6 @@
     },
     {
       "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "controllers_auth_controller_dart",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
       "target": "package_flutter_material_dart",
       "relation": "imports",
       "_origin": "ast",
@@ -67362,7 +67174,7 @@
     },
     {
       "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "package_flutter_services_dart",
+      "target": "core_localization_blood_strings_dart",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -67373,7 +67185,7 @@
     },
     {
       "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "package_image_picker_image_picker_dart",
+      "target": "core_router_app_routes_dart",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -67384,7 +67196,7 @@
     },
     {
       "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "core_localization_blood_strings_dart",
+      "target": "core_theme_blood_colors_dart",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -67395,18 +67207,7 @@
     },
     {
       "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "core_router_app_routes_dart",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "blood_flutter_lib_features_auth_presentation_pin_setup_screen",
-      "target": "core_theme_blood_colors_dart",
+      "target": "controllers_auth_controller_dart",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -71009,7 +70810,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/controllers/auth_controller.dart",
-      "source_location": "L18",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -71185,7 +70986,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L15",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -71196,7 +70997,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L29",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -72373,7 +72174,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "blood_flutter/lib/features/auth/presentation/pin_setup_screen.dart",
-      "source_location": "L29",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -72838,5 +72639,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0b8fd63b56afd1b0af23029f99f30f7baaecda75"
+  "built_at_commit": "b35ddde4a777248ac42ab9b40bddf6e97412601b"
 }

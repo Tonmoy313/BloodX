@@ -1,22 +1,22 @@
 # Graph Report - blood  (2026-11-03)
 
 ## Corpus Check
-- 273 files · ~287,552 words
+- 273 files · ~287,422 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 81 file(s) not represented in the graph (top: .xcconfig 10, (none) 9, .bin 8)
 
 ## Summary
-- 2896 nodes · 3580 edges · 197 communities (142 shown, 55 thin omitted)
+- 2888 nodes · 3570 edges · 198 communities (141 shown, 57 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.86)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0b8fd63b`
+- Built from commit: `b35ddde4`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- blood_text_field.dart
+- package:flutter/material.dart
 - blood_strings.dart
 - client.dart
 - my_application_local_command_line
@@ -99,15 +99,15 @@
 - endpoints.dart
 - area.dart
 - win32_window.cpp
-- linux/flutter/generated_plugin_registrant.cc
+- blood_group.dart
 - windows/flutter/generated_plugin_registrant.cc
 - AGENTS.md — BloodX
 - my_application.cc
 - app_routes.dart
-- ../../../core/localization/blood_strings.dart
-- permission_dialogs.dart
-- utils.cpp
 - State
+- blood_text_field.dart
+- utils.cpp
+- greetings_screen.dart
 - blood_group_source.dart
 - string
 - ios/RunnerTests/RunnerTests.swift
@@ -122,7 +122,7 @@
 - _
 - blood_drop_logo.dart
 - int?
-- package:flutter/material.dart
+- phone_input_screen_test.dart
 - _
 - protocol/user_status.dart
 - protocol/flag_scope.dart
@@ -197,10 +197,10 @@
 - pre-push
 - c_users_user_documents_blood_blood_blood_flutter_ios_runner_generatedpluginregistrant_h
 - sex.dart
-- deferral_reason.dart
+- KycVerificationType.dart
 - serverpod_client.dart
 - ChangeNotifier
-- foreground_location_service.dart
+- Protocol
 - deferral_source.dart
 - deferral_type.dart
 - ForegroundLocationException
@@ -208,6 +208,7 @@
 - CloudStorage
 - FlutterWindow
 - Size
+- Protocol
 - PhoneOtpIdpConfig
 - PhoneOtpIdpGetter
 
@@ -226,10 +227,10 @@
 ## Surprising Connections (you probably didn't know these)
 - `Task Progress` --references--> `main()`  [INFERRED]
   .agents/skills/dart-add-unit-test/SKILL.md → blood_flutter/linux/runner/main.cc
-- `Git (trunk-based)` --references--> `main()`  [INFERRED]
-  AGENTS.md → blood_flutter/linux/runner/main.cc
 - `Avoid Destructive Exits (`exit(N)`)` --references--> `main()`  [INFERRED]
   .agents/skills/dart-build-cli-app/SKILL.md → blood_flutter/linux/runner/main.cc
+- `Git (trunk-based)` --references--> `main()`  [INFERRED]
+  AGENTS.md → blood_flutter/linux/runner/main.cc
 - `_` --references--> `Platform`  [EXTRACTED]
   blood_server/lib/src/generated/device.dart → blood_client/lib/src/protocol/device_platform.dart
 - `_` --references--> `Language`  [EXTRACTED]
@@ -238,11 +239,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (197 total, 55 thin omitted)
+## Communities (198 total, 57 thin omitted)
 
-### Community 0 - "blood_text_field.dart"
-Cohesion: 0.10
-Nodes (20): autofocus, build, controller, errorText, focusNode, hintText, inputFormatters, keyboardType (+12 more)
+### Community 0 - "package:flutter/material.dart"
+Cohesion: 0.08
+Nodes (24): build, _canDelete, createState, dispose, _handleDelete, initState, _inputController, _isDeleting (+16 more)
 
 ### Community 1 - "blood_strings.dart"
 Cohesion: 0.01
@@ -250,7 +251,7 @@ Nodes (201): app_language.dart, accountAlreadyRegistered, addressFieldHint, addr
 
 ### Community 2 - "client.dart"
 Cohesion: 0.04
-Nodes (49): AuthSuccess, AuthUserModel, accountDeletion, area, auth, authIdp, claimDonorPrompt, confirmMyProfileImage (+41 more)
+Nodes (50): AuthSuccess, AuthUserModel, accountDeletion, area, auth, authIdp, claimDonorPrompt, confirmMyProfileImage (+42 more)
 
 ### Community 3 - "my_application_local_command_line"
 Cohesion: 0.22
@@ -261,12 +262,12 @@ Cohesion: 0.13
 Nodes (14): connectivity_plus, desktop_webview_window, file_selector_macos, flutter_secure_storage_darwin, flutter_web_auth_2, Foundation, geolocator_apple, google_sign_in_ios (+6 more)
 
 ### Community 5 - "generated/protocol.dart"
-Cohesion: 0.03
-Nodes (76): area.dart, audit_log.dart, deserializeByClassName, getClassNameForObject, getClassNameForType, getClassNameFromObjectJson, _instance, mapRecordToJson (+68 more)
+Cohesion: 0.04
+Nodes (72): area.dart, audit_log.dart, deserializeByClassName, getClassNameForObject, getClassNameForType, getClassNameFromObjectJson, _instance, mapRecordToJson (+64 more)
 
 ### Community 6 - "blood_button.dart"
-Cohesion: 0.06
-Nodes (36): Animation, AnimationController, ../../auth/controllers/auth_controller.dart, backgroundColor, BloodButton, _BloodButtonState, BloodButtonStyle, borderRadius (+28 more)
+Cohesion: 0.10
+Nodes (20): backgroundColor, BloodButtonStyle, borderRadius, build, createState, dispose, height, icon (+12 more)
 
 ### Community 7 - "memory.md — Shared project memory (all AI models)"
 Cohesion: 0.14
@@ -305,8 +306,8 @@ Cohesion: 0.07
 Nodes (27): appVersionSupported, area, AuthState, AuthStatus, bloodGroup, challengeId, copyWith, displayName (+19 more)
 
 ### Community 16 - "onboarding_screen.dart"
-Cohesion: 0.11
-Nodes (18): badgeColor, badgeText, build, createState, _currentPage, description, dispose, icon (+10 more)
+Cohesion: 0.12
+Nodes (16): badgeColor, badgeText, build, createState, _currentPage, description, dispose, icon (+8 more)
 
 ### Community 17 - "otp_verification_screen.dart"
 Cohesion: 0.13
@@ -317,12 +318,12 @@ Cohesion: 0.11
 Nodes (17): auth_session_revocation_outbox.dart, _accountBlocked, _authSession, build, child, createState, _discardExpiredSession, _donorPromptDue (+9 more)
 
 ### Community 19 - "phone_input_screen.dart"
-Cohesion: 0.06
-Nodes (34): build, _canDelete, createState, DeleteAccountDialog, _DeleteAccountDialogState, dispose, _handleDelete, initState (+26 more)
+Cohesion: 0.10
+Nodes (20): build, createState, dispose, _donorOptIn, _errorMessage, _handleSendOtp, initState, isForgotPin (+12 more)
 
 ### Community 20 - "location_picker_screen.dart"
-Cohesion: 0.09
-Nodes (22): build, createState, _dhakaAreas, dispose, _handleConfirm, _handleGpsLocation, _hasPreciseLocation, initialArea (+14 more)
+Cohesion: 0.07
+Nodes (29): failure, ForegroundLocationFailure, ForegroundLocationService, getPrecisePosition, openRelevantSettings, build, createState, _dhakaAreas (+21 more)
 
 ### Community 21 - "hybrid_cloud_storage_test.dart"
 Cohesion: 0.10
@@ -401,8 +402,8 @@ Cohesion: 0.12
 Nodes (16): cloud, deleteFile, fileExists, _localFile, localRoot, maxUploadBytes, _removeLocalCopy, retrieveFile (+8 more)
 
 ### Community 78 - "pin_setup_screen.dart"
-Cohesion: 0.09
-Nodes (22): build, _buildKeypadButton, _buildKeypadRow, createState, _currentInput, donorOptIn, _errorMessage, _firstPin (+14 more)
+Cohesion: 0.12
+Nodes (17): build, _buildKeypadButton, _buildKeypadRow, createState, _currentInput, donorOptIn, _errorMessage, _firstPin (+9 more)
 
 ### Community 79 - "_"
 Cohesion: 0.13
@@ -432,41 +433,44 @@ Nodes (19): area_type.dart, BigInt?, Area, _AreaImpl, centroidCell, type, distri
 Cohesion: 0.16
 Nodes (15): wchar_t, Scale(), Create, Destroy, SetQuitOnClose, Show, UpdateTheme, Win32Window::Win32Window() (+7 more)
 
-### Community 86 - "linux/flutter/generated_plugin_registrant.cc"
-Cohesion: 0.22
-Nodes (7): desktop_webview_window_plugin, file_selector_plugin, flutter_linux, flutter_secure_storage_linux_plugin, sentry_flutter_plugin, url_launcher_plugin, window_to_front_plugin
+### Community 86 - "blood_group.dart"
+Cohesion: 0.29
+Nodes (6): abNegative, BloodGroup, fromJson, toJson, toString, bNegative,
+  oPositive,
+  oNegative,
+  abPositive,
 
 ### Community 87 - "windows/flutter/generated_plugin_registrant.cc"
-Cohesion: 0.18
-Nodes (9): RegisterPlugins(), connectivity_plus_windows_plugin, file_selector_windows, flutter_secure_storage_windows_plugin, geolocator_windows, permission_handler_windows_plugin, plugin_registry, PluginRegistry (+1 more)
+Cohesion: 0.12
+Nodes (15): RegisterPlugins(), connectivity_plus_windows_plugin, desktop_webview_window_plugin, file_selector_plugin, file_selector_windows, flutter_secure_storage_linux_plugin, flutter_secure_storage_windows_plugin, geolocator_windows (+7 more)
 
 ### Community 88 - "AGENTS.md — BloodX"
-Cohesion: 0.13
-Nodes (12): AGENTS.md — BloodX, Git (trunk-based), Graph & Architecture (.agent/), Non-negotiables, Questions: ask in parallel, never wait, Read (this order; nothing else unless told), 1. Core Architecture & Process Lifecycle, Avoid Destructive Exits (`exit(N)`) (+4 more)
+Cohesion: 0.17
+Nodes (9): AGENTS.md — BloodX, Git (trunk-based), Graph & Architecture (.agent/), Non-negotiables, Questions: ask in parallel, never wait, Read (this order; nothing else unless told), Token rules, main() (+1 more)
 
 ### Community 89 - "my_application.cc"
-Cohesion: 0.18
-Nodes (13): first_frame_cb(), my_application_class_init(), my_application_dispose(), my_application_init(), my_application_new(), _MyApplication, dart_entrypoint_arguments, parent_instance (+5 more)
+Cohesion: 0.15
+Nodes (14): first_frame_cb(), my_application_class_init(), my_application_dispose(), my_application_init(), my_application_new(), _MyApplication, dart_entrypoint_arguments, parent_instance (+6 more)
 
 ### Community 90 - "app_routes.dart"
 Cohesion: 0.09
 Nodes (22): AppRoutes, _arguments, donorHealthDetails, home, locationPicker, login, onboarding, otpVerification (+14 more)
 
-### Community 91 - "../../../core/localization/blood_strings.dart"
-Cohesion: 0.14
-Nodes (13): build, createState, DonorOptInDialog, _DonorOptInDialogState, initialValue, _optedIn, show, build (+5 more)
+### Community 91 - "State"
+Cohesion: 0.11
+Nodes (24): SessionProfileGuard, _SessionProfileGuardState, BloodButton, _BloodButtonState, BloodDropLogo, _BloodDropLogoState, DeleteAccountDialog, _DeleteAccountDialogState (+16 more)
 
-### Community 92 - "permission_dialogs.dart"
-Cohesion: 0.10
-Nodes (23): blood_button.dart, BloodTextField, _BasePermissionDialog, build, description, icon, iconColor, LocationPermissionDialog (+15 more)
+### Community 92 - "blood_text_field.dart"
+Cohesion: 0.05
+Nodes (44): blood_button.dart, autofocus, BloodTextField, build, controller, errorText, focusNode, hintText (+36 more)
 
 ### Community 93 - "utils.cpp"
 Cohesion: 0.19
 Nodes (12): wWinMain(), string, wchar_t, CreateAndAttachConsole(), GetCommandLineArguments(), Utf8FromUtf16(), flutter_windows, _In_ (+4 more)
 
-### Community 94 - "State"
-Cohesion: 0.11
-Nodes (22): SessionProfileGuard, _SessionProfileGuardState, DonorHealthDetailsScreen, _DonorHealthDetailsScreenState, LocationPickerScreen, _LocationPickerScreenState, PinSetupScreen, _PinSetupScreenState (+14 more)
+### Community 94 - "greetings_screen.dart"
+Cohesion: 0.22
+Nodes (9): build, _callHello, createState, _errorMessage, GreetingsScreen, _GreetingsScreenState, _resultMessage, _textEditingController (+1 more)
 
 ### Community 95 - "blood_group_source.dart"
 Cohesion: 0.29
@@ -490,7 +494,7 @@ Nodes (9): EndpointAccountDeletion, EndpointArea, EndpointAuth, EndpointDonorPro
 
 ### Community 100 - "_"
 Cohesion: 0.05
-Nodes (44): _, attempts, codeHash, columns, consumedAt, count, createdAt, db (+36 more)
+Nodes (42): _, attempts, codeHash, columns, consumedAt, count, createdAt, db (+34 more)
 
 ### Community 101 - "package:test/test.dart"
 Cohesion: 0.12
@@ -502,11 +506,11 @@ Nodes (42): _, acceptedAt, appVersion, attachRow, columns, ConsentRecordAttachRo
 
 ### Community 103 - "_"
 Cohesion: 0.05
-Nodes (41): _, attachRow, columns, count, db, delete, deleteRow, deleteWhere (+33 more)
+Nodes (42): _, attachRow, columns, count, db, delete, deleteRow, deleteWhere (+34 more)
 
 ### Community 104 - "_"
 Cohesion: 0.05
-Nodes (42): _, attachRow, columns, ConfigAttachRowRepository, ConfigRepository, count, db, delete (+34 more)
+Nodes (43): _, attachRow, columns, ConfigAttachRowRepository, ConfigRepository, count, db, delete (+35 more)
 
 ### Community 105 - "_"
 Cohesion: 0.04
@@ -514,19 +518,19 @@ Nodes (47): _, authUserId, boundInstallId, columns, count, createdAt, status, db
 
 ### Community 106 - "_"
 Cohesion: 0.05
-Nodes (43): _, action, actor, actorId, attachRow, AuditLogAttachRowRepository, AuditLogRepository, columns (+35 more)
+Nodes (42): _, action, actor, actorId, attachRow, AuditLogAttachRowRepository, AuditLogRepository, columns (+34 more)
 
 ### Community 107 - "blood_drop_logo.dart"
-Cohesion: 0.11
-Nodes (19): animated, BloodDropLogo, _BloodDropLogoState, _BloodDropPainter, build, _controller, createState, deepColor (+11 more)
+Cohesion: 0.07
+Nodes (28): Animation, AnimationController, ../../auth/controllers/auth_controller.dart, animated, _BloodDropPainter, build, _controller, createState (+20 more)
 
 ### Community 108 - "int?"
 Cohesion: 0.21
 Nodes (17): AuditLogTable, AuditLogUpdateTable, ConfigTable, ConfigUpdateTable, ConsentRecordTable, ConsentRecordUpdateTable, DeviceTable, DeviceUpdateTable (+9 more)
 
-### Community 109 - "package:flutter/material.dart"
-Cohesion: 0.14
-Nodes (14): main, main, main, main, Checkbox, CheckboxListTile, package:blood_flutter/core/data/bangladesh_locations.dart, package:blood_flutter/core/localization/blood_strings.dart (+6 more)
+### Community 109 - "phone_input_screen_test.dart"
+Cohesion: 0.15
+Nodes (11): main, main, main, Checkbox, CheckboxListTile, package:blood_flutter/core/data/bangladesh_locations.dart, package:blood_flutter/core/localization/blood_strings.dart, package:blood_flutter/features/auth/presentation/donor_opt_in_dialog.dart (+3 more)
 
 ### Community 110 - "_"
 Cohesion: 0.12
@@ -547,12 +551,15 @@ Cohesion: 0.29
 Nodes (6): android,, fromJson, ios, Platform, toJson, toString
 
 ### Community 114 - "_i1.SerializableModel"
-Cohesion: 0.10
-Nodes (19): BackgroundTasks, ConsentType, fromJson, toJson, toString, Greeting, fromJson, KycVerificationType (+11 more)
+Cohesion: 0.14
+Nodes (13): BackgroundTasks, ConsentType, fromJson, toJson, toString, Greeting, BackgroundTasks, ConsentType (+5 more)
 
 ### Community 115 - "package:serverpod_client/serverpod_client.dart"
 Cohesion: 0.12
-Nodes (14): AlertMode, all, fromJson, toJson, toString, abNegative, BloodGroup, fromJson (+6 more)
+Nodes (14): ageLimit,
+  recentDonation,
+  temporaryHealth,
+  travel,, DeferralReason, fromJson, medicalReview, toJson, toString, AlertMode, all (+6 more)
 
 ### Community 116 - "protocol/otp_type.dart"
 Cohesion: 0.15
@@ -583,8 +590,8 @@ Cohesion: 0.25
 Nodes (8): AuditLogIncludeList, ConfigIncludeList, ConsentRecordIncludeList, DeviceIncludeList, FeatureFlagIncludeList, OtpChallengeIncludeList, UserIncludeList, _i1.IncludeList
 
 ### Community 124 - "Building Dart CLI Applications"
-Cohesion: 0.06
-Nodes (31): 1. The AOT SDK Discovery Trap, 2. The Solution: `package:cli_util` (`^0.6.0`), 3. Subprocess Spawning Invariants, Consequences of Naive Resolution:, Dart SDK Discovery and Subprocess Spawning in AOT & JIT, Potential Dart SDK Locations:, Why This Fails in Standalone AOT:, 1. Cross-Platform Signal Handling (+23 more)
+Cohesion: 0.05
+Nodes (34): 1. The AOT SDK Discovery Trap, 2. The Solution: `package:cli_util` (`^0.6.0`), 3. Subprocess Spawning Invariants, Consequences of Naive Resolution:, Dart SDK Discovery and Subprocess Spawning in AOT & JIT, Potential Dart SDK Locations:, Why This Fails in Standalone AOT:, 1. Cross-Platform Signal Handling (+26 more)
 
 ### Community 126 - "User"
 Cohesion: 0.16
@@ -773,12 +780,9 @@ Nodes (13): build, child, createState, _DoubleBackToExit, _DoubleBackToExitState
 Cohesion: 0.29
 Nodes (6): female, fromJson, Sex, toJson, toString, male,
 
-### Community 184 - "deferral_reason.dart"
+### Community 184 - "KycVerificationType.dart"
 Cohesion: 0.29
-Nodes (6): ageLimit,
-  recentDonation,
-  temporaryHealth,
-  travel,, DeferralReason, fromJson, medicalReview, toJson, toString
+Nodes (6): fromJson, KycVerificationType, passport, toJson, toString, nid,
 
 ### Community 185 - "serverpod_client.dart"
 Cohesion: 0.29
@@ -787,10 +791,6 @@ Nodes (6): client, initializeClient, serverUrl, package:blood_client/blood_clien
 ### Community 186 - "ChangeNotifier"
 Cohesion: 0.50
 Nodes (4): AppLanguage, AppThemeController, AuthController, ChangeNotifier
-
-### Community 187 - "foreground_location_service.dart"
-Cohesion: 0.25
-Nodes (7): failure, ForegroundLocationFailure, ForegroundLocationService, getPrecisePosition, openRelevantSettings, package:geolocator/geolocator.dart, package:permission_handler/permission_handler.dart
 
 ### Community 188 - "deferral_source.dart"
 Cohesion: 0.29
@@ -818,24 +818,24 @@ Cohesion: 0.67
 Nodes (3): PhoneOtpIdp, PhoneOtpIdpConfig, IdentityProviderBuilder
 
 ## Knowledge Gaps
-- **1846 isolated node(s):** `runner`, `name`, `description`, `main`, `runCommand` (+1841 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2210 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **55 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **1840 isolated node(s):** `runner`, `name`, `description`, `main`, `runCommand` (+1835 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2202 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **57 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `_bn` connect `user_lagnuage.dart` to `blood_strings.dart`?**
   _High betweenness centrality (0.088) - this node is a cross-community bridge._
-- **Why does `_` connect `_` to `string`, `_`, `generated/protocol.dart`, `UserInclude`, `_`, `_`, `generated/greetings/greeting.dart`, `_`, `int?`, `static const`, `package:serverpod/serverpod.dart`, `endpoints.dart`, `sentry_service.dart`, `user_lagnuage.dart`, `_i1.IncludeList`, `json_patterns.dart`, `storage_sync_worker.dart`, `User`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
+- **Why does `_` connect `_` to `generated/protocol.dart`, `generated/greetings/greeting.dart`, `user_lagnuage.dart`, `json_patterns.dart`, `storage_sync_worker.dart`, `static const`, `package:serverpod/serverpod.dart`, `endpoints.dart`, `string`, `_`, `_`, `_`, `_`, `_`, `int?`, `sentry_service.dart`, `UserInclude`, `_i1.IncludeList`, `User`?**
+  _High betweenness centrality (0.049) - this node is a cross-community bridge._
 - **Why does `_` connect `_` to `generated/protocol.dart`, `generated/greetings/greeting.dart`, `package:blood_server/src/generated/protocol.dart`, `json_patterns.dart`, `storage_sync_worker.dart`, `static const`, `package:serverpod/serverpod.dart`, `endpoints.dart`, `string`, `_`, `_`, `_`, `_`, `_`, `_`, `int?`, `device_platform.dart`, `sentry_service.dart`, `UserInclude`, `_i1.IncludeList`, `User`?**
-  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+  _High betweenness centrality (0.046) - this node is a cross-community bridge._
 - **What connects `runner`, `name`, `description` to the rest of the system?**
-  _1846 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `blood_text_field.dart` be split into smaller, more focused modules?**
-  _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
+  _1840 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `package:flutter/material.dart` be split into smaller, more focused modules?**
+  _Cohesion score 0.08465608465608465 - nodes in this community are weakly interconnected._
 - **Should `blood_strings.dart` be split into smaller, more focused modules?**
   _Cohesion score 0.009900990099009901 - nodes in this community are weakly interconnected._
 - **Should `client.dart` be split into smaller, more focused modules?**
-  _Cohesion score 0.04 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0392156862745098 - nodes in this community are weakly interconnected._
