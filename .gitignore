@@ -1,5 +1,5 @@
 # ============================================
-# OS / IDE
+# OS / IDE noise (workspace-wide)
 # ============================================
 .DS_Store
 Thumbs.db
@@ -7,17 +7,17 @@ Thumbs.db
 *.swo
 *~
 
-# IntelliJ / Android Studio
 .idea/
 *.iml
 *.ipr
 *.iws
-workspace.xml
-.idea/caches/
-.idea/libraries/
-.idea/modules.xml
+*.iws
 
-# .vscode/
+# Keep committed VS Code config, ignore the rest
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 
 # ============================================
 # Environment / secrets
@@ -31,27 +31,23 @@ workspace.xml
 secrets/
 
 # ============================================
-# Dart / Flutter
+# Root-level Dart workspace artifacts
 # ============================================
 .dart_tool/
 .packages
 .pub-cache/
 .pub/
-pubspec.lock
 .flutter-plugins
 .flutter-plugins-dependencies
-.metadata
-build/
+
+# Root build output (workspace-level)
+/build/
 *.dill
 *.dill.d
 *.snapshot
 *.track.dill
 
-# Generated Dart files
-*.g.dart
-*.freezed.dart
-*.mocks.dart
-*.config.dart
+# NOTE: pubspec.lock intentionally NOT ignored (app repos should commit it)
 
 # ============================================
 # Graphify output (generated analysis)
@@ -63,19 +59,9 @@ graphify-out/
 .graphify_labels.json.sig
 
 # ============================================
-# Sentry
+# Sentry wizard binary (large, per-package)
 # ============================================
 sentry-wizard.exe
-sentry.properties
-.sentry-native/
-
-# ============================================
-# Test / coverage
-# ============================================
-coverage/
-*.lcov
-test/.test_coverage.dart
-build/test_cache/
 
 # ============================================
 # Logs
